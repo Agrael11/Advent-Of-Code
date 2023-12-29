@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "advent_of_code.Desktop": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}
