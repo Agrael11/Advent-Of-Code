@@ -55,7 +55,7 @@ namespace advent_of_code
             return (watch, result);
         }
 
-        private static async Task<string?> GetInputAsync(int year, int day)
+        public static async Task<string?> GetInputAsync(int year, int day)
         {
             DownloadState state = await DownloadInputAsync(year, day);
 

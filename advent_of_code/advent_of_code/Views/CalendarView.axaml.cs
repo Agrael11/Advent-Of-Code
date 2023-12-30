@@ -66,7 +66,7 @@ public partial class CalendarView : UserControl
             };
             DaysComboBox.Items.Add(dayitem);
         }
-        DaysComboBox.SelectedIndex = 0;
+        DaysComboBox.SelectedIndex = DaysComboBox.Items.Count-1;
     }
 
     private void YearChanged(object sender, SelectionChangedEventArgs args)
@@ -86,9 +86,9 @@ public partial class CalendarView : UserControl
 
     private async void RunTask(int year, int day)
     {
-        var part1Result = ChallangeHandling.RunTaskAsync(year, day, 1, ChallangeHandler1);
-        part1Result.Wait();
-        await ChallangeHandling.RunTaskAsync(year, day, 2, ChallangeHandler2);
+        _ = advent_of_code.ChallangeHandling.GetInputAsync(year, day);
+        _ = await ChallangeHandling.RunTaskAsync(year, day, 1, ChallangeHandler1);
+        _ = ChallangeHandling.RunTaskAsync(year, day, 2, ChallangeHandler2);
     }
 
     private void ChallangeHandler1(Stopwatch watch, string result)
@@ -105,5 +105,10 @@ public partial class CalendarView : UserControl
         Challange2Time.Text = time;
         RunButton.IsEnabled = true;
         CookieButton.IsEnabled = true;
+    }
+
+    private void DeleteButtonAction(object sender, RoutedEventArgs args)
+    {
+        FileHandling.DeleteDírectory("Inputs");
     }
 }

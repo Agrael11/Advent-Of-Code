@@ -25,7 +25,8 @@
 				<TextBox Margin="10" MinWidth="100" MaxWidth="100" x:Name="Challange2Time" IsReadOnly="True"/>
 			</WrapPanel>
 			<WrapPanel>
-				<Button Margin="10" MinWidth="340" MaxWidth="340" x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
+				<Button Margin="10" MinWidth="160" MaxWidth="160" x:Name="DeleteButton" x:CompileBindings="False" Click="DeleteButtonAction">Delete Input Cache</Button>
+				<Button Margin="10" MinWidth="160" MaxWidth="160" x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
 			</WrapPanel>
 		</StackPanel>
 	</ScrollViewer>

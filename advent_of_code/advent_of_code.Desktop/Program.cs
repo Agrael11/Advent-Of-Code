@@ -16,7 +16,10 @@ namespace advent_of_code.Desktop
         {
             if (args.Contains("--console") || args.Contains("-c"))
             {
-                AllocConsole();
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    AllocConsole();
+                }
                 ConsoleOnly.AdventOfCode.Main();
                 return;
             }

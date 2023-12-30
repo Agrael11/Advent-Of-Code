@@ -23,6 +23,7 @@ namespace advent_of_code.ConsoleOnly
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"You can select the challenge using year and days number [2013-{DateTime.Now.Year}] [1-25]");
                     Console.WriteLine("You can also select to run all available challenges by using letter \"A\"");
+                    Console.WriteLine("You can delete your cached inputs by writing \"D\"");
                     Console.WriteLine("To quit write letter \"Q\"");
                     Console.WriteLine("To show this info, write letter \"I\"");
                     Console.WriteLine();
@@ -88,7 +89,7 @@ namespace advent_of_code.ConsoleOnly
                     DrawATree();
                     try
                     {
-                        Directory.Delete("Inputs", true);
+                        FileHandling.DeleteDírectory("Inputs");
                     }
                     catch
                     {
@@ -114,6 +115,7 @@ namespace advent_of_code.ConsoleOnly
             }
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"Results of Day {day} of {year} are: ");
+            _ = advent_of_code.ChallangeHandling.GetInputAsync(year, day);
             var task1 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 1);
             task1.Wait();
             (Stopwatch watch1, string result1) = task1.Result;

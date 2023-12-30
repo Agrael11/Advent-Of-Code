@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace advent_of_code
 {
-    internal class FileHandling
+    public class FileHandling
     {
         public static bool DirectoryExists(string directory)
         {
@@ -19,6 +19,22 @@ namespace advent_of_code
         {
             string privateDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, directory);
             Directory.CreateDirectory(privateDirectory);
+        }
+
+        public static void DeleteDírectory(string directory)
+        {
+            string privateDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, directory);
+            try
+            {
+                if (DirectoryExists(directory))
+                {
+                    Directory.Delete(privateDirectory, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Couldn't delete directory", ex);
+            }
         }
 
         public static bool FileExists(string file)

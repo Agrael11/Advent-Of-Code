@@ -3,19 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code", "advent_of_code\advent_of_code\advent_of_code.csproj", "{16813DB3-62E3-4783-B726-E151E89C003D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code", "advent_of_code\advent_of_code\advent_of_code.csproj", "{16813DB3-62E3-4783-B726-E151E89C003D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.Android", "advent_of_code\advent_of_code.Android\advent_of_code.Android.csproj", "{A05E2EAD-486C-4A75-A121-E4D9FB9BBB47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code.Android", "advent_of_code\advent_of_code.Android\advent_of_code.Android.csproj", "{A05E2EAD-486C-4A75-A121-E4D9FB9BBB47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.Desktop", "advent_of_code\advent_of_code.Desktop\advent_of_code.Desktop.csproj", "{84E997DA-60E8-4CF9-8DB8-2458B1A3415A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code.Desktop", "advent_of_code\advent_of_code.Desktop\advent_of_code.Desktop.csproj", "{84E997DA-60E8-4CF9-8DB8-2458B1A3415A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.iOS", "advent_of_code\advent_of_code.iOS\advent_of_code.iOS.csproj", "{186C3EE9-0944-42DE-80D7-6F746EA075E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code.iOS", "advent_of_code\advent_of_code.iOS\advent_of_code.iOS.csproj", "{186C3EE9-0944-42DE-80D7-6F746EA075E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.Browser", "advent_of_code\advent_of_code.Browser\advent_of_code.Browser.csproj", "{AEA0B948-2FF0-4B2B-9896-5A9CCFD74636}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code.Browser", "advent_of_code\advent_of_code.Browser\advent_of_code.Browser.csproj", "{AEA0B948-2FF0-4B2B-9896-5A9CCFD74636}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.ConsoleOnly", "advent_of_code.ConsoleOnly\advent_of_code.ConsoleOnly.csproj", "{DB13BEFA-B494-456C-898E-42A2074C5C71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code.ConsoleOnly", "advent_of_code.ConsoleOnly\advent_of_code.ConsoleOnly.csproj", "{DB13BEFA-B494-456C-898E-42A2074C5C71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.Year2015.Day01", "advent_of_code.Year2015.Day01\advent_of_code.Year2015.Day01.csproj", "{4038FCC6-4D03-4939-90E2-8A5622D6E979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code.Year2015.Day01", "advent_of_code.Year2015.Day01\advent_of_code.Year2015.Day01.csproj", "{4038FCC6-4D03-4939-90E2-8A5622D6E979}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Year 2015", "Year 2015", "{47099D74-DF9B-447B-AE6B-160A18D02AE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent_of_code.Year2015.Day02", "advent_of_code.Year2015.Day02\advent_of_code.Year2015.Day02.csproj", "{5C2BF9EB-5FD1-4F78-9C6F-B2A321CDC3E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,9 +59,17 @@ Global
 		{4038FCC6-4D03-4939-90E2-8A5622D6E979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4038FCC6-4D03-4939-90E2-8A5622D6E979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4038FCC6-4D03-4939-90E2-8A5622D6E979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C2BF9EB-5FD1-4F78-9C6F-B2A321CDC3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C2BF9EB-5FD1-4F78-9C6F-B2A321CDC3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C2BF9EB-5FD1-4F78-9C6F-B2A321CDC3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C2BF9EB-5FD1-4F78-9C6F-B2A321CDC3E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4038FCC6-4D03-4939-90E2-8A5622D6E979} = {47099D74-DF9B-447B-AE6B-160A18D02AE6}
+		{5C2BF9EB-5FD1-4F78-9C6F-B2A321CDC3E8} = {47099D74-DF9B-447B-AE6B-160A18D02AE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75FB366A-F039-405A-8C52-BEADBDD57C4A}
