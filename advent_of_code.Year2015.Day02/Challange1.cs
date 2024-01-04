@@ -8,7 +8,7 @@ namespace advent_of_code.Year2015.Day02
         {
             string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            int total = 0;
+            int totalPaper = 0;
 
             foreach (string line in input) 
             {
@@ -18,12 +18,10 @@ namespace advent_of_code.Year2015.Day02
                 int height = int.Parse(boxDef[2]);
                 List<int> sides = [length, width, height];
                 sides.Sort();
-                int result = 2 * length * width + 2 * width * height + 2 * height * length;
-                result += sides[0] * sides[1];
-                total += result;
+                totalPaper += (2 * length * width) + (2 * width * height) + (2 * height * length) + (sides[0] * sides[1]);
             }
 
-            return total;
+            return totalPaper;
         }
     }
 }

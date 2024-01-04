@@ -17,4 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\advent_of_code\advent_of_code.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+     <NativeFileReference Include="$(SkiaSharpStaticLibraryPath)\3.1.34\st\*.a" />
+     <NativeFileReference Include="$(HarfBuzzSharpStaticLibraryPath)\3.1.34\st\*.a" />
+   </ItemGroup>
 </Project>

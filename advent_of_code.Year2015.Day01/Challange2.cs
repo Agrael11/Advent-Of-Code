@@ -5,12 +5,14 @@
         public static int DoChallange(string inputData)
         {
             inputData = inputData.Replace("\r", "").TrimEnd('\n');
+
             int level = 0;
+
             for (int i = 0; i < inputData.Length; i++)
             {
-                char c = inputData[i];
-                if (c == '(') level++;
-                if (c == ')') level--;
+                char character = inputData[i];
+                if (character == '(') level++;
+                if (character == ')') level--;
                 if (level < 0) return i;
             }
             return -1;

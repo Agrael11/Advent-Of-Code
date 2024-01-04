@@ -6,7 +6,7 @@
         {
             string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            int total = 0;
+            int totalRibbon = 0;
 
             foreach (string line in input)
             {
@@ -16,12 +16,10 @@
                 int height = int.Parse(boxDef[2]);
                 List<int> sides = [length, width, height];
                 sides.Sort();
-                int result = sides[0]*2 + sides[1]*2;
-                result += length * width * height;
-                total += result;
+                totalRibbon += (length * width * height) + (sides[0] * 2) + (sides[1] * 2);
             }
 
-            return total;
+            return totalRibbon;
         }
     }
 }

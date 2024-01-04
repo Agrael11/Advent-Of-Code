@@ -3,8 +3,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace advent_of_code.Views;
 
@@ -80,31 +82,39 @@ public partial class CalendarView : UserControl
         int? day = GetDay();
         if (year is null || day is null) return;
         RunButton.IsEnabled = false;
+        DeleteButton.IsEnabled = false;
         CookieButton.IsEnabled = false;
-        RunTask(year.Value,day.Value);
+        _ = Task.Run(()=> RunTask(year.Value,day.Value));
     }
 
     private async void RunTask(int year, int day)
     {
-        _ = advent_of_code.ChallangeHandling.GetInputAsync(year, day);
+        _ = await advent_of_code.ChallangeHandling.GetInputAsync(year, day);
         _ = await ChallangeHandling.RunTaskAsync(year, day, 1, ChallangeHandler1);
         _ = ChallangeHandling.RunTaskAsync(year, day, 2, ChallangeHandler2);
     }
 
     private void ChallangeHandler1(Stopwatch watch, string result)
     {
-        string time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
-        Challange1Result.Text = result;
-        Challange1Time.Text = time;
+        Dispatcher.UIThread.Post(() =>
+        {
+            string time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+            Challange1Result.Text = result;
+            Challange1Time.Text = time;
+        });
     }
 
     private void ChallangeHandler2(Stopwatch watch, string result)
     {
-        string time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
-        Challange2Result.Text = result;
-        Challange2Time.Text = time;
-        RunButton.IsEnabled = true;
-        CookieButton.IsEnabled = true;
+        Dispatcher.UIThread.Post(() =>
+        {
+            string time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+            Challange2Result.Text = result;
+            Challange2Time.Text = time;
+            RunButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
+            CookieButton.IsEnabled = true;
+        });
     }
 
     private void DeleteButtonAction(object sender, RoutedEventArgs args)

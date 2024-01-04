@@ -5,7 +5,8 @@
         public static int DoChallange(string inputData)
         {
             inputData = inputData.Replace("\r", "").TrimEnd('\n');
-            return inputData.Count(s => s == '(') - (inputData.Count(s => s == ')'));
+
+            return inputData.Count(character => character == '(') - inputData.Count(character => character == ')');
         }
     }
 }
