@@ -13,8 +13,10 @@ namespace advent_of_code.ViewModels
         }
 
         public ReactiveCommand<Unit, Unit> SetSettings { get; }
+        public ReactiveCommand<Unit, Unit> SetAll { get; }
 
         public CalendarViewModel CalendarView { get; }
+        public AllViewModel AllView{ get; }
 
         public void SetMainView()
         {
@@ -24,8 +26,10 @@ namespace advent_of_code.ViewModels
         public MainViewModel()
         {
             CalendarView = new CalendarViewModel();
+            AllView = new AllViewModel();
             _contentViewModel = CalendarView;
             SetSettings = ReactiveCommand.Create(() => { ContentViewModel = new SettingsViewModel(); });
+            SetAll = ReactiveCommand.Create(() => { ContentViewModel = AllView; });
         }
     }
 }

@@ -4,8 +4,14 @@ using Avalonia.Controls;
 using Avalonia.Controls.Utils;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
+using ReactiveUI;
+using System;
 using System.IO;
+using System.Runtime.InteropServices.JavaScript;
+using System.Runtime.Versioning;
+using System.Text.Json.Serialization;
 
 namespace advent_of_code.Views;
 
@@ -29,19 +35,33 @@ public partial class SettingsView : UserControl
         var topLevel = TopLevel.GetTopLevel(this);
         if (topLevel is null) return;
 
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new Avalonia.Platform.Storage.FilePickerOpenOptions { Title = "Open Text File", AllowMultiple = false });
-        if (files.Count == 1)
+        try
         {
-            if (files[0].Path.Scheme == "content")
+            if (OperatingSystem.IsBrowser())
             {
-                string cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
-                cookieBox.Text = cookie;
+                //Not supported yet?
             }
             else
             {
-                string cookie = FileHandling.ReadFile(files[0].Path.AbsolutePath);
-                cookieBox.Text = cookie;
+                var files = await topLevel.StorageProvider.OpenFilePickerAsync(new Avalonia.Platform.Storage.FilePickerOpenOptions { Title = "Open Text File", AllowMultiple = false });
+                if (files.Count == 1)
+                {
+                    if (files[0].Path.Scheme == "content")
+                    {
+                        string cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
+                        cookieBox.Text = cookie;
+                    }
+                    else
+                    {
+                        string cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
+                        cookieBox.Text = cookie;
+                    }
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            cookieBox.Text += "\n\n" + ex.Message;
         }
     }
 
