@@ -25,6 +25,7 @@ public partial class AllView : UserControl
     int lastYear = -1;
     int firstDay = -1;
     int lastDay = -1;
+    int daysInRow = 0;
     BorderedText? lastBorderedText;
 
     public void Start(object sender, RoutedEventArgs e)
@@ -77,9 +78,10 @@ public partial class AllView : UserControl
                 lastDay = day;
                 firstDay = day;
             }
-            if (day == lastDay + 1 && year == lastYear)
+            if (day == lastDay + 1 && year == lastYear && daysInRow < 6)
             {
                 lastDay = day;
+                daysInRow++;
                 Dispatcher.UIThread.Post(() =>
                 {
                     SetDays(year);
@@ -87,6 +89,7 @@ public partial class AllView : UserControl
             }
             else
             {
+                daysInRow = 0;
                 firstDay = day;
                 lastDay = day;
                 lastYear = year;

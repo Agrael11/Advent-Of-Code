@@ -32,5 +32,8 @@
     <ProjectReference Include="..\..\advent_of_code.Year2015.Day08\advent_of_code.Year2015.Day08.csproj" />
     <ProjectReference Include="..\..\advent_of_code.Year2015.Day09\advent_of_code.Year2015.Day09.csproj" />
     <ProjectReference Include="..\..\advent_of_code.Year2015.Day10\advent_of_code.Year2015.Day10.csproj" />
+    <ProjectReference Include="..\..\advent_of_code.Year2015.Day11\advent_of_code.Year2015.Day11.csproj" />
+    <ProjectReference Include="..\..\advent_of_code.Year2015.Day12\advent_of_code.Year2015.Day12.csproj" />
+    <ProjectReference Include="..\..\advent_of_code.Year2015.Day13\advent_of_code.Year2015.Day13.csproj" />
   </ItemGroup>
 </Project>
