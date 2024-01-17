@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace advent_of_code.Year2015.Day15
 {
-    internal class Ingridient
+    internal class Ingredient
     {
         public int Capacity { get; set; }
         public int Durability { get; set; }
@@ -14,7 +14,7 @@ namespace advent_of_code.Year2015.Day15
         public int Texture { get; set; }
         public int Calories { get; set; }
 
-        public Ingridient(string description)
+        public Ingredient(string description)
         {
             string[] desc = description.Split(',');
             foreach (string part in desc)
