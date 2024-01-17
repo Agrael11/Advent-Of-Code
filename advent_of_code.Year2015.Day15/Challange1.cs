@@ -14,12 +14,12 @@
                 ingridients.Add(new(line.Split(':')[1]));
             }
 
-            return GetBestScore(0, []);
+            return GetBestScore([]);
         }
 
-        private static long GetBestScore(int ingridient, List<int> spoons)
+        private static long GetBestScore(List<int> spoons)
         {
-            if (ingridient == ingridients.Count-1)
+            if (spoons.Count == ingridients.Count-1)
             {
                 int totalSpoons = 0;
                 foreach (int spoon in spoons)
@@ -58,10 +58,10 @@
                 }
                 long bestScore = long.MinValue;
 
-                for (int i = 1; i < 100 - totalSpoons - (ingridients.Count-ingridient); i++)
+                for (int i = 1; i < 100 - totalSpoons - (ingridients.Count- spoons.Count); i++)
                 {
                     spoons.Add(i);
-                    bestScore = long.Max(bestScore, GetBestScore(ingridient + 1, spoons));
+                    bestScore = long.Max(bestScore, GetBestScore(spoons));
                     spoons.RemoveAt(spoons.Count-1);
                 }
                 return bestScore;
