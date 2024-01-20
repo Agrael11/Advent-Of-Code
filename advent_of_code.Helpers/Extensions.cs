@@ -7,13 +7,13 @@
             ArgumentNullException.ThrowIfNull(source);
 
             List<T> items = source.ToList();
-            List<List<T>> result = new List<List<T>>();
+            List<List<T>> result = [];
 
             void Generate(int index)
             {
                 if (index == items.Count - 1)
                 {
-                    result.Add(items.ToList());
+                    result.Add([.. items]);
                 }
                 else
                 {
