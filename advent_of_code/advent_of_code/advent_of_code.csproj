@@ -22,20 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day01\advent_of_code.Year2015.Day01.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day02\advent_of_code.Year2015.Day02.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day03\advent_of_code.Year2015.Day03.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day04\advent_of_code.Year2015.Day04.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day05\advent_of_code.Year2015.Day05.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day06\advent_of_code.Year2015.Day06.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day07\advent_of_code.Year2015.Day07.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day08\advent_of_code.Year2015.Day08.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day09\advent_of_code.Year2015.Day09.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day10\advent_of_code.Year2015.Day10.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day11\advent_of_code.Year2015.Day11.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day12\advent_of_code.Year2015.Day12.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day13\advent_of_code.Year2015.Day13.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day14\advent_of_code.Year2015.Day14.csproj" />
-    <ProjectReference Include="..\..\advent_of_code.Year2015.Day15\advent_of_code.Year2015.Day15.csproj" />
+    <ProjectReference Include="..\..\advent_of_code.Year2015\advent_of_code.Year2015.csproj" />
   </ItemGroup>
 </Project>
