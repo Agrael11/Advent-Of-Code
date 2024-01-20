@@ -13,7 +13,7 @@ namespace advent_of_code
 {
     public class ChallangeHandling
     {
-
+        private readonly static string baseString = "advent_of_code.Year{0:D4}.Day{1:D2}.Challange{2:D}, advent_of_code.Year{0:D4}.Day{1:D2}";
         public static async Task<(Stopwatch stopwatch, string result)> RunTaskAsync(int year, int day, int part, Action<Stopwatch, string>? FinishedCallback = null)
         {
             Stopwatch watch;
@@ -90,27 +90,28 @@ namespace advent_of_code
                 Task<HttpResponseMessage> response = client.GetAsync($"https://adventofcode.com/{year}/day/{day}/input");
                 response.Wait();
 
-                if (response.Result.StatusCode == HttpStatusCode.OK)
-                {
-                    byte[] data = await response.Result.Content.ReadAsByteArrayAsync();
-                    try
-                    {
-                        if (!FileHandling.DirectoryExists("Inputs"))
-                        {
-                            FileHandling.CreateDirectory("Inputs");
-                        }
-                        FileHandling.WriteToFile(Path.Combine("Inputs", $"inputData_{year}_{day}.txt"), data);
-                    }
-                    catch
-                    {
-                        return DownloadState.FailedFileWrite;
-                    }
-                    return DownloadState.Downloaded;
-                }
-                else
+                if (response.Result.StatusCode != HttpStatusCode.OK)
                 {
                     return DownloadState.FailedDownload;
                 }
+
+                byte[] data = await response.Result.Content.ReadAsByteArrayAsync();
+
+                try
+                {
+                    if (!FileHandling.DirectoryExists("Inputs"))
+                    {
+                        FileHandling.CreateDirectory("Inputs");
+                    }
+                    FileHandling.WriteToFile(Path.Combine("Inputs", $"inputData_{year}_{day}.txt"), data);
+                }
+                catch
+                {
+                    return DownloadState.FailedFileWrite;
+                }
+
+                return DownloadState.Downloaded;
+
             }
             catch
             {
@@ -148,14 +149,14 @@ namespace advent_of_code
 
         public static bool ClassExists(int year, int day)
         {
-            Type? type = Type.GetType($"advent_of_code.Year{year.ToString().PadLeft(2, '0')}.Day{day.ToString().PadLeft(2, '0')}.Challange1, advent_of_code.Year{year.ToString().PadLeft(2, '0')}.Day{day.ToString().PadLeft(2, '0')}");
+            Type? type = Type.GetType(string.Format(baseString, year, day, 1));
             if (type == null) { return false; }
             return true;
         }
 
         public static MethodInfo? GetMethodInfo(int year, int day, int challange)
         {
-            Type? type = Type.GetType($"advent_of_code.Year{year.ToString().PadLeft(2, '0')}.Day{day.ToString().PadLeft(2, '0')}.Challange{challange}, advent_of_code.Year{year.ToString().PadLeft(2, '0')}.Day{day.ToString().PadLeft(2, '0')}");
+            Type? type = Type.GetType(string.Format(baseString, year, day, challange));
             if (type == null) { return null; }
             return type.GetMethod("DoChallange");
         }
