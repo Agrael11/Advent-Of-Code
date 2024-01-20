@@ -23,7 +23,7 @@ namespace advent_of_code.Year2015.Day13
             }
 
             int bestMood = int.MinValue;
-            foreach (List<string> arrangement in people.Permutate().Cast<List<string>>())
+            foreach (List<string> arrangement in people.Permutate())
             {
                 int mood = CalculateTotalMood(arrangement);
                 bestMood = int.Max(mood, bestMood);

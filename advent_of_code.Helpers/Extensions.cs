@@ -2,10 +2,8 @@
 {
     public static class Extensions
     {
-        public static IEnumerable<IEnumerable<T>> Permutate<T>(this IEnumerable<T> source)
+        public static IEnumerable<List<T>> Permutate<T>(this IEnumerable<T> source)
         {
-            ArgumentNullException.ThrowIfNull(source);
-
             List<T> items = source.ToList();
 
             IEnumerable<IEnumerable<T>> Generate(int index)
@@ -28,7 +26,10 @@
                 }
             }
 
-            return Generate(0);
+            foreach (List<T> v in Generate(0).Cast<List<T>>())
+            {
+                yield return v;
+            }
         }
     }
 }
