@@ -8,6 +8,6 @@
         x:Class="advent_of_code.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="advent_of_code">
+        Title="Advent Of Code">
 	<views:MainView/>
 </Window>

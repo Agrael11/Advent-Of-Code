@@ -1,10 +1,6 @@
 using advent_of_code.ViewModels;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using System.Collections.Generic;
@@ -51,16 +47,13 @@ public partial class AllView : UserControl
         if (mainView is not null)
         {
             var mainViewContext = mainView.DataContext as MainViewModel;
-            if (mainViewContext is not null)
-            {
-                mainViewContext.SetMainView();
-            }
+            mainViewContext?.SetMainView();
         }
     }
 
     void End()
     {
-        Dispatcher.UIThread.Post(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             RunAll.IsEnabled = true;
             ReturnBack.IsEnabled = true;
@@ -82,7 +75,7 @@ public partial class AllView : UserControl
             {
                 lastDay = day;
                 daysInRow++;
-                Dispatcher.UIThread.Post(() =>
+                Dispatcher.UIThread.Invoke(() =>
                 {
                     SetDays(year);
                 });
@@ -93,10 +86,10 @@ public partial class AllView : UserControl
                 firstDay = day;
                 lastDay = day;
                 lastYear = year;
-                Dispatcher.UIThread.Post(() =>
-                    {
-                        AddDay(year, day); ;
-                    });
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    AddDay(year, day);
+                });
             }
             days.RemoveAt(0);
             _ = await ChallangeHandling.GetInputAsync(year, day);
@@ -108,7 +101,7 @@ public partial class AllView : UserControl
     }
     private void ChallangeHandler1(Stopwatch watch, string result)
     {
-        Dispatcher.UIThread.Post(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             string time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
             AddDayPart(result, time, 0);
@@ -118,7 +111,7 @@ public partial class AllView : UserControl
     private void ChallangeHandler2(Stopwatch watch, string result)
     {
 
-        Dispatcher.UIThread.Post(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             string time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
             AddDayPart(result, time, 1);
@@ -129,6 +122,12 @@ public partial class AllView : UserControl
 
     public void Reset()
     {
+        days.Clear();
+        lastYear = -1;
+        firstDay = -1;
+        lastDay = -1;
+        daysInRow = 0;
+        lastBorderedText = null;
         Results.RowDefinitions.Clear();
         Results.Children.Clear();
     }

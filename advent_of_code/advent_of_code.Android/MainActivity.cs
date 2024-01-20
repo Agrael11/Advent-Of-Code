@@ -7,7 +7,7 @@ using Avalonia.ReactiveUI;
 namespace advent_of_code.Android
 {
     [Activity(
-        Label = "advent_of_code.Android",
+        Label = "Advent of Code",
         Theme = "@style/MyTheme.NoActionBar",
         Icon = "@drawable/icon",
         MainLauncher = true,
