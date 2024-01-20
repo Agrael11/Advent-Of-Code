@@ -81,7 +81,18 @@ namespace advent_of_code
                 return DownloadState.NoCookie;
             }
 
-            string cookie = FileHandling.ReadFile(Path.Join("Settings", "cookie.txt"));
+            string cookie;
+
+            try
+            {
+                cookie = FileHandling.ReadFile(Path.Join("Settings", "cookie.txt"));
+            }
+            catch
+            {
+                return DownloadState.NoCookie;
+            }
+
+            byte[] data;
 
             try
             {
@@ -95,28 +106,27 @@ namespace advent_of_code
                     return DownloadState.FailedDownload;
                 }
 
-                byte[] data = await response.Result.Content.ReadAsByteArrayAsync();
-
-                try
-                {
-                    if (!FileHandling.DirectoryExists("Inputs"))
-                    {
-                        FileHandling.CreateDirectory("Inputs");
-                    }
-                    FileHandling.WriteToFile(Path.Combine("Inputs", $"inputData_{year}_{day}.txt"), data);
-                }
-                catch
-                {
-                    return DownloadState.FailedFileWrite;
-                }
-
-                return DownloadState.Downloaded;
-
+                data = await response.Result.Content.ReadAsByteArrayAsync();
             }
             catch
             {
                 return DownloadState.FailedDownload;
             }
+
+            try
+            {
+                if (!FileHandling.DirectoryExists("Inputs"))
+                {
+                    FileHandling.CreateDirectory("Inputs");
+                }
+                FileHandling.WriteToFile(Path.Combine("Inputs", $"inputData_{year}_{day}.txt"), data);
+            }
+            catch
+            {
+                return DownloadState.FailedFileWrite;
+            }
+
+            return DownloadState.Downloaded;
         }
 
         public static List<int> GetAvailableYears()
