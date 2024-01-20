@@ -2,7 +2,35 @@
 {
     public static class Extensions
     {
-        public static IEnumerable<List<T>> Permutate<T>(this IEnumerable<T> source)
+        public static List<List<T>> Permutate<T>(this IEnumerable<T> source)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            List<T> items = source.ToList();
+            List<List<T>> result = new List<List<T>>();
+
+            void Generate(int index)
+            {
+                if (index == items.Count - 1)
+                {
+                    result.Add(items.ToList());
+                }
+                else
+                {
+                    for (int i = index; i < items.Count; i++)
+                    {
+                        (items[index], items[i]) = (items[i], items[index]);
+                        Generate(index + 1);
+                        (items[index], items[i]) = (items[i], items[index]);
+                    }
+                }
+            }
+
+            Generate(0);
+            return result;
+        }
+
+        public static IEnumerable<List<T>> YieldPermutate<T>(this IEnumerable<T> source)
         {
             List<T> items = source.ToList();
 
