@@ -1,4 +1,6 @@
-﻿namespace advent_of_code.Helpers
+﻿using System;
+
+namespace advent_of_code.Helpers
 {
     public static class Extensions
     {
@@ -60,24 +62,27 @@
             }
         }
 
-        public static IEnumerable<int> IndexesOf(this string source, string value)
+        public static IEnumerable<int> IndexesOf(this string source, string value, StringComparison comparison = StringComparison.Ordinal)
         {
-            for (int i = source.IndexOf(value); i > -1; i = source.IndexOf(value, i + 1))
+            for (int i = source.IndexOf(value, 0, comparison); i > -1; i = source.IndexOf(value, i + 1, comparison))
             {
                 yield return i;
             }
         }
         public static IEnumerable<int> IndexesOf(this string source, char value)
         {
-            for (int i = source.IndexOf(value); i > -1; i = source.IndexOf(value, i + 1))
+            for (int i = 0; i < source.Length; i++)
             {
-                yield return i;
+                if (source[i] == value)
+                {
+                    yield return i;
+                }
             }
         }
 
-        public static IEnumerable<int> LastIndexesOf(this string source, string value)
+        public static IEnumerable<int> LastIndexesOf(this string source, string value, StringComparison comparison = StringComparison.Ordinal)
         {
-            for (int i = source.LastIndexOf(value); i > -1; i = source.LastIndexOf(value, i - 1))
+            for (int i = source.LastIndexOf(value, 0, comparison); i > -1; i = source.LastIndexOf(value, i - 1, comparison))
             {
                 yield return i;
                 if (i == 0) break;
@@ -86,10 +91,12 @@
 
         public static IEnumerable<int> LastIndexesOf(this string source, char value)
         {
-            for (int i = source.LastIndexOf(value); i > -1; i = source.LastIndexOf(value, i - 1))
+            for (int i = source.Length-1; i >= 0; i--)
             {
-                yield return i;
-                if (i == 0) break;
+                if (source[i] == value)
+                {
+                    yield return i;
+                }
             }
         }
     }
