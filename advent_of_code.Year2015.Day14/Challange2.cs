@@ -4,33 +4,33 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            List<Reindeer> reindeers = [];
-            foreach (string line in input)
+            var reindeers = new List<Reindeer>();
+            foreach (var line in input)
             {
-                reindeers.Add(new(line));
+                reindeers.Add(new Reindeer(line));
             }
 
-            for (int second = 0; second < 2503; second++)
+            for (var second = 0; second < 2503; second++)
             {
-                foreach (Reindeer reindeer in reindeers)
+                foreach (var reindeer in reindeers)
                 {
                     if (second % (reindeer.RestLength + reindeer.BurstLength) < reindeer.BurstLength)
                     {
                         reindeer.Distance += reindeer.Speed;
                     }
                 }
-                reindeers = [..reindeers.OrderByDescending(t => { return t.Distance; })];
-                int best = reindeers[0].Distance;
-                for (int i = 0; i < reindeers.Count; i++)
+                reindeers = [.. reindeers.OrderByDescending(t => t.Distance)];
+                var best = reindeers[0].Distance;
+                for (var i = 0; i < reindeers.Count; i++)
                 {
                     if (reindeers[i].Distance != best) break;
                     reindeers[i].Points++;
                 }
             }
 
-            return reindeers.OrderByDescending(t => { return t.Points; }).First().Points;
+            return reindeers.OrderByDescending(t => t.Points).First().Points;
         }
     }
 }

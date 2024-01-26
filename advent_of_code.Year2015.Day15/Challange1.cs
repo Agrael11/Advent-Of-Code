@@ -2,35 +2,35 @@
 {
     public static class Challange1
     {
-        private static List<Ingredient> ingredients = [];
+        private static readonly List<Ingredient> ingredients = new List<Ingredient>();
 
         public static long DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
-            ingredients = [];
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            ingredients.Clear();
 
-            foreach (string line in input)
+            foreach (var line in input)
             {
-                ingredients.Add(new(line.Split(':')[1]));
+                ingredients.Add(new Ingredient(line.Split(':')[1]));
             }
 
-            return GetBestScore([]);
+            return GetBestScore(new List<int>());
         }
 
         private static long GetBestScore(List<int> spoons)
         {
-            if (spoons.Count == ingredients.Count-1)
+            if (spoons.Count == ingredients.Count - 1)
             {
-                int totalSpoons = spoons.Sum();
+                var totalSpoons = spoons.Sum();
 
                 spoons.Add(100 - totalSpoons);
 
-                int capacity = 0;
-                int durability = 0;
-                int flavor = 0;
-                int texture = 0;
+                var capacity = 0;
+                var durability = 0;
+                var flavor = 0;
+                var texture = 0;
 
-                for (int i = 0; i < spoons.Count; i++)
+                for (var i = 0; i < spoons.Count; i++)
                 {
                     capacity += spoons[i] * ingredients[i].Capacity;
                     durability += spoons[i] * ingredients[i].Durability;
@@ -48,15 +48,15 @@
             }
             else
             {
-                int totalSpoons = spoons.Sum();
+                var totalSpoons = spoons.Sum();
 
-                long bestScore = long.MinValue;
+                var bestScore = long.MinValue;
 
-                for (int i = 1; i < 100 - totalSpoons - (ingredients.Count- spoons.Count); i++)
+                for (var i = 1; i < 100 - totalSpoons - (ingredients.Count - spoons.Count); i++)
                 {
                     spoons.Add(i);
                     bestScore = long.Max(bestScore, GetBestScore(spoons));
-                    spoons.RemoveAt(spoons.Count-1);
+                    spoons.RemoveAt(spoons.Count - 1);
                 }
                 return bestScore;
             }

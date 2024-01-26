@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace advent_of_code.Helpers
+﻿namespace advent_of_code.Helpers
 {
     public static class Extensions
     {
@@ -8,8 +6,8 @@ namespace advent_of_code.Helpers
         {
             ArgumentNullException.ThrowIfNull(source);
 
-            List<T> items = source.ToList();
-            List<List<T>> result = [];
+            var items = source.ToList();
+            var result = new List<List<T>>();
 
             void Generate(int index)
             {
@@ -19,7 +17,7 @@ namespace advent_of_code.Helpers
                 }
                 else
                 {
-                    for (int i = index; i < items.Count; i++)
+                    for (var i = index; i < items.Count; i++)
                     {
                         (items[index], items[i]) = (items[i], items[index]);
                         Generate(index + 1);
@@ -34,7 +32,7 @@ namespace advent_of_code.Helpers
 
         public static IEnumerable<List<T>> YieldPermutate<T>(this IEnumerable<T> source)
         {
-            List<T> items = source.ToList();
+            var items = source.ToList();
 
             IEnumerable<IEnumerable<T>> Generate(int index)
             {
@@ -44,7 +42,7 @@ namespace advent_of_code.Helpers
                 }
                 else
                 {
-                    for (int i = index; i < items.Count; i++)
+                    for (var i = index; i < items.Count; i++)
                     {
                         (items[index], items[i]) = (items[i], items[index]);
 
@@ -56,7 +54,7 @@ namespace advent_of_code.Helpers
                 }
             }
 
-            foreach (List<T> v in Generate(0).Cast<List<T>>())
+            foreach (var v in Generate(0).Cast<List<T>>())
             {
                 yield return v;
             }
@@ -64,14 +62,14 @@ namespace advent_of_code.Helpers
 
         public static IEnumerable<int> IndexesOf(this string source, string value, StringComparison comparison = StringComparison.Ordinal)
         {
-            for (int i = source.IndexOf(value, 0, comparison); i > -1; i = source.IndexOf(value, i + 1, comparison))
+            for (var i = source.IndexOf(value, 0, comparison); i > -1; i = source.IndexOf(value, i + 1, comparison))
             {
                 yield return i;
             }
         }
         public static IEnumerable<int> IndexesOf(this string source, char value)
         {
-            for (int i = 0; i < source.Length; i++)
+            for (var i = 0; i < source.Length; i++)
             {
                 if (source[i] == value)
                 {
@@ -82,7 +80,7 @@ namespace advent_of_code.Helpers
 
         public static IEnumerable<int> LastIndexesOf(this string source, string value, StringComparison comparison = StringComparison.Ordinal)
         {
-            for (int i = source.LastIndexOf(value, 0, comparison); i > -1; i = source.LastIndexOf(value, i - 1, comparison))
+            for (var i = source.LastIndexOf(value, 0, comparison); i > -1; i = source.LastIndexOf(value, i - 1, comparison))
             {
                 yield return i;
                 if (i == 0) break;
@@ -91,7 +89,7 @@ namespace advent_of_code.Helpers
 
         public static IEnumerable<int> LastIndexesOf(this string source, char value)
         {
-            for (int i = source.Length-1; i >= 0; i--)
+            for (var i = source.Length - 1; i >= 0; i--)
             {
                 if (source[i] == value)
                 {

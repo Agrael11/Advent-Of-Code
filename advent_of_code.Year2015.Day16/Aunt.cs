@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Pipes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace advent_of_code.Year2015.Day16
+﻿namespace advent_of_code.Year2015.Day16
 {
     internal class Aunt
     {
-        public enum Property { Children, Cats, Samoyeds, Pomeranians, Akitas, Vizslas, Goldfish, Trees, Cars, Perfumes};
-        private readonly Dictionary<Property, int?> properties = [];
+        public enum Property { Children, Cats, Samoyeds, Pomeranians, Akitas, Vizslas, Goldfish, Trees, Cars, Perfumes };
+        private readonly Dictionary<Property, int?> properties = new Dictionary<Property, int?>();
 
         public Aunt(string infoString)
         {
@@ -19,10 +12,10 @@ namespace advent_of_code.Year2015.Day16
             {
                 properties.Add(property, null);
             }
-            string[] infos = infoString.Split(',');
-            foreach (string info in infos)
+            var infos = infoString.Split(',');
+            foreach (var info in infos)
             {
-                string[] data = info.Split(':');
+                var data = info.Split(':');
                 switch (data[0].Trim())
                 {
                     case "children":
@@ -71,9 +64,9 @@ namespace advent_of_code.Year2015.Day16
             }
             return properties[property] == null || properties[property] == value;
         }
-        public bool EqualsProperties(Dictionary<Property,int> properties, bool part2)
+        public bool EqualsProperties(Dictionary<Property, int> properties, bool part2)
         {
-            foreach (Property key in properties.Keys)
+            foreach (var key in properties.Keys)
             {
                 if (!EqualsProperty(key, properties[key], part2)) return false;
             }

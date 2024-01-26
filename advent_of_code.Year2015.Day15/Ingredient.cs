@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace advent_of_code.Year2015.Day15
+﻿namespace advent_of_code.Year2015.Day15
 {
     internal class Ingredient
     {
@@ -16,10 +10,10 @@ namespace advent_of_code.Year2015.Day15
 
         public Ingredient(string description)
         {
-            string[] desc = description.Split(',');
-            foreach (string part in desc)
+            var desc = description.Split(',');
+            foreach (var part in desc)
             {
-                string[] partSplit = part.Trim(' ').Split(" ");
+                var partSplit = part.Trim(' ').Split(" ");
                 switch (partSplit[0])
                 {
                     case "capacity": Capacity = int.Parse(partSplit[1]); break;

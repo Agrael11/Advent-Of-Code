@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace advent_of_code.Year2015.Day14
+﻿namespace advent_of_code.Year2015.Day14
 {
     internal class Reindeer
     {
@@ -17,7 +11,7 @@ namespace advent_of_code.Year2015.Day14
 
         public Reindeer(string definition)
         {
-            string[] defs = definition.Split(' ');
+            var defs = definition.Split(' ');
             Speed = int.Parse(defs[3]);
             BurstLength = int.Parse(defs[6]);
             RestLength = int.Parse(defs[13]);

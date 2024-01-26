@@ -4,16 +4,16 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            int total = 0;
-            int memory = 0;
+            var total = 0;
+            var memory = 0;
 
-            foreach (string inputLine in input)
+            foreach (var inputLine in input)
             {
                 total += inputLine.Length;
-                string modifiedLine = inputLine[1..^1].Replace("\\\"", "\"").Replace("\\\\","/");
-                int backslashes = modifiedLine.Count(characetr => { return characetr == '\\'; });
+                var modifiedLine = inputLine[1..^1].Replace("\\\"", "\"").Replace("\\\\", "/");
+                var backslashes = modifiedLine.Count(characetr => characetr == '\\');
                 memory += modifiedLine.Length - backslashes * 3;
             }
 

@@ -1,7 +1,5 @@
 using advent_of_code.ViewModels;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.VisualTree;
 
 namespace advent_of_code.Views
 {
@@ -11,7 +9,7 @@ namespace advent_of_code.Views
         {
             InitializeComponent();
             DataContext = new MainViewModel();
-            
+
         }
     }
 }

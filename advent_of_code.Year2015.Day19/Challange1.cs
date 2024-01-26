@@ -1,5 +1,4 @@
 ﻿using advent_of_code.Helpers;
-using System.Runtime.CompilerServices;
 
 namespace advent_of_code.Year2015.Day19
 {
@@ -7,31 +6,31 @@ namespace advent_of_code.Year2015.Day19
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            string inputMolecule = input[^1];
-            Dictionary<string, List<string>> replacements = [];
+            var inputMolecule = input[^1];
+            var replacements = new Dictionary<string, List<string>>();
 
-            foreach (string line in input)
+            foreach (var line in input)
             {
-                if(string.IsNullOrEmpty(line)) break;
-                string original = line.Split("=>")[0].Trim();
-                string replacement = line.Split("=>")[1].Trim();
+                if (string.IsNullOrEmpty(line)) break;
+                var original = line.Split("=>")[0].Trim();
+                var replacement = line.Split("=>")[1].Trim();
                 if (!replacements.TryAdd(original, [replacement]))
                 {
                     replacements[original].Add(replacement);
                 }
             }
 
-            HashSet<string> newMolecules = [];
-            
-            foreach (string key in replacements.Keys)
+            var newMolecules = new HashSet<string>();
+
+            foreach (var key in replacements.Keys)
             {
-                foreach (int index in inputMolecule.IndexesOf(key))
+                foreach (var index in inputMolecule.IndexesOf(key))
                 {
-                    foreach (string replacement in replacements[key])
+                    foreach (var replacement in replacements[key])
                     {
-                        string newMolecule = inputMolecule[..index] + replacement + inputMolecule[(index+key.Length)..];
+                        var newMolecule = inputMolecule[..index] + replacement + inputMolecule[(index + key.Length)..];
                         newMolecules.Add(newMolecule);
                     }
                 }

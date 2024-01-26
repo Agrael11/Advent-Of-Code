@@ -1,8 +1,4 @@
-﻿using Avalonia.ReactiveUI;
-using System.Diagnostics;
-using System.Net;
-
-namespace advent_of_code.ConsoleOnly
+﻿namespace advent_of_code.ConsoleOnly
 {
     public static class AdventOfCode
     {
@@ -10,8 +6,8 @@ namespace advent_of_code.ConsoleOnly
         {
             DrawATree();
             Console.ForegroundColor = ConsoleColor.White;
-            string result = "";
-            bool firstStart = true;
+            var result = "";
+            var firstStart = true;
             if (!Directory.Exists("Settings")) Directory.CreateDirectory("Settings");
             if (!File.Exists(Path.Combine("Settings", "firstStart"))) File.Create(Path.Combine("Settings", "firstStart"));
             else firstStart = false;
@@ -44,8 +40,8 @@ namespace advent_of_code.ConsoleOnly
                 }
                 result = Console.ReadLine() ?? "";
 
-                string[] resultTemp = result.Split(' ');
-                if (int.TryParse(resultTemp[0], out int year) && int.TryParse(resultTemp[1], out int day) && day >= 1 && day <= 25)
+                var resultTemp = result.Split(' ');
+                if (int.TryParse(resultTemp[0], out var year) && int.TryParse(resultTemp[1], out var day) && day >= 1 && day <= 25)
                 {
                     if (ChallangeHandling.ClassExists(year, day))
                     {
@@ -107,7 +103,7 @@ namespace advent_of_code.ConsoleOnly
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        static ulong DoChallenge(int year, int day, bool nice = true)
+        private static ulong DoChallenge(int year, int day, bool nice = true)
         {
             if (nice)
             {
@@ -118,7 +114,7 @@ namespace advent_of_code.ConsoleOnly
             _ = advent_of_code.ChallangeHandling.GetInputAsync(year, day);
             var task1 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 1);
             task1.Wait();
-            (Stopwatch watch1, string result1) = task1.Result;
+            (var watch1, var result1) = task1.Result;
             Console.ForegroundColor = ConsoleColor.Cyan;
             if (result1.Contains('\n') || result1.Length > 20)
             {
@@ -132,7 +128,7 @@ namespace advent_of_code.ConsoleOnly
             Console.ForegroundColor = ConsoleColor.White;
             var task2 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 2);
             task2.Wait();
-            (Stopwatch watch2, string result2) = task2.Result;
+            (var watch2, var result2) = task2.Result;
             Console.Write(" and ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             if (result2.Contains('\n') || result2.Length > 20)
@@ -159,12 +155,12 @@ namespace advent_of_code.ConsoleOnly
             return (ulong)watch1.ElapsedMilliseconds + (ulong)watch2.ElapsedMilliseconds;
         }
 
-        static void DoAllChallenges()
+        private static void DoAllChallenges()
         {
             ulong totalTime = 0;
-            for (int year = 2015; year <= DateTime.Now.Year; year++)
+            for (var year = 2015; year <= DateTime.Now.Year; year++)
             {
-                for (int i = 1; i <= 25; i++)
+                for (var i = 1; i <= 25; i++)
                 {
                     if (advent_of_code.ChallangeHandling.ClassExists(year, i))
                     {
@@ -188,13 +184,13 @@ namespace advent_of_code.ConsoleOnly
 
         static private string FormatTime(ulong milliseconds)
         {
-            uint milli = (uint)(milliseconds % 1000);
-            uint seconds = (uint)(milliseconds / 1000);
-            uint minutes = seconds / 60;
+            var milli = (uint)(milliseconds % 1000);
+            var seconds = (uint)(milliseconds / 1000);
+            var minutes = seconds / 60;
             seconds %= 60;
-            uint hours = minutes / 60;
+            var hours = minutes / 60;
             minutes %= 60;
-            string time = "";
+            var time = "";
             if (hours > 0) time = hours.ToString().PadLeft(2, '0') + ":";
             if (minutes > 0 || hours > 0) time += minutes.ToString().PadLeft(2, '0') + ":";
             if (seconds > 0 && (minutes > 0 || hours > 0)) time += seconds.ToString().PadLeft(2, '0') + "." + milli.ToString().PadLeft(3, '0');
@@ -203,14 +199,14 @@ namespace advent_of_code.ConsoleOnly
             return time;
         }
 
-        static void DrawATree()
+        private static void DrawATree()
         {
             Console.Clear();
-            for (int i = 0; i < Console.WindowWidth / 40 * Console.WindowHeight; i++)
+            for (var i = 0; i < Console.WindowWidth / 40 * Console.WindowHeight; i++)
             {
                 Console.ForegroundColor = (ConsoleColor)new Random().Next(1, 16);
-                int x = new Random().Next(0, Console.WindowWidth);
-                int y = new Random().Next(0, Console.WindowHeight);
+                var x = new Random().Next(0, Console.WindowWidth);
+                var y = new Random().Next(0, Console.WindowHeight);
                 Console.CursorLeft = x;
                 Console.CursorTop = y;
                 Console.Write('*');
@@ -234,23 +230,14 @@ namespace advent_of_code.ConsoleOnly
             DrawLine(@"||", 11, 1);
         }
 
-        static void DrawLine(string line, int left, int day)
+        private static void DrawLine(string line, int left, int day)
         {
             Console.CursorLeft += left;
-            foreach (char c in line)
+            foreach (var c in line)
             {
-                if (c == '\\' || c == '/')
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                }
-                else if (c == '(' || c == ')')
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                }
-                else
-                {
-                    Console.ForegroundColor = (ConsoleColor)new Random().Next(1, 16);
-                }
+                Console.ForegroundColor = c == '\\' || c == '/'
+                    ? ConsoleColor.Green
+                    : c == '(' || c == ')' ? ConsoleColor.Yellow : (ConsoleColor)new Random().Next(1, 16);
                 if (!(DateTime.Now.Month == 12 && DateTime.Now.Day >= day))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;

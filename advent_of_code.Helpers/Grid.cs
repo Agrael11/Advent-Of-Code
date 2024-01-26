@@ -9,11 +9,7 @@
 
         public T? this[int x, int y]
         {
-            get
-            {
-                if (x < 0 || x >= Width || y < 0 || y >= Height) return default;
-                return cells[x,y];
-            }
+            get => x < 0 || x >= Width || y < 0 || y >= Height ? default : cells[x, y];
             set
             {
                 if (x < 0 || x >= Width || y < 0 || y >= Height) throw new IndexOutOfRangeException();
@@ -24,10 +20,10 @@
 
         public Grid<T> Clone()
         {
-            Grid<T> newGrid = new(Width, Height);
-            for (int y = 0; y < Height; y++)
+            var newGrid = new Grid<T>(Width, Height);
+            for (var y = 0; y < Height; y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (var x = 0; x < Width; x++)
                 {
                     newGrid[x, y] = this[x, y];
                 }
@@ -37,10 +33,10 @@
 
         public DynamicGrid<T> ToDynamicGrid()
         {
-            DynamicGrid<T> newGrid = new(Width, Height);
-            for (int y = 0; y < Height; y++)
+            var newGrid = new DynamicGrid<T>(Width, Height);
+            for (var y = 0; y < Height; y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (var x = 0; x < Width; x++)
                 {
                     newGrid[x, y] = this[x, y];
                 }

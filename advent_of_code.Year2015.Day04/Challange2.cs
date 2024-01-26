@@ -9,7 +9,7 @@ namespace advent_of_code.Year2015.Day04
         {
             inputData = inputData.Replace("\r", "").TrimEnd('\n');
 
-            int magicNumber = 0;
+            var magicNumber = 0;
 
             while (!HexStartsWithSixZeroes(GetMD5(inputData + magicNumber)))
             {
@@ -25,7 +25,7 @@ namespace advent_of_code.Year2015.Day04
 
         public static byte[] GetMD5(string input)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(input);
+            var bytes = Encoding.ASCII.GetBytes(input);
             return MD5.HashData(bytes);
         }
     }

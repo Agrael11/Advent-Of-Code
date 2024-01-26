@@ -6,11 +6,11 @@
         {
             inputData = inputData.Replace("\r", "").TrimEnd('\n');
 
-            int level = 0;
+            var level = 0;
 
-            for (int i = 0; i < inputData.Length; i++)
+            for (var i = 0; i < inputData.Length; i++)
             {
-                char character = inputData[i];
+                var character = inputData[i];
                 if (character == '(') level++;
                 if (character == ')') level--;
                 if (level < 0) return i;

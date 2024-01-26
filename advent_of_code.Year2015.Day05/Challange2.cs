@@ -4,33 +4,33 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
-            
-            int niceWords = 0;
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            foreach (string line in input)
+            var niceWords = 0;
+
+            foreach (var line in input)
             {
-                char last = '\0';
-                string lastFound = "";
-                HashSet<string> doubles = [];
-                bool foundDouble = false;
-                bool foundTripple = false;
+                var last = '\0';
+                var lastFound = "";
+                var doubles = new HashSet<string>();
+                var foundDouble = false;
+                var foundTripple = false;
 
-                for (int i = 0; i < line.Length; i++)
+                for (var i = 0; i < line.Length; i++)
                 {
                     if (!foundDouble && last != '\0')
                     {
-                        string found = last.ToString() + line[i];
+                        var found = last.ToString() + line[i];
                         if (lastFound != found)
                         {
                             foundDouble |= !doubles.Add(found);
                         }
                         lastFound = found;
                     }
-                    
-                    if (!foundTripple && line.Length > i+2)
+
+                    if (!foundTripple && line.Length > i + 2)
                     {
-                        foundTripple |= line[i] == line[i+2];
+                        foundTripple |= line[i] == line[i + 2];
                     }
 
                     if (foundDouble && foundTripple)

@@ -25,9 +25,9 @@ namespace advent_of_code.Desktop
             }
 
             //Linux XOrg check
-            string? waylandDisplayVariable = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
-            string? displayVariable = Environment.GetEnvironmentVariable("DISPLAY");
-        
+            var waylandDisplayVariable = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
+            var displayVariable = Environment.GetEnvironmentVariable("DISPLAY");
+
             if (string.IsNullOrEmpty(displayVariable) && string.IsNullOrEmpty(waylandDisplayVariable) && Environment.OSVersion.Platform != PlatformID.Win32NT)
             {
                 ConsoleOnly.AdventOfCode.Main();
@@ -49,10 +49,12 @@ namespace advent_of_code.Desktop
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .WithInterFont()
-                .LogToTrace()
-                .UseReactiveUI();
+        {
+            return AppBuilder.Configure<App>()
+                        .UsePlatformDetect()
+                        .WithInterFont()
+                        .LogToTrace()
+                        .UseReactiveUI();
+        }
     }
 }

@@ -5,10 +5,10 @@
         public static (T? type, int cost) DoAStar<T>(T startPoint, Func<T, bool> isEnd,
             Func<T, IEnumerable<(T nextState, int cost)>> getNext, Func<T, int> heuristic, int costWeight) where T : notnull
         {
-            PriorityQueue<T, int> queue = new();
-            HashSet<T> visited = [];
-            Dictionary<T, int> gScore = [];
-            Dictionary<T, int> fScore = [];
+            var queue = new PriorityQueue<T, int>();
+            var visited = new HashSet<T>();
+            var gScore = new Dictionary<T, int>();
+            var fScore = new Dictionary<T, int>();
 
             gScore.Add(startPoint, 0);
             fScore.Add(startPoint, heuristic(startPoint));
@@ -16,7 +16,7 @@
 
             while (queue.Count > 0)
             {
-                T current = queue.Dequeue();
+                var current = queue.Dequeue();
 
                 if (isEnd(current))
                 {
@@ -32,9 +32,9 @@
 
                     var tentativeScore = gScore[current] + nextState.cost;
 
-                    if (!gScore.TryGetValue(nextState.nextState, out int nextStateCost) || tentativeScore < nextStateCost)
+                    if (!gScore.TryGetValue(nextState.nextState, out var nextStateCost) || tentativeScore < nextStateCost)
                     {
-                        int fullCost = tentativeScore + costWeight * heuristic(nextState.nextState);
+                        var fullCost = tentativeScore + costWeight * heuristic(nextState.nextState);
 
                         gScore[nextState.nextState] = tentativeScore;
                         fScore[nextState.nextState] = fullCost;
@@ -52,12 +52,11 @@
         public static (List<T>? type, int cost) DoAStarWithPath<T>(T startPoint, Func<T, bool> isEnd,
             Func<T, IEnumerable<(T nextState, int cost)>> getNext, Func<T, int> heuristic, int costWeight) where T : notnull
         {
-            T? current = startPoint;
-            PriorityQueue<T, int> queue = new();
-            HashSet<T> visited = [];
-            Dictionary<T, int> gScore = [];
-            Dictionary<T, int> fScore = [];
-            Dictionary<T, T> parents = [];
+            var queue = new PriorityQueue<T, int>();
+            var visited = new HashSet<T>();
+            var gScore = new Dictionary<T, int>();
+            var fScore = new Dictionary<T, int>();
+            var parents = new Dictionary<T, T>();
 
             gScore.Add(startPoint, 0);
             fScore.Add(startPoint, heuristic(startPoint));
@@ -65,7 +64,7 @@
 
             while (queue.Count > 0)
             {
-                current = queue.Dequeue();
+                var current = queue.Dequeue();
 
                 if (isEnd(current))
                 {
@@ -81,9 +80,9 @@
 
                     var tentativeScore = gScore[current] + nextState.cost;
 
-                    if (!gScore.TryGetValue(nextState.nextState, out int nextStateCost) || tentativeScore < nextStateCost)
+                    if (!gScore.TryGetValue(nextState.nextState, out var nextStateCost) || tentativeScore < nextStateCost)
                     {
-                        int fullCost = tentativeScore + costWeight * heuristic(nextState.nextState);
+                        var fullCost = tentativeScore + costWeight * heuristic(nextState.nextState);
 
                         gScore[nextState.nextState] = tentativeScore;
                         fScore[nextState.nextState] = fullCost;

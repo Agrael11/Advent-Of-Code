@@ -1,21 +1,19 @@
-﻿using System.Globalization;
-
-namespace advent_of_code.Helpers
+﻿namespace advent_of_code.Helpers
 {
     public static partial class PathFinding
     {
         public static (T? type, int cost) DoDijkstra<T>(T startPoint, Func<T, bool> isEnd,
             Func<T, IEnumerable<(T nextState, int cost)>> getNext) where T : notnull
         {
-            PriorityQueue<T, int> queue = new();
-            Dictionary<T, int> costs = [];
+            var queue = new PriorityQueue<T, int>();
+            var costs = new Dictionary<T, int>();
 
             queue.Enqueue(startPoint, 0);
             costs.Add(startPoint, 0);
 
             while (queue.Count > 0)
             {
-                T current = queue.Dequeue();
+                var current = queue.Dequeue();
 
                 if (isEnd(current))
                 {
@@ -24,9 +22,9 @@ namespace advent_of_code.Helpers
 
                 foreach (var nextState in getNext(current))
                 {
-                    int tentativeCost = costs[current] + nextState.cost;
+                    var tentativeCost = costs[current] + nextState.cost;
 
-                    if (!costs.TryGetValue(nextState.nextState, out int oldCost) || tentativeCost < oldCost)
+                    if (!costs.TryGetValue(nextState.nextState, out var oldCost) || tentativeCost < oldCost)
                     {
                         queue.Enqueue(nextState.nextState, nextState.cost);
                         costs[nextState.nextState] = tentativeCost;
@@ -40,16 +38,16 @@ namespace advent_of_code.Helpers
         public static (List<T>? type, int cost) DoDijkstraWithPath<T>(T startPoint,
             Func<T, bool> isEnd, Func<T, IEnumerable<(T nextState, int cost)>> getNext) where T : notnull
         {
-            PriorityQueue<T, int> queue = new();
-            Dictionary<T, int> costs = [];
-            Dictionary<T, T> parents = [];
+            var queue = new PriorityQueue<T, int>();
+            var costs = new Dictionary<T, int>();
+            var parents = new Dictionary<T, T>();
 
             queue.Enqueue(startPoint, 0);
             costs.Add(startPoint, 0);
 
             while (queue.Count > 0)
             {
-                T current = queue.Dequeue();
+                var current = queue.Dequeue();
 
                 if (isEnd(current))
                 {
@@ -58,9 +56,9 @@ namespace advent_of_code.Helpers
 
                 foreach (var nextState in getNext(current))
                 {
-                    int tentativeCost = costs[current] + nextState.cost;
+                    var tentativeCost = costs[current] + nextState.cost;
 
-                    if (!costs.TryGetValue(nextState.nextState, out int oldCost) || tentativeCost < oldCost)
+                    if (!costs.TryGetValue(nextState.nextState, out var oldCost) || tentativeCost < oldCost)
                     {
                         queue.Enqueue(nextState.nextState, nextState.cost);
                         parents[nextState.nextState] = current;

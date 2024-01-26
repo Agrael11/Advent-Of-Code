@@ -6,19 +6,19 @@ namespace advent_of_code.Year2015.Day12
     {
         public static int DoChallange(string inputData)
         {
-            string input = inputData.Replace("\r", "").TrimEnd('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n');
 
-            using JsonDocument document = JsonDocument.Parse(input);
-            JsonElement root = document.RootElement;
+            using var document = JsonDocument.Parse(input);
+            var root = document.RootElement;
 
             return CalculateProperties([.. root.EnumerateObject()]);
         }
 
         public static int CalculateProperties(List<JsonProperty> properties)
         {
-            int total = 0;
+            var total = 0;
 
-            foreach (JsonProperty property in properties)
+            foreach (var property in properties)
             {
                 total += CalculateElement(property.Value);
             }
@@ -28,9 +28,9 @@ namespace advent_of_code.Year2015.Day12
 
         public static int CalculateElements(List<JsonElement> elements)
         {
-            int total = 0;
+            var total = 0;
 
-            foreach (JsonElement element in elements)
+            foreach (var element in elements)
             {
                 total += CalculateElement(element);
             }
@@ -40,7 +40,7 @@ namespace advent_of_code.Year2015.Day12
 
         public static int CalculateElement(JsonElement element)
         {
-            int total = 0;
+            var total = 0;
             if (element.ValueKind == JsonValueKind.Number)
             {
                 total += element.GetInt32();

@@ -4,23 +4,23 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            List<int> numbers = [];
-            foreach (string line in input)
+            var numbers = new List<int>();
+            foreach (var line in input)
             {
                 numbers.Add(int.Parse(line));
             }
 
-            int minUsedCups = int.MaxValue;
-            int minCombinations = 0;
+            var minUsedCups = int.MaxValue;
+            var minCombinations = 0;
             GetCombinations(ref numbers, 0, 0, 0, ref minUsedCups, ref minCombinations);
             return minCombinations;
         }
 
         public static void GetCombinations(ref List<int> numbers, int startIndex, int total, int usedCups, ref int minUsedCups, ref int minCombinations)
         {
-            if (usedCups > minUsedCups) 
+            if (usedCups > minUsedCups)
             {
                 return;
             }
@@ -42,11 +42,11 @@
                 return;
             }
 
-            for (int i = startIndex; i < numbers.Count; i++)
+            for (var i = startIndex; i < numbers.Count; i++)
             {
-                int number = numbers[i];
+                var number = numbers[i];
                 numbers.RemoveAt(i);
-                GetCombinations(ref numbers, i, total + number, usedCups+1, ref minUsedCups, ref minCombinations);
+                GetCombinations(ref numbers, i, total + number, usedCups + 1, ref minUsedCups, ref minCombinations);
                 numbers.Insert(i, number);
             }
 

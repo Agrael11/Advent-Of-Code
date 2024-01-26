@@ -6,11 +6,11 @@ namespace advent_of_code.Year2015.Day10
     {
         private static string LookAndSay(string input)
         {
-            StringBuilder stringBuilder = new(input.Length * 2);
+            var stringBuilder = new StringBuilder(input.Length * 2);
 
-            int count = 1;
+            var count = 1;
 
-            for (int inputIndex = 1; inputIndex < input.Length; inputIndex++)
+            for (var inputIndex = 1; inputIndex < input.Length; inputIndex++)
             {
 
                 if (input[inputIndex] == input[inputIndex - 1])
@@ -30,9 +30,9 @@ namespace advent_of_code.Year2015.Day10
 
         public static int DoChallange(string inputData)
         {
-            string input = inputData.Replace("\r", "").TrimEnd('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n');
 
-            for (int i = 0; i < 50; i++)
+            for (var i = 0; i < 50; i++)
             {
                 input = LookAndSay(input);
             }

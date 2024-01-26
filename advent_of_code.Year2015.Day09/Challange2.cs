@@ -2,9 +2,10 @@
 {
     public static class Challange2
     {
-        private static Dictionary<string, Dictionary<string, int>> paths = [];
+        private static readonly Dictionary<string, Dictionary<string, int>> paths =
+            new Dictionary<string, Dictionary<string, int>>();
 
-        static int TravelingSalesman(string currentCity, ref HashSet<string> visited)
+        private static int TravelingSalesman(string currentCity, ref HashSet<string> visited)
         {
             if (visited.Count == paths.Count - 1)
             {
@@ -13,13 +14,13 @@
 
             visited.Add(currentCity);
 
-            int length = int.MinValue;
+            var length = int.MinValue;
 
-            foreach (string nextCity in paths.Keys)
+            foreach (var nextCity in paths.Keys)
             {
                 if (visited.Contains(nextCity) || nextCity == currentCity) continue;
 
-                int length2 = paths[currentCity][nextCity] + TravelingSalesman(nextCity, ref visited);
+                var length2 = paths[currentCity][nextCity] + TravelingSalesman(nextCity, ref visited);
                 length = Math.Max(length, length2);
             }
 
@@ -30,21 +31,21 @@
 
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            paths = [];
+            paths.Clear();
 
-            foreach (string inputLine in input)
+            foreach (var inputLine in input)
             {
-                string[] data = inputLine.Split(' ');
+                var data = inputLine.Split(' ');
 
-                if (paths.TryGetValue(data[0], out Dictionary<string, int>? value))
+                if (paths.TryGetValue(data[0], out var value))
                 {
                     value.Add(data[2], int.Parse(data[4]));
                 }
                 else
                 {
-                    Dictionary<string, int> city = [];
+                    var city = new Dictionary<string, int>();
                     city.Add(data[2], int.Parse(data[4]));
                     paths.Add(data[0], city);
                 }
@@ -55,18 +56,18 @@
                 }
                 else
                 {
-                    Dictionary<string, int> city = [];
+                    var city = new Dictionary<string, int>();
                     city.Add(data[0], int.Parse(data[4]));
                     paths.Add(data[2], city);
                 }
             }
 
 
-            int shortest = int.MinValue;
+            var shortest = int.MinValue;
 
-            foreach (string startPoint in paths.Keys)
+            foreach (var startPoint in paths.Keys)
             {
-                HashSet<string> visited = [];
+                var visited = new HashSet<string>();
                 shortest = Math.Max(shortest, TravelingSalesman(startPoint, ref visited));
             }
 

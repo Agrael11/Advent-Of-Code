@@ -4,14 +4,14 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            List<int> numbers = [];
-            foreach (string line in input) 
-            { 
+            var numbers = new List<int>();
+            foreach (var line in input)
+            {
                 numbers.Add(int.Parse(line));
             }
-            
+
             return GetCombinations(ref numbers, 0, 0);
         }
 
@@ -21,16 +21,16 @@
             {
                 return 0;
             }
-            
+
             if (total == 150)
             {
                 return 1;
             }
-            
-            int sum = 0;
-            for (int i = startIndex; i < numbers.Count; i++)
+
+            var sum = 0;
+            for (var i = startIndex; i < numbers.Count; i++)
             {
-                int number = numbers[i];
+                var number = numbers[i];
                 numbers.RemoveAt(i);
                 sum += GetCombinations(ref numbers, i, total + number);
                 numbers.Insert(i, number);

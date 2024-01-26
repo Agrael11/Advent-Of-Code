@@ -4,45 +4,46 @@ namespace advent_of_code.Year2015.Day13
 {
     public static class Challange2
     {
-        private static Dictionary<(string person1, string person2), int> moods = [];
+        private readonly static Dictionary<(string person1, string person2), int> moods = 
+            new Dictionary<(string person1, string person2), int>();
 
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            HashSet<string> people = [];
-            moods = [];
+            var people = new HashSet<string>();
+            moods.Clear();
             people.Add("me");
 
-            foreach (string line in input)
+            foreach (var line in input)
             {
-                string[] lineInfo = line.TrimEnd('.').Split(' ');
-                string person1 = lineInfo[0];
-                string person2 = lineInfo[^1];
-                int moodChange = int.Parse(lineInfo[3]) * ((lineInfo[2] == "gain") ? 1 : -1);
+                var lineInfo = line.TrimEnd('.').Split(' ');
+                var person1 = lineInfo[0];
+                var person2 = lineInfo[^1];
+                var moodChange = int.Parse(lineInfo[3]) * ((lineInfo[2] == "gain") ? 1 : -1);
                 people.Add(person1);
                 moods.Add((person1, person2), moodChange);
                 moods.TryAdd((person1, "me"), 0);
                 moods.TryAdd(("me", person1), 0);
             }
 
-            int bestMood = int.MinValue;
-            foreach (List<string> arrangement in people.Permutate())
+            var bestMood = int.MinValue;
+            foreach (var arrangement in people.Permutate())
             {
-                int mood = CalculateTotalMood(arrangement);
+                var mood = CalculateTotalMood(arrangement);
                 bestMood = int.Max(mood, bestMood);
             }
 
             return bestMood;
         }
 
-        static int CalculateTotalMood(List<string> arrangement)
+        private static int CalculateTotalMood(List<string> arrangement)
         {
-            int mood = 0;
+            var mood = 0;
 
             mood += moods[(arrangement[0], arrangement[^1])] + moods[(arrangement[0], arrangement[1])];
 
-            for (int i = 1; i < arrangement.Count - 1; i++)
+            for (var i = 1; i < arrangement.Count - 1; i++)
             {
                 mood += moods[(arrangement[i], arrangement[i - 1])] + moods[(arrangement[i], arrangement[i + 1])];
             }

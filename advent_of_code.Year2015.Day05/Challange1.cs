@@ -4,21 +4,21 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
             char[] vowels = ['a', 'e', 'i', 'o', 'u'];
             string[] forbidden = ["ab", "cd", "pq", "xy"];
 
-            int niceWords = 0;
+            var niceWords = 0;
 
-            foreach (string line in input)
+            foreach (var line in input)
             {
-                char last = '\0';
-                int foundVowels = 0;
-                bool foundTwo = false;
-                bool nice = true;
+                var last = '\0';
+                var foundVowels = 0;
+                var foundTwo = false;
+                var nice = true;
 
-                for (int i = 0; i < line.Length; i++)
+                for (var i = 0; i < line.Length; i++)
                 {
                     if (forbidden.Contains(last.ToString() + line[i]))
                     {

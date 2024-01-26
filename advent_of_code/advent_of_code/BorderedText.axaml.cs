@@ -1,45 +1,25 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
-namespace advent_of_code;
-
-public partial class BorderedText : UserControl
+namespace advent_of_code
 {
-    public string? Text
+    public partial class BorderedText : UserControl
     {
-        get
+        public string? Text
         {
-            return textBlock.Text;
+            get => textBlock.Text;
+            set => textBlock.Text = value;
         }
-        set
-        {
-            textBlock.Text = value;
-        }
-    }
 
-    public bool Centered
-    {
-        get
+        public bool Centered
         {
-            return textBlock.HorizontalAlignment == Avalonia.Layout.HorizontalAlignment.Center;
+            get => textBlock.HorizontalAlignment == Avalonia.Layout.HorizontalAlignment.Center;
+            set => textBlock.HorizontalAlignment = value ? Avalonia.Layout.HorizontalAlignment.Center 
+                : Avalonia.Layout.HorizontalAlignment.Left;
         }
-        set
+
+        public BorderedText()
         {
-            if (value)
-            {
-                textBlock.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center;
-            }
-            else
-            {
-
-                textBlock.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left;
-            }
+            InitializeComponent();
         }
-    }
-
-    public BorderedText()
-    {
-        InitializeComponent();
     }
 }

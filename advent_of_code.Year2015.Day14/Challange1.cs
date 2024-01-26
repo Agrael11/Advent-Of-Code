@@ -4,16 +4,16 @@
     {
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            List<Reindeer> reindeers = [];
-            foreach (string line in input)
+            var reindeers = new List<Reindeer>();
+            foreach (var line in input)
             {
-                reindeers.Add(new(line));
+                reindeers.Add(new Reindeer(line));
             }
 
-            int maxPosition = int.MinValue;
-            foreach (Reindeer reindeer in reindeers)
+            var maxPosition = int.MinValue;
+            foreach (var reindeer in reindeers)
             {
                 maxPosition = int.Max(maxPosition, ReindeerPositionAt(reindeer, 2503));
             }
@@ -23,9 +23,9 @@
 
         private static int ReindeerPositionAt(Reindeer reindeer, int time)
         {
-            int repeats = time / (reindeer.RestLength + reindeer.BurstLength);
-            int timeTotal = repeats * (reindeer.RestLength + reindeer.BurstLength);
-            int additionalDistance = int.Min((time - timeTotal) * reindeer.Speed, reindeer.Speed * reindeer.BurstLength);
+            var repeats = time / (reindeer.RestLength + reindeer.BurstLength);
+            var timeTotal = repeats * (reindeer.RestLength + reindeer.BurstLength);
+            var additionalDistance = int.Min((time - timeTotal) * reindeer.Speed, reindeer.Speed * reindeer.BurstLength);
 
             return repeats * reindeer.BurstLength * reindeer.Speed + additionalDistance;
         }

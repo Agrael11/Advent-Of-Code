@@ -2,7 +2,7 @@
 {
     public static class Challange2
     {
-        private static readonly Dictionary<Aunt.Property, int> Prototype = new(){
+        private static readonly Dictionary<Aunt.Property, int> Prototype = new Dictionary<Aunt.Property, int>(){
                 { Aunt.Property.Children, 3 } ,
                 { Aunt.Property.Cats, 7 } ,
                 { Aunt.Property.Samoyeds, 2 } ,
@@ -17,11 +17,11 @@
 
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            foreach (string inputLine in input)
+            foreach (var inputLine in input)
             {
-                Aunt aunt = new(inputLine[(inputLine.IndexOf(':') + 1)..]);
+                var aunt = new Aunt(inputLine[(inputLine.IndexOf(':') + 1)..]);
                 if (aunt.EqualsProperties(Prototype, true))
                 {
                     return int.Parse(inputLine[(inputLine.IndexOf(' ') + 1)..inputLine.IndexOf(':')]);

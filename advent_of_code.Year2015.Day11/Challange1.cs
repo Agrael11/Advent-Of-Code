@@ -3,15 +3,15 @@
     public static class Challange1
     {
         private static string oldPassword = "";
-        private static char[] password = [];
+        private static char[] password = Array.Empty<char>();
         private static readonly List<char> forbiddenSymbols = ['i', 'o', 'l'];
 
         public static string DoChallange(string inputData)
         {
-            string input = inputData.Replace("\r", "").TrimEnd('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n');
             oldPassword = input[3..];
             password = [input[0], input[1], input[2]];
-            string newPassword = GenerateNextSequence((char)(oldPassword[0] - 1));
+            var newPassword = GenerateNextSequence((char)(oldPassword[0] - 1));
             if (!IsHigher(oldPassword, newPassword))
             {
                 newPassword = GenerateNextSequence(newPassword[0]);
@@ -47,13 +47,13 @@
                 IncrementPassword();
                 return "aabcc";
             }
-            char c1 = firstCharLast;
+            var c1 = firstCharLast;
             c1++;
-            char c2 = c1;
+            var c2 = c1;
             c2++;
-            char c3 = c2;
+            var c3 = c2;
             c3++;
-            while (forbiddenSymbols.Contains(c1) ||  forbiddenSymbols.Contains(c2) || forbiddenSymbols.Contains(c3))
+            while (forbiddenSymbols.Contains(c1) || forbiddenSymbols.Contains(c2) || forbiddenSymbols.Contains(c3))
             {
                 c1++;
                 c2++;

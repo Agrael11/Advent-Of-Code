@@ -1,87 +1,80 @@
 using advent_of_code.ViewModels;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Utils;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
-using ReactiveUI;
 using System;
 using System.IO;
-using System.Runtime.InteropServices.JavaScript;
-using System.Runtime.Versioning;
-using System.Text.Json.Serialization;
 
-namespace advent_of_code.Views;
-
-public partial class SettingsView : UserControl
+namespace advent_of_code.Views
 {
-    readonly string cookiePath = Path.Join("Settings", "cookie.txt");
-
-    public SettingsView()
+    public partial class SettingsView : UserControl
     {
-        InitializeComponent();
-        DataContext = new SettingsViewModel();
-        if (FileHandling.FileExists(cookiePath))
-        {
-            string cookie = FileHandling.ReadFile(cookiePath);
-            cookieBox.Text = cookie;
-        }
-    }
+        private readonly string cookiePath = Path.Join("Settings", "cookie.txt");
 
-    public async void LoadClicked(object sender, RoutedEventArgs args)
-    {
-        var topLevel = TopLevel.GetTopLevel(this);
-        if (topLevel is null) return;
-
-        try
+        public SettingsView()
         {
-            if (OperatingSystem.IsBrowser())
+            InitializeComponent();
+            DataContext = new SettingsViewModel();
+            if (FileHandling.FileExists(cookiePath))
             {
-                //Not supported yet?
+                var cookie = FileHandling.ReadFile(cookiePath);
+                cookieBox.Text = cookie;
             }
-            else
+        }
+
+        public async void LoadClicked(object sender, RoutedEventArgs args)
+        {
+            var topLevel = TopLevel.GetTopLevel(this);
+            if (topLevel is null) return;
+
+            try
             {
-                var files = await topLevel.StorageProvider.OpenFilePickerAsync(new Avalonia.Platform.Storage.FilePickerOpenOptions { Title = "Open Text File", AllowMultiple = false });
-                if (files.Count == 1)
+                if (OperatingSystem.IsBrowser())
                 {
-                    if (files[0].Path.Scheme == "content")
+                    //Not supported yet?
+                }
+                else
+                {
+                    var files = await topLevel.StorageProvider.OpenFilePickerAsync(new Avalonia.Platform.Storage.FilePickerOpenOptions { Title = "Open Text File", AllowMultiple = false });
+                    if (files.Count == 1)
                     {
-                        string cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
-                        cookieBox.Text = cookie;
-                    }
-                    else
-                    {
-                        string cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
-                        cookieBox.Text = cookie;
+                        if (files[0].Path.Scheme == "content")
+                        {
+                            var cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
+                            cookieBox.Text = cookie;
+                        }
+                        else
+                        {
+                            var cookie = FileHandling.ReadFile(await files[0].OpenReadAsync());
+                            cookieBox.Text = cookie;
+                        }
                     }
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            cookieBox.Text += "\n\n" + ex.Message;
-        }
-    }
-
-    public void SaveClicked(object sender, RoutedEventArgs args)
-    {
-        var mainView = this.FindAncestorOfType<MainView>();
-        if (mainView is not null)
-        {
-            var mainViewContext = mainView.DataContext as MainViewModel;
-            if (mainViewContext is not null)
+            catch (Exception ex)
             {
-                string text = cookieBox.Text ?? "";
-                if (!FileHandling.DirectoryExists("Settings"))
-                {
-                    FileHandling.CreateDirectory("Settings");
-                }
-                FileHandling.WriteToFile(cookiePath, text);
-                mainViewContext.SetMainView();
+                cookieBox.Text += "\n\n" + ex.Message;
             }
         }
-        
+
+        public void SaveClicked(object sender, RoutedEventArgs args)
+        {
+            var mainView = this.FindAncestorOfType<MainView>();
+            if (mainView is not null)
+            {
+                var mainViewContext = mainView.DataContext as MainViewModel;
+                if (mainViewContext is not null)
+                {
+                    var text = cookieBox.Text ?? "";
+                    if (!FileHandling.DirectoryExists("Settings"))
+                    {
+                        FileHandling.CreateDirectory("Settings");
+                    }
+                    FileHandling.WriteToFile(cookiePath, text);
+                    mainViewContext.SetMainView();
+                }
+            }
+
+        }
     }
 }

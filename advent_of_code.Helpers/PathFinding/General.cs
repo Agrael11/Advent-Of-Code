@@ -4,8 +4,8 @@
     {
         private static List<T> ReconstructPath<T>(Dictionary<T, T> parents, T endNode) where T : notnull
         {
-            List<T> path = [];
-            T current = endNode;
+            var path = new List<T>();
+            var current = endNode;
 
             while (parents.ContainsKey(current))
             {

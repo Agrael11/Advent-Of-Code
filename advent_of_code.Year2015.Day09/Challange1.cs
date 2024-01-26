@@ -1,23 +1,22 @@
-﻿using System.Runtime.ExceptionServices;
-
-namespace advent_of_code.Year2015.Day09
+﻿namespace advent_of_code.Year2015.Day09
 {
     public static class Challange1
     {
-        private static Dictionary<string, Dictionary<string, int>> paths = [];
+        private static readonly Dictionary<string, Dictionary<string, int>> paths =
+            new Dictionary<string, Dictionary<string, int>>();
 
-        static int TravelingSalesman(string currentCity, ref HashSet<string> visited)
+        private static int TravelingSalesman(string currentCity, ref HashSet<string> visited)
         {
-            if (visited.Count == paths.Count-1)
+            if (visited.Count == paths.Count - 1)
             {
                 return 0;
             }
 
             visited.Add(currentCity);
 
-            int length = int.MaxValue;
+            var length = int.MaxValue;
 
-            foreach (string nextCity in paths.Keys)
+            foreach (var nextCity in paths.Keys)
             {
                 if (visited.Contains(nextCity) || nextCity == currentCity) continue;
 
@@ -31,21 +30,21 @@ namespace advent_of_code.Year2015.Day09
 
         public static int DoChallange(string inputData)
         {
-            string[] input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
+            var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            paths = [];
+            paths.Clear();
 
-            foreach (string inputLine in input)
+            foreach (var inputLine in input)
             {
-                string[] data = inputLine.Split(' ');
+                var data = inputLine.Split(' ');
 
-                if (paths.TryGetValue(data[0], out Dictionary<string, int>? value))
+                if (paths.TryGetValue(data[0], out var value))
                 {
                     value.Add(data[2], int.Parse(data[4]));
                 }
                 else
                 {
-                    Dictionary<string, int> city = [];
+                    var city = new Dictionary<string, int>();
                     city.Add(data[2], int.Parse(data[4]));
                     paths.Add(data[0], city);
                 }
@@ -56,16 +55,16 @@ namespace advent_of_code.Year2015.Day09
                 }
                 else
                 {
-                    Dictionary<string, int> city = [];
+                    var city =  new Dictionary<string, int>();
                     city.Add(data[0], int.Parse(data[4]));
                     paths.Add(data[2], city);
                 }
             }
 
-            HashSet<string> visited = [];
-            int shortest = int.MaxValue;
+            var visited = new HashSet<string>();
+            var shortest = int.MaxValue;
 
-            foreach (string startPoint in paths.Keys)
+            foreach (var startPoint in paths.Keys)
             {
                 visited.Clear();
                 shortest = Math.Min(shortest, TravelingSalesman(startPoint, ref visited));
