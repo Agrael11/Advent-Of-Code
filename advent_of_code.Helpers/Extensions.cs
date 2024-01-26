@@ -59,5 +59,38 @@
                 yield return v;
             }
         }
+
+        public static IEnumerable<int> IndexesOf(this string source, string value)
+        {
+            for (int i = source.IndexOf(value); i > -1; i = source.IndexOf(value, i + 1))
+            {
+                yield return i;
+            }
+        }
+        public static IEnumerable<int> IndexesOf(this string source, char value)
+        {
+            for (int i = source.IndexOf(value); i > -1; i = source.IndexOf(value, i + 1))
+            {
+                yield return i;
+            }
+        }
+
+        public static IEnumerable<int> LastIndexesOf(this string source, string value)
+        {
+            for (int i = source.LastIndexOf(value); i > -1; i = source.LastIndexOf(value, i - 1))
+            {
+                yield return i;
+                if (i == 0) break;
+            }
+        }
+
+        public static IEnumerable<int> LastIndexesOf(this string source, char value)
+        {
+            for (int i = source.LastIndexOf(value); i > -1; i = source.LastIndexOf(value, i - 1))
+            {
+                yield return i;
+                if (i == 0) break;
+            }
+        }
     }
 }
