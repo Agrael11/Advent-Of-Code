@@ -26,7 +26,7 @@
 
                     if (!costs.TryGetValue(nextState.nextState, out var oldCost) || tentativeCost < oldCost)
                     {
-                        queue.Enqueue(nextState.nextState, nextState.cost);
+                        queue.Enqueue(nextState.nextState, tentativeCost);
                         costs[nextState.nextState] = tentativeCost;
                     }
                 }
@@ -60,7 +60,7 @@
 
                     if (!costs.TryGetValue(nextState.nextState, out var oldCost) || tentativeCost < oldCost)
                     {
-                        queue.Enqueue(nextState.nextState, nextState.cost);
+                        queue.Enqueue(nextState.nextState, tentativeCost);
                         parents[nextState.nextState] = current;
                         costs[nextState.nextState] = tentativeCost;
                     }
