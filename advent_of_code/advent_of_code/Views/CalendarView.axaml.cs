@@ -22,7 +22,7 @@ namespace advent_of_code.Views
                 };
                 YearsComboBox.Items.Add(yearitem);
             }
-            YearsComboBox.SelectedIndex = 0;
+            YearsComboBox.SelectedIndex = YearsComboBox.Items.Count-1;
         }
 
         public int? GetYear()
