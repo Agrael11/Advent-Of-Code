@@ -14,6 +14,12 @@ namespace advent_of_code.Views
         public AllView()
         {
             InitializeComponent();
+            YearSelect.Items.Add("All Years");
+            foreach (var year in ChallangeHandling.GetAvailableYears())
+            {
+                YearSelect.Items.Add(year);
+            }
+            YearSelect.SelectedIndex = 0;
         }
 
         private readonly List<(int year, int day)> days = [];
@@ -26,14 +32,23 @@ namespace advent_of_code.Views
         public void Start(object sender, RoutedEventArgs e)
         {
             Reset();
-            foreach (var year in ChallangeHandling.GetAvailableYears())
+            if (YearSelect.SelectedItem is int selectedYear)
             {
-                foreach (var day in ChallangeHandling.GetAvailableDays(year))
+                foreach (var day in ChallangeHandling.GetAvailableDays(selectedYear))
                 {
-                    days.Add((year, day));
+                    days.Add((selectedYear, day));
                 }
             }
-
+            else
+            {
+                foreach (var year in ChallangeHandling.GetAvailableYears())
+                {
+                    foreach (var day in ChallangeHandling.GetAvailableDays(year))
+                    {
+                        days.Add((year, day));
+                    }
+                }
+            }
             RunAll.IsEnabled = false;
             ReturnBack.IsEnabled = false;
 
