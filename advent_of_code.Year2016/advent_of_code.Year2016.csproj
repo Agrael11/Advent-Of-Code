@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\advent_of_code.Year2016.Day01\advent_of_code.Year2016.Day01.csproj" />
     <ProjectReference Include="..\advent_of_code.Year2016.Day02\advent_of_code.Year2016.Day02.csproj" />
+    <ProjectReference Include="..\advent_of_code.Year2016.Day03\advent_of_code.Year2016.Day03.csproj" />
   </ItemGroup>
 
 </Project>
