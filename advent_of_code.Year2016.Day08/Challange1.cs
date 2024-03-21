@@ -11,7 +11,6 @@ namespace advent_of_code.Year2016.Day08
         public static int DoChallange(string inputData)
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
-            //input = [ "rect 3x2","rotate column x=1 by 1","rotate row y=0 by 4","rotate column x=1 by 1"];
 
             var lightsOn = 0;
 

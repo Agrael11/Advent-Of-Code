@@ -13,9 +13,6 @@ namespace advent_of_code.Year2016.Day08
         {
             Screen = new Grid<bool>(ScreenWidth, ScreenHeight);
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
-            //input = [ "rect 3x2","rotate column x=1 by 1","rotate row y=0 by 4","rotate column x=1 by 1"];
-
-            var lightsOn = 0;
 
             foreach (var instruction in input)
             {
@@ -31,7 +28,6 @@ namespace advent_of_code.Year2016.Day08
                         for (var y = 0; y < height; y++)
                         {
                             if (y >= ScreenHeight) break;
-                            if (Screen[x,y] == false) lightsOn++;
                             Screen[x,y] = true;
                         }
                     }
