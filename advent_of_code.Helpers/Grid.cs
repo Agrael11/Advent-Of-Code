@@ -43,5 +43,33 @@
             }
             return newGrid;
         }
+
+        public void RotateColumn(int columnIndex, int count)
+        {
+            var newColumnData = new T[Height];
+            for (var i = 0; i < Height; i++)
+            {
+                var oldPosition = (Height + i - count) % Height;
+                newColumnData[i] = cells[columnIndex, oldPosition];
+            }
+            for (var i = 0; i < Height; i++)
+            {
+                cells[columnIndex, i] = newColumnData[i];
+            }
+        }
+
+        public void RotateRow(int rowIndex, int count)
+        {
+            var newRowData = new T[Width];
+            for (var i = 0; i < Width; i++)
+            {
+                var oldPosition = (Width + i - count) % Width;
+                newRowData[i] = cells[oldPosition, rowIndex];
+            }
+            for (var i = 0; i < Width; i++)
+            {
+                cells[i, rowIndex] = newRowData[i];
+            }
+        }
     }
 }
