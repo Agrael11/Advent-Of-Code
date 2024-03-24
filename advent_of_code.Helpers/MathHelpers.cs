@@ -31,5 +31,28 @@ namespace advent_of_code.Helpers
             return (int)(((start + end) / 2.0f) * (end - start + 1));
         }
         #endregion
+
+        #region BitCount
+        public static int BitCount(int n)
+        {
+            var count = 0;
+            while (n != 0)
+            {
+                n &= (n - 1);
+                count++;
+            }
+            return count;
+        }
+        public static int BitCount(long n)
+        {
+            var count = 0;
+            while (n != 0)
+            {
+                n &= (n - 1);
+                count++;
+            }
+            return count;
+        }
+        #endregion
     }
 }
