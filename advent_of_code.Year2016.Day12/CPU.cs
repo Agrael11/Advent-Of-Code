@@ -12,7 +12,7 @@ namespace advent_of_code.Year2016.Day12
         public Dictionary<int, int> Registers;
         private int PC = 0;
         private delegate void OpCode(int arg1, int arg2);
-        private List<(OpCode code, int arg1, int arg2)> opcodes;
+        private readonly List<(OpCode code, int arg1, int arg2)> opcodes;
 
 
         public CPU(int a, int b, int c, int d, string[] instructions)
