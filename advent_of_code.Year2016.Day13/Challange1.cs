@@ -9,7 +9,7 @@ namespace advent_of_code.Year2016.Day13
 
         public static int DoChallange(string inputData)
         {
-            favNum = long.Parse(inputData.Replace("\r", "").Replace(",", "").Replace(".", "").TrimEnd('\n'));
+            favNum = long.Parse(inputData.Replace("\r", "").TrimEnd('\n'));
 
             var startPosition = (1, 1);
 
