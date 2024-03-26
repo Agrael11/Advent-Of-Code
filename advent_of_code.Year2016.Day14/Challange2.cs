@@ -4,7 +4,6 @@ namespace advent_of_code.Year2016.Day14
 {
     public static class Challange2
     {
-        private static readonly Dictionary<string, byte[]> _memoryGenerateMD5_2016 = new Dictionary<string, byte[]>();
         private static readonly Dictionary<int, List<int>> _runsOf3 = new Dictionary<int, List<int>>();
 
         private static readonly (byte l, byte h)[] lookupTable = new (byte l, byte h)[256];
@@ -26,7 +25,8 @@ namespace advent_of_code.Year2016.Day14
 
             while (keys < 64 || index - foundLast < 1000)
             {
-                foreach (var run in GetRunsOfFive(input + index))
+                var data = GenerateMD5_2016(input + index);
+                foreach (var run in GetRunsOfFive(data))
                 {
                     if (_runsOf3.TryGetValue(run, out var value))
                     {
@@ -43,7 +43,7 @@ namespace advent_of_code.Year2016.Day14
                     }
                 }
 
-                if (GetFirstRunOfThree(input + index, out var character))
+                if (GetFirstRunOfThree(data, out var character))
                 {
                     if (!_runsOf3.TryGetValue(character, out var threes)) threes = new List<int>();
                     threes.Add(index);
@@ -54,14 +54,12 @@ namespace advent_of_code.Year2016.Day14
             }
 
             _runsOf3.Clear();
-            _memoryGenerateMD5_2016.Clear();
 
-            return indicies.Order().ToList()[63];
+            return indicies.Order().ElementAt(63);
         }
 
-        private static List<int> GetRunsOfFive(string key)
+        private static List<int> GetRunsOfFive(byte[] data)
         {
-            var data = GenerateMD5_2016(key);
             var runsOfFive = new List<int>();
 
             for (var i = 0; i < data.Length - 2; i++)
@@ -80,10 +78,8 @@ namespace advent_of_code.Year2016.Day14
             return runsOfFive;
         }
 
-        private static bool GetFirstRunOfThree(string key, out byte character)
+        private static bool GetFirstRunOfThree(byte[] data, out byte character)
         {
-            var data = GenerateMD5_2016(key);
-
             for (var i = 0; i < data.Length - 1; i++)
             {
                 var b1 = (data[i] >> 4) & 0xF;
@@ -103,22 +99,13 @@ namespace advent_of_code.Year2016.Day14
 
         private static byte[] GenerateMD5_2016(string key)
         {
-            if (_memoryGenerateMD5_2016.TryGetValue(key, out var md5)) { return md5; }
-
-            var resultHash = GenerateMD5(key);
+            var resultHash = MD5.HashData(System.Text.Encoding.ASCII.GetBytes(key));
             for (var i = 0; i < 2016; i++)
             {
                 resultHash = GenerateMD5(resultHash);
             }
 
-            _memoryGenerateMD5_2016[key] = resultHash;
             return resultHash;
-        }
-
-        private static byte[] GenerateMD5(string key)
-        {
-            var input = System.Text.Encoding.ASCII.GetBytes(key);
-            return MD5.HashData(input);
         }
 
         private static byte[] GenerateMD5(byte[] key)
