@@ -11,7 +11,6 @@ namespace advent_of_code.Year2015.Day19
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
             var startMolecule = input[^1];
-            replacements.Clear();
 
             foreach (var line in input)
             {
@@ -26,6 +25,8 @@ namespace advent_of_code.Year2015.Day19
 
             var (type, cost) = PathFinding.DoAStar(startMolecule, (molecule) => molecule == "e", NextMolecules,
                 (molecule) => molecule.Count(character => char.IsUpper(character)), 1);
+
+            replacements.Clear();
 
             return cost;
         }
