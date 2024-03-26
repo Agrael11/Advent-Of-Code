@@ -26,14 +26,7 @@ namespace advent_of_code.Year2016.Day16
                 var newChecksum = new StringBuilder(checksum.Length / 2);
                 for (var i = 0; i < checksum.Length - 1; i+=2)
                 {
-                    if (checksum[i] == checksum[i + 1])
-                    {
-                        newChecksum.Append('1');
-                    }
-                    else
-                    {
-                        newChecksum.Append('0');
-                    }
+                    newChecksum.Append(checksum[i] == checksum[i + 1] ? '1' : '0');
                 }
                 checksum = newChecksum.ToString();
             }

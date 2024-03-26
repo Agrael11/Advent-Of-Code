@@ -19,26 +19,19 @@ namespace advent_of_code.Year2016.Day16
 
         public static string GenerateChecksum(string input)
         {
-            var builder = new StringBuilder(input);
+            var checksum = input;
 
-            while (builder.Length % 2 == 0)
+            while (checksum.Length % 2 == 0)
             {
-                for (var i = 0; i < builder.Length - 1; i++)
+                var newChecksum = new StringBuilder(checksum.Length / 2);
+                for (var i = 0; i < checksum.Length - 1; i += 2)
                 {
-                    if (builder[i] == builder[i + 1])
-                    {
-                        builder.Remove(i, 2);
-                        builder.Insert(i, "1");
-                    }
-                    else
-                    {
-                        builder.Remove(i, 2);
-                        builder.Insert(i, "0");
-                    }
+                    newChecksum.Append(checksum[i] == checksum[i + 1] ? '1' : '0');
                 }
+                checksum = newChecksum.ToString();
             }
 
-            return builder.ToString();
+            return checksum;
         }
 
         public static string Extend(string input)
