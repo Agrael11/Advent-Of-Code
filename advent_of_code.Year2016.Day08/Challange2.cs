@@ -53,6 +53,7 @@ namespace advent_of_code.Year2016.Day08
                 }
             }
 
+            Screen = new Grid<bool>(0, 0);
             return Helpers.AsciiArtReader.Reader.ReadText(Screen, 1);
         }
     }

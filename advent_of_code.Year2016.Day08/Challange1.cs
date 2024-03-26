@@ -54,6 +54,7 @@ namespace advent_of_code.Year2016.Day08
                 }
             }
 
+            Screen = new Grid<bool>(ScreenWidth, ScreenHeight);
             return lightsOn;
         }
     }
