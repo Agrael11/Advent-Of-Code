@@ -13,7 +13,7 @@ namespace advent_of_code.Year2016.Day14
         {
             for (var i = 0; i < 256; i++)
             {
-                string str = Convert.ToHexString(new byte[]{ (byte)i}).ToLower();
+                var str = Convert.ToHexString(new byte[]{ (byte)i}).ToLower();
                 lookupTable[i] = ((byte)str[0], (byte)str[1]);
             }
 
