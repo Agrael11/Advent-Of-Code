@@ -7,9 +7,6 @@
 
         public static ushort DoChallange(string inputData)
         {
-            commands.Clear();
-            memory.Clear();
-
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
             foreach (var inputLine in input)
@@ -18,7 +15,12 @@
                 commands.Add(data[1].Trim(), data[0].Trim());
             }
 
-            return GetCable("a");
+            var cableA = GetCable("a");
+
+            commands.Clear();
+            memory.Clear();
+
+            return cableA;
         }
 
         private static ushort GetResult(string operation)
