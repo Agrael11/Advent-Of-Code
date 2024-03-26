@@ -33,8 +33,6 @@
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
-            paths.Clear();
-
             foreach (var inputLine in input)
             {
                 var data = inputLine.Split(' ');
@@ -70,6 +68,8 @@
                 var visited = new HashSet<string>();
                 shortest = Math.Max(shortest, TravelingSalesman(startPoint, ref visited));
             }
+
+            paths.Clear();
 
             return shortest;
         }
