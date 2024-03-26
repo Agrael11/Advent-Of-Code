@@ -11,7 +11,6 @@ namespace advent_of_code.Year2015.Day13
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
 
             var people = new HashSet<string>();
-            moods.Clear();
 
             foreach (var line in input)
             {
@@ -29,6 +28,8 @@ namespace advent_of_code.Year2015.Day13
                 var mood = CalculateTotalMood(arrangement);
                 bestMood = int.Max(mood, bestMood);
             }
+
+            moods.Clear();
 
             return bestMood;
         }
