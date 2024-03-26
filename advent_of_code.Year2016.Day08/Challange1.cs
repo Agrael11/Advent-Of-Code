@@ -6,7 +6,7 @@ namespace advent_of_code.Year2016.Day08
     {
         private static readonly int ScreenWidth = 50;
         private static readonly int ScreenHeight = 6;
-        private static readonly Grid<bool> Screen = new Grid<bool>(ScreenWidth, ScreenHeight);
+        private static Grid<bool> Screen = new Grid<bool>(ScreenWidth, ScreenHeight);
 
         public static int DoChallange(string inputData)
         {
