@@ -14,14 +14,16 @@ namespace advent_of_code.Year2016.Day13
         {
             favNum = long.Parse(inputData.Replace("\r", "").TrimEnd('\n'));
 
-            visited.Clear();
-            queue.Clear();
-
             var startPosition = (1, 1);
 
             FindAll(startPosition);
 
-            return visited.Count;
+            var visitedCount = visited.Count;
+
+            visited.Clear();
+            queue.Clear();
+
+            return visitedCount;
         }
 
         public static void FindAll((int x, int y) startState)
