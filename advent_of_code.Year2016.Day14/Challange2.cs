@@ -7,8 +7,16 @@ namespace advent_of_code.Year2016.Day14
         private static readonly Dictionary<string, byte[]> _memoryGenerateMD5_2016 = new Dictionary<string, byte[]>();
         private static readonly Dictionary<int, List<int>> _runsOf3 = new Dictionary<int, List<int>>();
 
+        private static readonly (byte l, byte h)[] lookupTable = new (byte l, byte h)[256];
+
         public static int DoChallange(string inputData)
         {
+            for (var i = 0; i < 256; i++)
+            {
+                string str = Convert.ToHexString(new byte[]{ (byte)i}).ToLower();
+                lookupTable[i] = ((byte)str[0], (byte)str[1]);
+            }
+
             var input = inputData.Replace("\r", "").TrimEnd('\n');
 
             var keys = 0;
@@ -100,7 +108,7 @@ namespace advent_of_code.Year2016.Day14
             var resultHash = GenerateMD5(key);
             for (var i = 0; i < 2016; i++)
             {
-                resultHash = GenerateMD5(Convert.ToHexString(resultHash).ToLower());
+                resultHash = GenerateMD5(resultHash);
             }
 
             _memoryGenerateMD5_2016[key] = resultHash;
@@ -111,6 +119,19 @@ namespace advent_of_code.Year2016.Day14
         {
             var input = System.Text.Encoding.ASCII.GetBytes(key);
             return MD5.HashData(input);
+        }
+
+        private static byte[] GenerateMD5(byte[] key)
+        {
+            var newKey = new byte[32];
+
+            for (var i = 0; i < 16; i++)
+            {
+                newKey[i * 2] = lookupTable[key[i]].l;
+                newKey[i * 2 + 1] = lookupTable[key[i]].h;
+            }
+
+            return MD5.HashData(newKey);
         }
     }
 }
