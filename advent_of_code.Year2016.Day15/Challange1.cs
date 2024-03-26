@@ -2,7 +2,7 @@
 {
     public static class Challange1
     {
-        public static List<(int count, int start)> disks = new List<(int count, int start)>();
+        private readonly static List<(int count, int start)> disks = new List<(int count, int start)>();
 
         public static int DoChallange(string inputData)
         {
