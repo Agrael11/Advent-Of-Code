@@ -7,14 +7,17 @@
         public static long DoChallange(string inputData)
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split('\n');
-            ingredients.Clear();
 
             foreach (var line in input)
             {
                 ingredients.Add(new Ingredient(line.Split(':')[1]));
             }
 
-            return GetBestScore(new List<int>());
+            var bestScore =GetBestScore (new List<int>());
+
+            ingredients.Clear();
+
+            return bestScore;
         }
 
         private static long GetBestScore(List<int> spoons)
