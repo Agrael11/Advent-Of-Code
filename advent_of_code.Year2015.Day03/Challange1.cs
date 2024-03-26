@@ -10,7 +10,6 @@
             inputData = inputData.Replace("\r", "").TrimEnd('\n');
 
             position = (0, 0);
-            visited.Clear();
 
             foreach (var character in inputData)
             {
@@ -23,7 +22,11 @@
                 }
             }
 
-            return visited.Count;
+            var visitedCount= visited.Count;
+
+            visited.Clear();
+
+            return visitedCount;
         }
 
         public static void Move(int x, int y)

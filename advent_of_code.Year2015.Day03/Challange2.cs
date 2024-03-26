@@ -26,7 +26,10 @@
                 }
             }
 
-            return visited.Count;
+            var visitedCount = visited.Count;
+            visited.Clear();
+
+            return visitedCount;
         }
 
         public static void Move(int x, int y)
