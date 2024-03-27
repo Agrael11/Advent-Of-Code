@@ -77,6 +77,8 @@ namespace advent_of_code.Helpers
             {
                 current.NextItem.PreviousItem = current.PreviousItem;
                 current.PreviousItem.NextItem = current.NextItem;
+                if (root == current) root = current.NextItem;
+                current = current.NextItem;
             }
             Length--;
         }
