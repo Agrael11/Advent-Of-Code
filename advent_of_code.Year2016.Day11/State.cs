@@ -200,13 +200,6 @@ namespace advent_of_code.Year2016.Day11
 
             if (Pairs.SequenceEqual(secondState.Pairs)) return true;
             return false;
-
-            for (var i = 0; i < 4; i++)
-            {
-                if (!Floors[i].Equals(secondState.Floors[i])) return false;
-            }
-
-            return true;
         }
 
         public override int GetHashCode()
