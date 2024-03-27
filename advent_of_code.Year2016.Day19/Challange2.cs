@@ -18,16 +18,16 @@ namespace advent_of_code.Year2016.Day19
                 linkedList.Add(i+1);
                 if (i == input / 2) targetElf = i + 1;
             }
-            while (targetElf != linkedList.GetCurrent())
+            if (targetElf != linkedList.GetCurrent())
             {
-                linkedList.GetNext();
+                while (targetElf != linkedList.GetNext()) ;
             }
 
             while (linkedList.Length > 1)
             {
                 linkedList.RemoveCurrent();
 
-                if (linkedList.Length % 2 == 0) linkedList.GetNext();
+                if (linkedList.Length % 2 == 0) linkedList.AdvanceCounter();
             }
 
             return linkedList.GetRoot();
