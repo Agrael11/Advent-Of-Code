@@ -28,7 +28,6 @@ namespace advent_of_code.Year2016.Day19
                 linkedList.RemoveCurrent();
 
                 if (linkedList.Length % 2 == 0) linkedList.GetNext();
-                else linkedList.GetCurrent();
             }
 
             return linkedList.GetRoot();
