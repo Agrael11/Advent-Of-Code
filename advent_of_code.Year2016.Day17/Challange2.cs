@@ -12,32 +12,7 @@ namespace advent_of_code.Year2016.Day17
         {
             secret = inputData.Replace("\r", "").Replace("\n", "");
 
-            var startPos = new Position(0, 0, "");
-
-            return FindLongest(startPos);
-        }
-
-        public static int FindLongest(Position startPoint)
-        {
-            var ToExplore = new Stack<Position>();
-            ToExplore.Push(startPoint);
-            var longest = int.MinValue;
-            while (ToExplore.Count > 0)
-            {
-                foreach (var position in GetNext(ToExplore.Pop()))
-                {
-                    if (IsEnd(position))
-                    {
-                        longest = int.Max(longest, position.Path.Length);
-                    }
-                    else
-                    {
-                        ToExplore.Push(position);
-                    }
-                }
-            }
-
-            return longest;
+            return PathFinding.DoDFSLongest(new Position(0, 0, ""), IsEnd, GetNext).length;
         }
 
         public static bool IsEnd(Position current)
