@@ -64,10 +64,20 @@ namespace advent_of_code.Helpers
             return current.Item;
         }
 
+        public void AdvanceCounter()
+        {
+            if (current is null) throw new Exception("Tried to get from empty list");
+            current = current.NextItem;
+        }
+
+        public void RewindCounter()
+        {
+            if (current is null) throw new Exception("Tried to get from empty list");
+            current = current.PreviousItem;
+        }
+
         public void RemoveCurrent()
         {
-            if (current is null) throw new Exception("Tried to remove from empty list");
-
             if (Length == 1)
             {
                 current = null;
@@ -75,6 +85,8 @@ namespace advent_of_code.Helpers
             }
             else
             {
+                if (current is null) throw new Exception("Tried to remove from empty list");
+
                 current.NextItem.PreviousItem = current.PreviousItem;
                 current.PreviousItem.NextItem = current.NextItem;
                 if (root == current) root = current.NextItem;

@@ -79,6 +79,18 @@ namespace advent_of_code.Helpers
             return current.Item;
         }
 
+        public void AdvanceCounter()
+        {
+            if (current is null) throw new Exception("Tried to get from empty list");
+            current = current.NextItem;
+        }
+
+        public void RewindCounter()
+        {
+            if (current is null) throw new Exception("Tried to get from empty list");
+            current = current.PreviousItem;
+        }
+
         public void RemoveCurrent()
         {
             if (current is null) throw new Exception("Tried to remove from empty list");
