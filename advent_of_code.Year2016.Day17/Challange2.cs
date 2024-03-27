@@ -19,12 +19,12 @@ namespace advent_of_code.Year2016.Day17
 
         public static int FindLongest(Position startPoint)
         {
-            var ToExplore = new Queue<Position>();
-            ToExplore.Enqueue(startPoint);
+            var ToExplore = new Stack<Position>();
+            ToExplore.Push(startPoint);
             var longest = int.MinValue;
             while (ToExplore.Count > 0)
             {
-                foreach (var position in GetNext(ToExplore.Dequeue()))
+                foreach (var position in GetNext(ToExplore.Pop()))
                 {
                     if (IsEnd(position))
                     {
@@ -32,7 +32,7 @@ namespace advent_of_code.Year2016.Day17
                     }
                     else
                     {
-                        ToExplore.Enqueue(position);
+                        ToExplore.Push(position);
                     }
                 }
             }
