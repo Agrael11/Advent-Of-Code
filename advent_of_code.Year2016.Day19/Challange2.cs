@@ -18,13 +18,17 @@ namespace advent_of_code.Year2016.Day19
                 linkedList.Add(i+1);
                 if (i == input / 2) targetElf = i + 1;
             }
+            while (targetElf != linkedList.GetCurrent())
+            {
+                linkedList.GetNext();
+            }
 
             while (linkedList.Length > 1)
             {
-                var newTarget = linkedList.GetAfter(targetElf);
-                linkedList.Remove(targetElf);
-                if (linkedList.Length % 2 == 0) newTarget = linkedList.GetAfter(newTarget);
-                targetElf = newTarget;
+                linkedList.RemoveCurrent();
+
+                if (linkedList.Length % 2 == 0) linkedList.GetNext();
+                else linkedList.GetCurrent();
             }
 
             return linkedList.GetRoot();
