@@ -13,10 +13,10 @@ namespace advent_of_code.Year2016.Day17
             secret = inputData.Replace("\r", "").Replace("\n","");
             
             var startPos = new Position(0, 0, "");
-            var result = PathFinding.DoDijkstra(startPos, IsEnd, GetNext);
-            if (result.type is null) throw new Exception("Wrong!");
+            var (type, length) = PathFinding.DoBFS(startPos, IsEnd, GetNext);
+            if (type is null) throw new Exception("Wrong!");
 
-            return result.type.Path;
+            return type.Path;
         }
 
         public static bool IsEnd(Position current)
@@ -24,13 +24,13 @@ namespace advent_of_code.Year2016.Day17
             return current.X == 3 && current.Y == 3;
         }
 
-        public static IEnumerable<(Position position, int cost)> GetNext(Position current)
+        public static IEnumerable<Position> GetNext(Position current)
         {
             var paths = GetDoors(secret + current.Path);
-            if (current.Y > 0 && paths[0]) yield return (new Position(current.X, current.Y - 1, current.Path + "U"), 1);
-            if (current.Y < 3 && paths[1]) yield return (new Position(current.X, current.Y + 1, current.Path + "D"), 1);
-            if (current.X > 0 && paths[2]) yield return (new Position(current.X - 1, current.Y, current.Path + "L"), 1);
-            if (current.X < 3 && paths[3]) yield return (new Position(current.X + 1, current.Y, current.Path + "R"), 1);
+            if (current.Y > 0 && paths[0]) yield return new Position(current.X, current.Y - 1, current.Path + "U");
+            if (current.Y < 3 && paths[1]) yield return new Position(current.X, current.Y + 1, current.Path + "D");
+            if (current.X > 0 && paths[2]) yield return new Position(current.X - 1, current.Y, current.Path + "L");
+            if (current.X < 3 && paths[3]) yield return new Position(current.X + 1, current.Y, current.Path + "R");
             yield break;
         }
 
