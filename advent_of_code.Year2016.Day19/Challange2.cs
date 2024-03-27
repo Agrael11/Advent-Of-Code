@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using advent_of_code.Helpers;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices.Marshalling;
 
 namespace advent_of_code.Year2016.Day19
@@ -9,41 +10,24 @@ namespace advent_of_code.Year2016.Day19
         {
             var input = int.Parse(inputData.Replace("\r", "").Replace("\n", ""));
 
-            var firstElf = new Elf(1);
-            var currentElf = firstElf;
-            var targetElf = firstElf;
+            var linkedList = new CircularLinkedList<int>();
+            var targetElf = -1;
 
-            for (var i = 1; i < input; i++)
+            for (var i = 0; i < input; i++)
             {
-                currentElf.NextElf = new Elf(i+1)
-                {
-                    PreviousElf = currentElf
-                };
-
-                currentElf = currentElf.NextElf;
-
-                if (i == input/2)
-                {
-                    targetElf = currentElf;
-                }
-            }
-            firstElf.PreviousElf = currentElf;
-            currentElf.NextElf = firstElf;
-            currentElf = firstElf;
-
-            while (currentElf.NextElf != currentElf)
-            {
-                targetElf.PreviousElf.NextElf = targetElf.NextElf;
-                targetElf.NextElf.PreviousElf = targetElf.PreviousElf;
-                targetElf = targetElf.NextElf;
-                
-                if (input % 2 == 1) targetElf = targetElf.NextElf;
-                input--;
-
-                currentElf = currentElf.NextElf;
+                linkedList.Add(i+1);
+                if (i == input / 2) targetElf = i + 1;
             }
 
-            return currentElf.ID;
+            while (linkedList.Length > 1)
+            {
+                var newTarget = linkedList.GetAfter(targetElf);
+                linkedList.Remove(targetElf);
+                if (linkedList.Length % 2 == 0) newTarget = linkedList.GetAfter(newTarget);
+                targetElf = newTarget;
+            }
+
+            return linkedList.GetRoot();
         }
 
 #pragma warning disable IDE0051 // Remove unused private members

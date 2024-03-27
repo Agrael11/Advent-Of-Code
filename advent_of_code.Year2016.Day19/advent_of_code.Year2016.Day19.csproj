@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\advent_of_code.Helpers\advent_of_code.Helpers.csproj" />
+  </ItemGroup>
+
 </Project>
