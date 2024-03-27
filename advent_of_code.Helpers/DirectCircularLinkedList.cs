@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace advent_of_code.Helpers
 {
-    public class CircularLinkedList<T> where T : notnull
+    public class DirectCircularLinkedList<T> where T : notnull
     {
         private CircularListItem<T>? root;
         public int Length { get; private set; }
+        private readonly Dictionary<T, CircularListItem<T>> list;
         private CircularListItem<T>? current;
 
 
-        public  CircularLinkedList()
+        public  DirectCircularLinkedList()
         {
             root = null;
             current = null;
+            list = new Dictionary<T, CircularListItem<T>>();
             Length = 0;
         }
 
@@ -46,8 +48,21 @@ namespace advent_of_code.Helpers
             {
                 root = newItem;
             }
+            list.Add(item, newItem);
             current = newItem;
             Length++;
+        }
+
+        public T GetAfter(T item)
+        {
+            if (current is null) throw new Exception("Tried to get from empty list");
+            return list[item].NextItem.Item;
+        }
+
+        public T GetBefore(T item)
+        {
+            if (current is null) throw new Exception("Tried to get from empty list");
+            return list[item].PreviousItem.Item;
         }
 
         public T GetPrevious()
@@ -72,12 +87,27 @@ namespace advent_of_code.Helpers
             {
                 current = null;
                 root = null;
+                list.Clear();
             }
             else
             {
                 current.NextItem.PreviousItem = current.PreviousItem;
                 current.PreviousItem.NextItem = current.NextItem;
+                if (root == current) root = root.NextItem;
+                list.Remove(current.Item);
             }
+            Length--;
+        }
+
+        public void Remove(T item)
+        {
+            if (Length == 0) throw new Exception("Tried to remove from empty list");
+            
+            list[item].PreviousItem.NextItem = list[item].NextItem;
+            list[item].NextItem.PreviousItem = list[item].PreviousItem;
+            if (root == list[item]) root = list[item].NextItem;
+            if (current == list[item]) current = list[item].NextItem;
+            list.Remove(item);
             Length--;
         }
     }
