@@ -4,9 +4,9 @@ namespace advent_of_code.Year2016.Day21
 {
     public class Passtring
     {
-        private List<char> data;
-        private int length = 0;
-        private Dictionary<int, int> table;
+        private readonly List<char> data;
+        private readonly int length = 0;
+        private readonly Dictionary<int, int> table;
 
         public Passtring(string input)
         {
