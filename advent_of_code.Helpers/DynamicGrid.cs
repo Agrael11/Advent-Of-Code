@@ -1,6 +1,8 @@
-﻿namespace advent_of_code.Helpers
+﻿using System.Collections;
+
+namespace advent_of_code.Helpers
 {
-    public class DynamicGrid<T>(int width, int height)
+    public class DynamicGrid<T>(int width, int height) : IEnumerable<T>
     {
         private int _width = width;
         private int _height = height;
@@ -106,6 +108,16 @@
                 }
             }
             return newGrid;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new DynamicGridEnumerator<T>(cells, _width, _height);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

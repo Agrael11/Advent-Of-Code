@@ -1,6 +1,8 @@
-﻿namespace advent_of_code.Helpers
+﻿using System.Collections;
+
+namespace advent_of_code.Helpers
 {
-    public class Grid<T>(int width, int height)
+    public class Grid<T>(int width, int height) : IEnumerable<T>
     {
         public int Width { get; private set; } = width;
         public int Height { get; private set; } = height;
@@ -70,6 +72,17 @@
             {
                 cells[i, rowIndex] = newRowData[i];
             }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (var cell in cells)
+                yield return cell;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return cells.GetEnumerator();
         }
     }
 }
