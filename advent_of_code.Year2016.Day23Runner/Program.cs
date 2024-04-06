@@ -41,13 +41,15 @@ namespace advent_of_code.Year2016.Day23Runner
 
                 if (File.Exists(arguments.BinPath))
                 {
-                    Console.Write($"File {arguments.MrasmPath} already exists. Overwrite? [Y/N]");
+                    Console.Write($"File {arguments.MrasmPath} already exists. Overwrite? [Y/N]: ");
                     while (true)
                     {
                         var answer = Console.ReadKey().KeyChar;
 
                         if (answer == 'y' || answer == 'Y')
                         {
+                            Console.WriteLine();
+                            Console.WriteLine();
                             break;
                         }
 
@@ -55,7 +57,7 @@ namespace advent_of_code.Year2016.Day23Runner
                         {
                             return;
                         }
-                        Console.ReadLine();
+                        Console.WriteLine();
                     }
 
                 }
@@ -80,6 +82,7 @@ namespace advent_of_code.Year2016.Day23Runner
                 cpu.Compile(File.ReadAllText(arguments.MrasmPath).Replace("\r", "").TrimEnd('\n').Split("\n"));
                 cpu.Run();
 
+                Console.WriteLine();
                 Console.WriteLine($"Done: A={cpu.Registers[0]}; B={cpu.Registers[1]}; C={cpu.Registers[2]}; D={cpu.Registers[3]};");
 
                 return;
@@ -97,6 +100,7 @@ namespace advent_of_code.Year2016.Day23Runner
                 cpu.LoadBinary(arguments.BinPath);
                 cpu.Run();
 
+                Console.WriteLine();
                 Console.WriteLine($"Done: A={cpu.Registers[0]}; B={cpu.Registers[1]}; C={cpu.Registers[2]}; D={cpu.Registers[3]};");
             }
         }
