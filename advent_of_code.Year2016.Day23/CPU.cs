@@ -205,7 +205,7 @@ namespace advent_of_code.Year2016.Day23
         [Hack("Detects multiplication pattern and solves it using math instead")]
         private bool TryApplyMultiplicationHack()
         {
-            if (PC + 9 >= ProgramRAM.Count) return false;
+            if (PC + 12 >= ProgramRAM.Count) return false;
             if (InstructionTypes[ProgramRAM[PC + 12]].name != "jnz" || ProgramRAM[PC + 14] != -5) return false;
             if (InstructionTypes[ProgramRAM[PC + 9]].name != "dec") return false;
             if (InstructionTypes[ProgramRAM[PC + 6]].name != "jnz" || ProgramRAM[PC + 8] != -2) return false;
