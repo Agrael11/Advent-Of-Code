@@ -6,8 +6,11 @@ namespace advent_of_code.Year2016.Day23Runner
 {
     public static class Program
     {
-        private static bool First = true;
-        
+        private static int? MaxOutput = null;
+        private static StreamWriter? LogFile = null;
+        private static int Outputs = 0;
+        private static bool Running = true;
+
         public static void Main(string[] args)
         {
             var arguments = new Arguments(args);
@@ -75,8 +78,8 @@ namespace advent_of_code.Year2016.Day23Runner
                 return;
             }
 
-            var running = true;
-
+            var truecpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D, OutputInterrupt);
+            
             if (arguments.MrasmPath is not null)
             {
                 if (!File.Exists(arguments.MrasmPath))
@@ -85,17 +88,9 @@ namespace advent_of_code.Year2016.Day23Runner
                     return;
                 }
 
-                var cpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D, OutputInterrupt);
-                cpu.Compile(File.ReadAllText(arguments.MrasmPath).Replace("\r", "").TrimEnd('\n').Split("\n"));
-                cpu.Run(ref running);
-
-                Console.WriteLine();
-                Console.WriteLine($"Done: A={cpu.Registers[0]}; B={cpu.Registers[1]}; C={cpu.Registers[2]}; D={cpu.Registers[3]};");
-
-                return;
+                truecpu.Compile(File.ReadAllText(arguments.MrasmPath).Replace("\r", "").TrimEnd('\n').Split("\n"));
             }
-
-            if (arguments.BinPath is not null)
+            else if (arguments.BinPath is not null)
             {
                 if (!File.Exists(arguments.BinPath))
                 {
@@ -104,14 +99,53 @@ namespace advent_of_code.Year2016.Day23Runner
                 }
                 Console.WriteLine();
 
-                var cpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D, OutputInterrupt);
-                cpu.LoadBinary(arguments.BinPath);
-                cpu.Run(ref running);
-
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine($"Done: A={cpu.Registers[0]}; B={cpu.Registers[1]}; C={cpu.Registers[2]}; D={cpu.Registers[3]};");
+                truecpu.LoadBinary(arguments.BinPath);
             }
+
+            if (arguments.OutputPath is not null)
+            {
+                if (!IsFilePathValid(arguments.OutputPath))
+                {
+                    Console.WriteLine("Log path not valid, ignoring.");
+                }
+                if (File.Exists(arguments.OutputPath))
+                {
+                    Console.Write($"File {arguments.OutputPath} already exists. Overwrite? [Y/N]: ");
+                    while (true)
+                    {
+                        var answer = Console.ReadKey().KeyChar;
+
+                        if (answer == 'y' || answer == 'Y')
+                        {
+                            File.Delete(arguments.OutputPath);
+                            LogFile = new StreamWriter(arguments.OutputPath, false);
+                            break;
+                        }
+
+                        if (answer == 'n' || answer == 'N')
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine();
+                            break;
+                        }
+                        Console.WriteLine();
+                    }
+                }
+                else
+                {
+                    LogFile = new StreamWriter(arguments.OutputPath, false);
+                }
+            }
+
+            if (arguments.MaxOutput != -1) MaxOutput = arguments.MaxOutput;
+            else MaxOutput = null;
+
+            truecpu.Run(ref Running);
+
+            LogFile?.Close();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine($"Done: A={truecpu.Registers[0]}; B={truecpu.Registers[1]}; C={truecpu.Registers[2]}; D={truecpu.Registers[3]};");
         }
 
         private static void ShowHelp()
@@ -126,13 +160,26 @@ namespace advent_of_code.Year2016.Day23Runner
             Console.WriteLine("-bin <file_path>    Specifies binary file path.");
             Console.WriteLine("-mrasm <file_path>  Specifies MRASM file path.");
             Console.WriteLine("-compile            Displays help information.");
+            Console.WriteLine("-log                Saves output as log.");
+            Console.WriteLine("-maxoutput          Selects maximum output.");
             Console.WriteLine("-h                  Displays help information.");
         }
 
         public static void OutputInterrupt(int value)
         {
-            Console.Write((First ? "" : "; ") + value);
-            First = false;
+            var toWrite = (Outputs == 0 ? "" : "; ") + value;
+            Outputs++;
+            if (Outputs > MaxOutput) Running = false;
+
+
+            if (LogFile is not null)
+            {
+                LogFile.Write(toWrite);
+            }
+            else
+            {
+                Console.Write(toWrite);
+            }
         }
 
         public static bool IsFilePathValid(string filePath)

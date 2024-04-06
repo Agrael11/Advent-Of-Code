@@ -8,8 +8,10 @@
         public int D { get; private set; }
         public string? BinPath { get; private set; }
         public string? MrasmPath { get; private set; }
+        public string? OutputPath { get; private set; }
         public bool HelpRequested { get; private set; }
         public bool CompilationRequested { get; private set; }
+        public int MaxOutput { get; private set; }
 
         public Arguments(string[] args)
         {
@@ -42,11 +44,17 @@
                         case "-mrasm":
                             MrasmPath = i + 1 < args.Length && !args[i + 1].StartsWith('-') ? args[i + 1] : null;
                             break;
+                        case "-log":
+                            OutputPath = i + 1 < args.Length && !args[i + 1].StartsWith('-') ? args[i + 1] : null;
+                            break;
                         case "-h":
                             HelpRequested = true;
                             break;
                         case "-compile":
                             CompilationRequested = true;
+                            break;
+                        case "-maxoutput":
+                            MaxOutput = int.TryParse(args[i + 1], out var maxout) ? maxout : 0;
                             break;
                         default:
                             break;
