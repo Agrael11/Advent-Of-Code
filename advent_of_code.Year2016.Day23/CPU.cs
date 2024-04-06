@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 namespace advent_of_code.Year2016.Day23
 {
 
-    internal class CPU
+    public class CPU
     {
         /*
         * 0 = Cpy VALUE VALUE (3 length) - INVALID
@@ -94,13 +94,13 @@ namespace advent_of_code.Year2016.Day23
 
         public void LoadBinary(string file)
         {
-            using var writer = new BinaryReader(File.Open(file, FileMode.Open));
+            using var reader = new BinaryReader(File.Open(file, FileMode.Open));
             ProgramRAM.Clear();
-            while (writer.PeekChar() != -1)
+            while (reader.BaseStream.Position < reader.BaseStream.Length)
             {
-                ProgramRAM.Add(writer.ReadInt32());
+                ProgramRAM.Add(reader.ReadInt32());
             }
-            writer.Close();
+            reader.Close();
         }
 
         public void Compile(string[] instructions)
