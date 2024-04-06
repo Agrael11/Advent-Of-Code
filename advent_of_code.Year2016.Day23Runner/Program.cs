@@ -1,5 +1,4 @@
 ﻿using advent_of_code.Year2016.Day23;
-using System.Diagnostics.Contracts;
 
 namespace advent_of_code.Year2016.Day23Runner
 {
@@ -161,4 +160,4 @@ namespace advent_of_code.Year2016.Day23Runner
             }
         }
     }
-    }
+}
