@@ -67,8 +67,8 @@
             ToggleTable[13] = 11;
             ToggleTable[30] = 10;
             ToggleTable[31] = 11;
-            //ToggleTable[40] = 10;
-            //ToggleTable[41] = 11;
+            ToggleTable[40] = 10;
+            ToggleTable[41] = 11;
 
             //3 long:
             ToggleTable[0] = 20;
