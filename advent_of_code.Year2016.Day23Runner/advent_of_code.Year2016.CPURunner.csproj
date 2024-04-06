@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\advent_of_code.Year2016.Day23\advent_of_code.Year2016.Day23.csproj" />
+    <ProjectReference Include="..\advent_of_code.Year2016.Day25\advent_of_code.Year2016.Day25.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,13 @@
-﻿using advent_of_code.Year2016.Day23;
+﻿using advent_of_code.Year2016.Day25;
+using System.Runtime.CompilerServices;
+using System.Security.AccessControl;
 
 namespace advent_of_code.Year2016.Day23Runner
 {
     public static class Program
     {
+        private static bool First = true;
+        
         public static void Main(string[] args)
         {
             var arguments = new Arguments(args);
@@ -62,7 +66,7 @@ namespace advent_of_code.Year2016.Day23Runner
 
                 }
 
-                var cpu = new CPU(0, 0, 0, 0);
+                var cpu = new CPU(0, 0, 0, 0, OutputInterrupt);
                 cpu.Compile(File.ReadAllText(arguments.MrasmPath).Replace("\r", "").TrimEnd('\n').Split("\n"));
                 cpu.SaveBinary(arguments.BinPath);
 
@@ -70,6 +74,9 @@ namespace advent_of_code.Year2016.Day23Runner
 
                 return;
             }
+
+            var running = true;
+
             if (arguments.MrasmPath is not null)
             {
                 if (!File.Exists(arguments.MrasmPath))
@@ -78,9 +85,9 @@ namespace advent_of_code.Year2016.Day23Runner
                     return;
                 }
 
-                var cpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D);
+                var cpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D, OutputInterrupt);
                 cpu.Compile(File.ReadAllText(arguments.MrasmPath).Replace("\r", "").TrimEnd('\n').Split("\n"));
-                cpu.Run();
+                cpu.Run(ref running);
 
                 Console.WriteLine();
                 Console.WriteLine($"Done: A={cpu.Registers[0]}; B={cpu.Registers[1]}; C={cpu.Registers[2]}; D={cpu.Registers[3]};");
@@ -95,11 +102,13 @@ namespace advent_of_code.Year2016.Day23Runner
                     Console.WriteLine($"File {arguments.BinPath} doesn't exist.");
                     return;
                 }
+                Console.WriteLine();
 
-                var cpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D);
+                var cpu = new CPU(arguments.A, arguments.B, arguments.C, arguments.D, OutputInterrupt);
                 cpu.LoadBinary(arguments.BinPath);
-                cpu.Run();
+                cpu.Run(ref running);
 
+                Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine($"Done: A={cpu.Registers[0]}; B={cpu.Registers[1]}; C={cpu.Registers[2]}; D={cpu.Registers[3]};");
             }
@@ -118,6 +127,12 @@ namespace advent_of_code.Year2016.Day23Runner
             Console.WriteLine("-mrasm <file_path>  Specifies MRASM file path.");
             Console.WriteLine("-compile            Displays help information.");
             Console.WriteLine("-h                  Displays help information.");
+        }
+
+        public static void OutputInterrupt(int value)
+        {
+            Console.Write((First ? "; " : "") + value);
+            First = false;
         }
 
         public static bool IsFilePathValid(string filePath)
