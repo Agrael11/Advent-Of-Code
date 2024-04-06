@@ -131,7 +131,7 @@ namespace advent_of_code.Year2016.Day23Runner
 
         public static void OutputInterrupt(int value)
         {
-            Console.Write((First ? "; " : "") + value);
+            Console.Write((First ? "" : "; ") + value);
             First = false;
         }
 
