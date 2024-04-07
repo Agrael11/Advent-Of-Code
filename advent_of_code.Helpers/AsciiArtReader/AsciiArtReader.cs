@@ -31,7 +31,7 @@ namespace advent_of_code.Helpers.AsciiArtReader
         {
             var font = fontType switch
             { 
-                FontTypes.Type_A => new FontData(Path.Join("AsciiArtReader", "fonttypeA.txt")),
+                FontTypes.Type_A => new FontData(FontData.TypeA, false),
                 _ => throw new Exception("Wrong font Type"),
             };
 

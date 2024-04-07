@@ -13,10 +13,20 @@ namespace advent_of_code.Helpers.AsciiArtReader
         public int Height { get; private set; }
         public readonly List<CharacterDefinition> definitions;
 
-        public FontData(string fontFile)
+        public static string TypeA = "4,6\r\n\r\nF\r\n####\r\n#***\r\n###*\r\n#***\r\n#***\r\n#***\r\n\r\nG\r\n*##*\r\n#**#\r\n#***\r\n#*##\r\n#**#\r\n*###\r\n\r\nH\r\n#**#\r\n#**#\r\n####\r\n#**#\r\n#**#\r\n#**#\r\n\r\nO\r\n*##*\r\n#**#\r\n#**#\r\n#**#\r\n#**#\r\n*##*\r\n\r\nP\r\n###*\r\n#**#\r\n#**#\r\n###*\r\n#***\r\n#***\r\n\r\nS\r\n*###\r\n#***\r\n#***\r\n*##*\r\n***#\r\n###*\r\n\r\nZ\r\n####\r\n***#\r\n**#*\r\n*#**\r\n#***\r\n####";
+
+        public FontData(string fontFile, bool file)
         {
             definitions = new List<CharacterDefinition>();
-            var fontData = FileHandling.ReadFile(fontFile).Replace("\r","").Split("\n\n");
+            string[] fontData;
+            if (file)
+            {
+                fontData = FileHandling.ReadFile(fontFile).Replace("\r", "").Split("\n\n");
+            }
+            else
+            {
+                fontData = fontFile.Replace("\r", "").Split("\n\n");
+            }
             var header = fontData[0].Split(',');
             Width = int.Parse(header[0]);
             Height = int.Parse(header[1]);
