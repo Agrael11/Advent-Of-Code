@@ -16,10 +16,10 @@
         * 21 = Jnz VALUE REGISTER (3 length)
         * 22 = Jnz REGISTER VALUE (3 length)
         * 23 = Jnz REGISTER REGISTER (3 length)
-        * 30 = Tgl REGISTER (2 length)
-        * 31 = Tgl VALUE (2 length)
-        * 40 = Out REGISTER (2 length)
-        * 41 = Out VALUE (2 length)
+        * 30 = Tgl VALUE (2 length)
+        * 31 = Tgl REGISTER (2 length)
+        * 40 = Out VALUE (2 length)
+        * 41 = Out REGISTER (2 length)
         * 99 = Nop (0 length)
         */
 
