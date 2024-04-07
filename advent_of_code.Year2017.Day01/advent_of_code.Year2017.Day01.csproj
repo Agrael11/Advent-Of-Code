@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\advent_of_code.Year2017.Day01\advent_of_code.Year2017.Day01.csproj" />
-  </ItemGroup>
-
 </Project>
