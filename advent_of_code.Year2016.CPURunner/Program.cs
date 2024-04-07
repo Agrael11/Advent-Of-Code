@@ -1,8 +1,6 @@
 ﻿using advent_of_code.Year2016.Day25;
-using System.Runtime.CompilerServices;
-using System.Security.AccessControl;
 
-namespace advent_of_code.Year2016.Day23Runner
+namespace advent_of_code.Year2016.CPURunner
 {
     public static class Program
     {

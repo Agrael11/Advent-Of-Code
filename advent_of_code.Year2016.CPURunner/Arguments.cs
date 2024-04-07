@@ -1,4 +1,4 @@
-﻿namespace advent_of_code.Year2016.Day23Runner
+﻿namespace advent_of_code.Year2016.CPURunner
 {
     public struct Arguments
     {
