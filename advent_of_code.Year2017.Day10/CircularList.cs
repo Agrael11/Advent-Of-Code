@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace advent_of_code.Year2017.Day10
 {
-    internal class CircularList
+    internal class CircularList(List<int> numbers)
     {
-        private List<int> numbers;
-
-        public CircularList(List<int> numbers)
-        {
-            this.numbers = numbers;
-        }
+        private readonly List<int> numbers = numbers;
 
         public string GetDenseHash()
         {
