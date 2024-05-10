@@ -10,7 +10,6 @@ namespace advent_of_code.Year2017.Day09
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n');
 
-            var builder = new StringBuilder();
             var inGarbage = false;
             var garbage = 0;
 
