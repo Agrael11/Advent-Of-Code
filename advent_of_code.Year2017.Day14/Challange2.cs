@@ -26,15 +26,15 @@
         {
             var groups = 0;
 
-            var queue = new Queue<(int x, int y)>();
+            var stack = new Stack<(int x, int y)>();
             while (items.Count > 0)
             {
-                queue.Enqueue(items.First());
+                stack.Push(items.First());
                 groups++;
 
-                while (queue.Count > 0)
+                while (stack.Count > 0)
                 {
-                    var current = queue.Dequeue();
+                    var current = stack.Pop();
                     for (var xOff = -1; xOff <= 1; xOff++)
                     {
                         for (var yOff = -1; yOff <= 1; yOff++)
@@ -44,7 +44,7 @@
                             var y = current.y + yOff;
                             if (items.Contains((x,y)))
                             {
-                                queue.Enqueue((x, y));
+                                stack.Push((x, y));
                             }
                         }
                     }
