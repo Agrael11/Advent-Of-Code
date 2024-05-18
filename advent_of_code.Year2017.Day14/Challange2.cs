@@ -2,6 +2,8 @@
 {
     public static class Challange2
     {
+        private static readonly (int x, int y)[] NeighboursOffsets = new (int x, int y)[] { (1, 0), (-1, 0), (0, 1), (0, -1) };
+
         public static int DoChallange(string inputData)
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n');
@@ -35,17 +37,13 @@
                 while (stack.Count > 0)
                 {
                     var current = stack.Pop();
-                    for (var xOff = -1; xOff <= 1; xOff++)
+                    foreach (var offset in NeighboursOffsets)
                     {
-                        for (var yOff = -1; yOff <= 1; yOff++)
+                        var x = current.x + offset.x;
+                        var y = current.y + offset.y;
+                        if (items.Contains((x,y)))
                         {
-                            if ((xOff == 0 && yOff == 0) || (xOff != 0 && yOff != 0)) continue;
-                            var x = current.x + xOff;
-                            var y = current.y + yOff;
-                            if (items.Contains((x,y)))
-                            {
-                                stack.Push((x, y));
-                            }
+                            stack.Push((x, y));
                         }
                     }
                     items.Remove(current);
