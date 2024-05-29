@@ -2,8 +2,6 @@
 {
     public static class Challange2
     {
-        private static readonly int ExtraSteps = 100; 
-
         public static int DoChallange(string inputData)
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split("\n");
@@ -15,34 +13,44 @@
                 particles.Add(particle);
             }
 
-            var extra = 0;
-            while (extra < ExtraSteps)
+            for (var i = particles.Count - 1; i >= 0; i--)
             {
-                extra++;
-                foreach (var particle in particles)
+                var collides = false;
+                for (var j = i-1; j >= 0; j--)
                 {
-                    particle.SimulateStep();
-                }
-
-                for (var i = particles.Count-1; i >= 0; i--)
-                {
-                    var particle = particles[i];
-                    var collided = false;
-                    for (var j = i-1; j >= 0; j--)
+                    if (particles[i].Collides(particles[j]))
                     {
-                        if (particle.Collides(particles[j]))
+                        collides = true;
+                        particles.RemoveAt(j);
+                        i--;
+                    }
+                    else
+                    {
+                        var t = particles[i].CollideTime(particles[j]);
+                        if (t > 0)
                         {
-                            collided = true;
-                            particles.RemoveAt(j);
-                            i--;
+                            var ok = true;
+                            for (var k = j-1; k >= 0; k--)
+                            {
+                                var t2 = particles[j].CollideTime(particles[k]);
+                                if (t2 > 0 && t2 < t)
+                                {
+                                    ok = false;
+                                    break;
+                                }
+                            }
+                            if (ok)
+                            {
+                                collides = true;
+                                particles.RemoveAt(j);
+                                i--;
+                            }
                         }
                     }
-                    if (collided)
-                    {
-                        particles.RemoveAt(i);
-                        extra = 0;      
-                        continue;
-                    }
+                }
+                if (collides)
+                {
+                    particles.RemoveAt(i);
                 }
             }
 
