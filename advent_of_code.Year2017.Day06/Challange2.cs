@@ -17,7 +17,7 @@
 
             var known = new HashSet<string>();
             known.Add(string.Join(' ', banks));
-            var target = "";
+            string target;
 
             var cycles = 1;
 
