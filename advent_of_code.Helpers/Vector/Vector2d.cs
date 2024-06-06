@@ -38,6 +38,18 @@
             return Math.Sqrt(s1 * s1 +s2 * s2);
         }
 
+        public static double ManhattanDistance(Vector2d a, double x, double y)
+        {
+            return Math.Abs(a.X - x) + Math.Abs(a.Y - y);
+        }
+
+        public static double Distance(Vector2d a, double x, double y)
+        {
+            var s1 = a.X - x;
+            var s2 = a.Y - y;
+            return Math.Sqrt(s1 * s1 + s2 * s2);
+        }
+
         public double GetMagnitude()
         {
             return Math.Sqrt(X*X + Y*Y);

@@ -40,6 +40,19 @@
             return Math.Sqrt(s1 * s1 + s2 * s2 + s3*s3);
         }
 
+        public static long ManhattanDistance(Vector3l a, long x, long y, long z)
+        {
+            return Math.Abs(a.X - x) + Math.Abs(a.Y - y) + Math.Abs(a.Z - z);
+        }
+
+        public static double Distance(Vector3l a, long x, long y, long z)
+        {
+            var s1 = a.X - x;
+            var s2 = a.Y - y;
+            var s3 = a.Z - z;
+            return Math.Sqrt(s1 * s1 + s2 * s2 + s3 * s3);
+        }
+
         public double GetMagnitude()
         {
             return Math.Sqrt(X*X + Y*Y + Z*Z);

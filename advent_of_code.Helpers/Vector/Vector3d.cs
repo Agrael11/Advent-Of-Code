@@ -1,4 +1,6 @@
-﻿namespace advent_of_code.Helpers
+﻿using System.Security.Cryptography;
+
+namespace advent_of_code.Helpers
 {
     public class Vector3d
     {
@@ -37,7 +39,20 @@
             var s1 = a.X - b.X;
             var s2 = a.Y - b.Y;
             var s3 = a.Z - b.Z;
-            return Math.Sqrt(s1 * s1 + s2 * s2 + s3*s3);
+            return Math.Sqrt(s1 * s1 + s2 * s2 + s3 * s3);
+        }
+
+        public static double ManhattanDistance(Vector3d a, double x, double y, double z)
+        {
+            return Math.Abs(a.X - x) + Math.Abs(a.Y - y) + Math.Abs(a.Z - z);
+        }
+
+        public static double Distance(Vector3d a, double x, double y, double z)
+        {
+            var s1 = a.X - x;
+            var s2 = a.Y - y;
+            var s3 = a.Z - z;
+            return Math.Sqrt(s1 * s1 + s2 * s2 + s3 * s3);
         }
 
         public double GetMagnitude()
