@@ -36,9 +36,6 @@
                     frequencies.Add(frequency);
                 }
             }
-
-
-            return -1;
         }
     }
 }
