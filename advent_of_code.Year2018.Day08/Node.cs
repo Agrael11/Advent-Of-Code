@@ -24,35 +24,43 @@ namespace advent_of_code.Year2018.Day08
                 else
                 {
                     var sum = 0;
+
                     foreach(var indexer in Metadata)
                     {
-                        if (indexer <= Nodes.Count)
-                        {
-                            sum += Nodes[indexer-1].Value;
-                        }
+                        if (indexer > Nodes.Count && indexer <= 0)
+                            continue;
+
+                        sum += Nodes[indexer-1].Value;
                     }
+
                     return sum;
                 }
             }
         }
 
-        public static Node Parse(ref List<int> numbers, int position)
+        public static Node Parse(ref List<int> numbers)
         {
+            var position = 0;
             return Parse(ref numbers, ref position);
         }
+
         public static Node Parse(ref List<int> numbers, ref int position)
         {
-            var node = new Node();
             var nodeCount = numbers[position++];
             var metadataCount = numbers[position++];
+
+            var node = new Node();
+
             for (var i = 0; i < nodeCount; i++)
             {
                 node.Nodes.Add(Parse(ref numbers, ref position));
             }
+
             for (var i = 0; i < metadataCount; i++)
             {
                 node.Metadata.Add(numbers[position++]);
             }
+
             return node;
         }
     }
