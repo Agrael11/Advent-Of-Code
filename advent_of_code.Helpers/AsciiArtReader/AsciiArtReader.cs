@@ -8,7 +8,7 @@ namespace advent_of_code.Helpers.AsciiArtReader
 {
     public static class Reader
     {
-        public enum FontTypes { Type_A };
+        public enum FontTypes { Type_A, Type_B };
         public static string ReadText(string input, int spacing, FontTypes fontType, char enabled = '#', char lineSplit = '\n')
         {
             var lines = input.Split(lineSplit);
@@ -30,8 +30,9 @@ namespace advent_of_code.Helpers.AsciiArtReader
         public static string ReadText(Grid<bool> input, int spacing, FontTypes fontType = FontTypes.Type_A)
         {
             var font = fontType switch
-            { 
+            {
                 FontTypes.Type_A => new FontData(FontData.TypeA, false),
+                FontTypes.Type_B => new FontData(FontData.TypeB, false),
                 _ => throw new Exception("Wrong font Type"),
             };
 
