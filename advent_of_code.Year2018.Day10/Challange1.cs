@@ -30,7 +30,8 @@ namespace advent_of_code.Year2018.Day10
                 results[(int)(point.Position.X - left), (int)(point.Position.Y - top)] = true;
             }
 
-            return Helpers.AsciiArtReader.Reader.ReadText(results, 2, Helpers.AsciiArtReader.Reader.FontTypes.Type_B);
+            var result = Helpers.AsciiArtReader.Reader.ReadText(results, 2, Helpers.AsciiArtReader.Reader.FontTypes.Type_B);
+            return $"{result.Text}{(result.FoundAll ? "" : " (contains unknown characters)")}";
         }
     }
 }

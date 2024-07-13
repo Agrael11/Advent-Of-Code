@@ -56,7 +56,7 @@ namespace advent_of_code.Year2016.Day08
             var result = Helpers.AsciiArtReader.Reader.ReadText(Screen, 1);
             Screen = new Grid<bool>(0, 0);
 
-            return result;
+            return $"{result.Text}{(result.FoundAll?"":" (contains unknown characters)")}";
         }
     }
 }
