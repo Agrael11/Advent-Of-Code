@@ -53,6 +53,10 @@ namespace advent_of_code.Helpers.AsciiArtReader
                         break;
                     }
                 }
+                if (!found)
+                {
+                    result += "?";
+                }
                 foundAll |= found;
                 pos += spacing + font.Width;
             }
