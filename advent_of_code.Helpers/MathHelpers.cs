@@ -54,5 +54,16 @@ namespace advent_of_code.Helpers
             return count;
         }
         #endregion
+
+        public static int LargestDivisor(int n)
+        {
+            if (n == 0) return 0;
+            if (n % 2 == 0) return n/2;
+            for (var i = 3; 3 < (n/2); i += 2)
+            {
+                if (n % i == 0) return n/i;
+            }
+            return 1;
+        }
     }
 }
