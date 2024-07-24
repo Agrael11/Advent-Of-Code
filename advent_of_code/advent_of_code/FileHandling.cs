@@ -61,5 +61,15 @@ namespace advent_of_code
             var privateFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, file);
             File.WriteAllBytes(privateFile, content);
         }
+
+        public static void WriteToFile(Stream stream, string content)
+        {
+            new StreamWriter(stream).Write(content);
+        }
+
+        public static void WriteToFile(Stream stream, byte[] content)
+        {
+            new StreamWriter(stream).Write(content);
+        }
     }
 }
