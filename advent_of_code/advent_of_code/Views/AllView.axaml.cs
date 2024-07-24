@@ -1,10 +1,17 @@
 using advent_of_code.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Splat;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace advent_of_code.Views
@@ -28,6 +35,7 @@ namespace advent_of_code.Views
         private int lastDay = -1;
         private int daysInRow = 0;
         private BorderedText? lastBorderedText;
+        private readonly List<(int year, int day, int part, string result, string time)> results = [];
 
         public void Start(object sender, RoutedEventArgs e)
         {
@@ -51,6 +59,7 @@ namespace advent_of_code.Views
             }
             RunAll.IsEnabled = false;
             ReturnBack.IsEnabled = false;
+            XmlExport.IsEnabled = false;
 
             _ = Task.Run(RunChallange);
         }
@@ -65,12 +74,118 @@ namespace advent_of_code.Views
             }
         }
 
+        public void Export(object sender, RoutedEventArgs e)
+        {
+            RunAll.IsEnabled = false;
+            ReturnBack.IsEnabled = false;
+            XmlExport.IsEnabled = false;
+            SaveExcel();
+        }
+
+        public async void SaveExcel()
+        {
+            var workbook = new ClosedXML.Excel.XLWorkbook();
+            foreach (var year in results.Select(t => t.year).Distinct().OrderBy(y => y))
+            {
+                var worksheet = workbook.Worksheets.Add("Advent of Results " + year);
+                worksheet.Cell("B2").Value = "Advent of Results " + year;
+                var range = worksheet.Range("B2:F2");
+                range.Merge();
+                range.Style.Alignment.Horizontal = ClosedXML.Excel.XLAlignmentHorizontalValues.Center;
+                worksheet.Cell("B3").Value = "Day";
+                worksheet.Cell("C3").Value = "Part 1";
+                worksheet.Cell("E3").Value = "Part 2";
+                range = worksheet.Range("C3:D3");
+                range.Merge();
+                range.Style.Alignment.Horizontal = ClosedXML.Excel.XLAlignmentHorizontalValues.Center;
+                range = worksheet.Range("E3:F3");
+                range.Merge();
+                range.Style.Alignment.Horizontal = ClosedXML.Excel.XLAlignmentHorizontalValues.Center;
+                worksheet.Cell("C4").Value = "Result";
+                worksheet.Cell("D4").Value = "Time";
+                worksheet.Cell("E4").Value = "Result";
+                worksheet.Cell("F4").Value = "Time";
+                var row = 5;
+                foreach (var day in results.Where(t => t.year == year).Select(t => t.day).Distinct().OrderBy(d => d))
+                {
+                    (_, _, _, var result1, var time1) = results.Where(t => (t.year == year && t.day == day && t.part == 0)).First();
+                    (_, _, _, var result2, var time2) = results.Where(t => (t.year == year && t.day == day && t.part == 1)).First();
+                    worksheet.Cell("B" + row).Value = day;
+                    if (long.TryParse(result1, out var result1long))
+                    {
+                        worksheet.Cell("C" + row).Value = result1long;
+                    }
+                    else
+                    {
+                        worksheet.Cell("C" + row).Value = result1;
+                    }
+                    worksheet.Cell("D" + row).Value = time1;
+                    worksheet.Cell("E" + row).Value = result2;
+                    if (long.TryParse(result2, out var result2long))
+                    {
+                        worksheet.Cell("E" + row).Value = result2long;
+                    }
+                    else
+                    {
+                        worksheet.Cell("E" + row).Value = result2;
+                    }
+                    worksheet.Cell("F" + row).Value = time2;
+                    row++;
+                }
+            }
+
+            await SaveToFile(workbook);
+            End();
+        }
+
+        private static FilePickerFileType XlsxFileType { get; } = new("Excel Documnet")
+        {
+            Patterns = new[] { "*xlsx" },
+            MimeTypes = new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+        };
+
+        private async Task SaveToFile(ClosedXML.Excel.XLWorkbook workbook)
+        {
+            var topLevel = TopLevel.GetTopLevel(this);
+            if (topLevel is null) return;
+            try
+            {
+                if (OperatingSystem.IsBrowser())
+                {
+                    //Not supported yet?
+                }
+                else
+                {
+                    var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions { Title = "Save Text File", FileTypeChoices = [XlsxFileType] });
+                    if (file is not null)
+                    {
+                        if (file.Path.Scheme == "content")
+                        {
+                            using var stream = await file.OpenWriteAsync();
+                            workbook.SaveAs(stream);
+                        }
+                        else
+                        {
+                            using var stream = await file.OpenWriteAsync();
+                            workbook.SaveAs(stream);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return;
+        }
+
         private void End()
         {
             Dispatcher.UIThread.Invoke(() =>
             {
                 RunAll.IsEnabled = true;
                 ReturnBack.IsEnabled = true;
+                XmlExport.IsEnabled = true;
                 return;
             });
         }
@@ -130,6 +245,7 @@ namespace advent_of_code.Views
 
         public void Reset()
         {
+            results.Clear();
             days.Clear();
             lastYear = -1;
             firstDay = -1;
@@ -179,6 +295,7 @@ namespace advent_of_code.Views
             Grid.SetRow(text2, Results.RowDefinitions.Count - 1);
             Results.Children.Add(text);
             Results.Children.Add(text2);
+            results.Add((lastYear, lastDay, part, result, time));
         }
     }
 }
