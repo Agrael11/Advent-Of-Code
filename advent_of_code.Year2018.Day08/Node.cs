@@ -27,7 +27,7 @@ namespace advent_of_code.Year2018.Day08
 
                     foreach(var indexer in Metadata)
                     {
-                        if (indexer > Nodes.Count && indexer <= 0)
+                        if (indexer > Nodes.Count || indexer <= 0)
                             continue;
 
                         sum += Nodes[indexer-1].Value;
