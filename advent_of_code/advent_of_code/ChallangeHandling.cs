@@ -35,6 +35,17 @@ namespace advent_of_code
                 return (watch, "ERROR: Not possible to Challange function");
             }
 
+            try
+            {
+                challengeMethod.Invoke(null, [inputData]);
+            }
+            catch
+            {
+                watch = Stopwatch.StartNew();
+                watch.Stop();
+                return (watch, "ERROR: Not possible to Pre-warm Challange function");
+            }
+
             watch = Stopwatch.StartNew();
             try
             {
