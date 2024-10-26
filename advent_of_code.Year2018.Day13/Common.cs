@@ -20,12 +20,12 @@ namespace advent_of_code.Year2018.Day13
                 var cart = carts[i];
                 cart.Move();
                 cart.ChangeDirection(lines[cart.Position.Y][cart.Position.X]);
-                var colliding = carts.GroupBy(g => g.Position);
-                if (colliding.Any(g => g.Count() > 1) && !remove)
+                var anyColliding = carts.GroupBy(g => g.Position).Any(g => g.Count() > 1);
+                if (anyColliding && !remove)
                 {
                     return true;
                 }
-                else if (colliding.Any(g => g.Count() > 1) && remove)
+                else if (anyColliding && remove)
                 {
                     i -= RemoveCarts(ref carts, i);
                 }
