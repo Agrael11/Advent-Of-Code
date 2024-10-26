@@ -19,6 +19,7 @@
     <ProjectReference Include="..\advent_of_code.Year2018.Day10\advent_of_code.Year2018.Day10.csproj" />
     <ProjectReference Include="..\advent_of_code.Year2018.Day11\advent_of_code.Year2018.Day11.csproj" />
     <ProjectReference Include="..\advent_of_code.Year2018.Day12\advent_of_code.Year2018.Day12.csproj" />
+    <ProjectReference Include="..\advent_of_code.Year2018.Day13\advent_of_code.Year2018.Day13.csproj" />
   </ItemGroup>
 
 </Project>
