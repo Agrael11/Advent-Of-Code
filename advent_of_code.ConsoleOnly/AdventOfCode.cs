@@ -11,7 +11,7 @@
             if (!Directory.Exists("Settings")) Directory.CreateDirectory("Settings");
             if (!File.Exists(Path.Combine("Settings", "firstStart"))) File.Create(Path.Combine("Settings", "firstStart"));
             else firstStart = false;
-            Console.WriteLine("Advent of Code 2023!");
+            Console.WriteLine($"Advent of Code {DateTime.Now.Year}!");
             while (!result.Equals("Q", StringComparison.CurrentCultureIgnoreCase))
             {
                 if (firstStart)
