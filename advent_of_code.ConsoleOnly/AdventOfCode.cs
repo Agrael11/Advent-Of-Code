@@ -36,7 +36,7 @@
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("Select the challenge [1-25] or all challenges [A], write [I] for more info or [Q] to quit: ");
+                    Console.Write($"Select the year and challenge [2013-{DateTime.Now.Year} 1-25] or all challenges [A], write [I] for more info or [Q] to quit: ");
                 }
                 result = Console.ReadLine() ?? "";
 
