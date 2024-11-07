@@ -24,12 +24,10 @@
 
             for (var minute = 0; minute < Minutes; minute++)
             {
-                Common.ParseOneMinute(grid);   
+                Common.ParseOneMinute(grid);
             }
 
             return grid.Count(Grid.State.Trees) * grid.Count(Grid.State.Lumberyard);
         }
-
-        
     }
 }

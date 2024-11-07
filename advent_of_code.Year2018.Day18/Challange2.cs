@@ -21,6 +21,7 @@
                 }
             }
             grid.Apply();
+
             var hashes = new HashSet<int>();
             var orderedHashes = new List<int>();
             var orderedResults = new List<int>();
