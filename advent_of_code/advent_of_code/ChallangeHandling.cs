@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using Visualizers;
 
 namespace advent_of_code
 {
@@ -35,6 +36,8 @@ namespace advent_of_code
                 return (watch, "ERROR: Not possible to Challange function");
             }
 
+            //PreWarm
+            AOConsole.Enabled = false;
             try
             {
                 challengeMethod.Invoke(null, [inputData]);
@@ -45,6 +48,7 @@ namespace advent_of_code
                 watch.Stop();
                 return (watch, "ERROR: Not possible to Pre-warm Challange function");
             }
+            AOConsole.Enabled = true;
 
             watch = Stopwatch.StartNew();
             try

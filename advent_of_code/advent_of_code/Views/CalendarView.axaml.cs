@@ -23,6 +23,11 @@ namespace advent_of_code.Views
                 YearsComboBox.Items.Add(yearitem);
             }
             YearsComboBox.SelectedIndex = YearsComboBox.Items.Count-1;
+
+
+            Visualizers.AOConsole.RegWrite(Write);
+            Visualizers.AOConsole.RegWriteLine(WriteLine);
+            Visualizers.AOConsole.RegClear(Clear);
         }
 
         public int? GetYear()
@@ -105,6 +110,33 @@ namespace advent_of_code.Views
         private void DeleteButtonAction(object sender, RoutedEventArgs args)
         {
             FileHandling.DeleteDírectory("Inputs");
+        }
+
+        
+
+        public void Write(string str)
+        {
+            AddTextT(str);
+        }
+
+        public void WriteLine(string str)
+        {
+            AddTextT( str + "\n");
+        }
+
+        public void Clear()
+        {
+            SetTextT("");
+        }
+
+        public void SetTextT(string text)
+        {
+            Dispatcher.UIThread.Invoke(() => VirtualConsole.Text = text);
+        }
+
+        public void AddTextT(string text)
+        {
+            Dispatcher.UIThread.Invoke(() => VirtualConsole.Text += text);
         }
     }
 }

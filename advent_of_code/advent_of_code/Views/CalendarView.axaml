@@ -28,7 +28,9 @@
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="10"/>
 					<RowDefinition Height="110"/>
+					<RowDefinition Height="10"/>
 					<RowDefinition Height="*"/>
+					<RowDefinition Height="10"/>
 				</Grid.RowDefinitions>
 				<Image Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="8" Source="../Assets/Tree.png"/>
 				<ComboBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="YearsComboBox" SelectionChanged="YearChanged"/>
@@ -50,6 +52,9 @@
 					<Button Grid.Row="2" HorizontalAlignment="Stretch"  x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
 					<Button Grid.Row="4" HorizontalAlignment="Stretch"  x:Name="MultiButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetAll}">Multiday Run</Button>
 				</Grid>
+				<ScrollViewer Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+					<TextBlock x:Name="VirtualConsole"/>
+				</ScrollViewer>
 			</Grid>
 		</ScrollViewer>
 </UserControl>
