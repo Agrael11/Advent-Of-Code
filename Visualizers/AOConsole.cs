@@ -16,17 +16,17 @@
         }
 
         public static bool Enabled { get; set; } = false;
-        private static ColorDelegate setForegroundColor = (ConsoleColor color) => Console.ForegroundColor = color;
-        private static ColorDelegate setBackgroundColor = (ConsoleColor color) => Console.BackgroundColor = color;
-        private static WriteDelegate write = Console.Write;
-        private static WriteDelegate writeLine = Console.WriteLine;
-        private static ClearDelegate clear = Console.Clear;
+        private static ColorDelegate? setForegroundColor;
+        private static ColorDelegate? setBackgroundColor;
+        private static WriteDelegate? write;
+        private static WriteDelegate? writeLine;
+        private static ClearDelegate? clear;
 
         public static void Clear()
         {
             if (Enabled)
             {
-                clear.Invoke();
+                clear?.Invoke();
             }
         }
 
@@ -34,7 +34,7 @@
         {
             if (Enabled)
             {
-                write.Invoke(text);
+                write?.Invoke(text);
             }
         }
 
@@ -42,14 +42,14 @@
         {
             if (Enabled)
             {
-                writeLine.Invoke(text);
+                writeLine?.Invoke(text);
             }
         }
         public static void SetForegroundColor(ConsoleColor color)
         {
             if (Enabled)
             {
-                setForegroundColor.Invoke(color);
+                setForegroundColor?.Invoke(color);
             }
         }
 
@@ -57,7 +57,7 @@
         {
             if (Enabled)
             {
-                setBackgroundColor.Invoke(color);
+                setBackgroundColor?.Invoke(color);
             }
         }
         public static void RegWrite(WriteDelegate action)

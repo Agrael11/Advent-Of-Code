@@ -1,9 +1,17 @@
-﻿namespace advent_of_code.ConsoleOnly
+﻿using Visualizers;
+
+namespace advent_of_code.ConsoleOnly
 {
     public static class AdventOfCode
     {
         public static void Main()
         {
+            AOConsole.RegClear(Console.Clear);
+            AOConsole.RegWrite(Console.Write);
+            AOConsole.RegWriteLine(Console.WriteLine);
+            AOConsole.RegSetForeground((ConsoleColor color) => Console.ForegroundColor = color);
+            AOConsole.RegSetBackground((ConsoleColor color) => Console.BackgroundColor = color);
+
             DrawATree();
             Console.ForegroundColor = ConsoleColor.White;
             var result = "";

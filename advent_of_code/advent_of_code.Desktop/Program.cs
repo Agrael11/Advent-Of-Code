@@ -14,7 +14,6 @@ namespace advent_of_code.Desktop
 
         public static void Main(string[] args)
         {
-            Console.Clear();
             if (args.Contains("--console") || args.Contains("-c") || args.Contains("/c"))
             {
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
@@ -22,6 +21,7 @@ namespace advent_of_code.Desktop
                     AllocConsole();
                 }
                 ConsoleOnly.AdventOfCode.Main();
+                Console.Clear();
                 return;
             }
 
