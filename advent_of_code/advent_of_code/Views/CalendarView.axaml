@@ -53,7 +53,7 @@
 					<Button Grid.Row="4" HorizontalAlignment="Stretch"  x:Name="MultiButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetAll}">Multiday Run</Button>
 				</Grid>
 				<ScrollViewer Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-					<TextBlock x:Name="VirtualConsole"/>
+					<TextBox IsReadOnly="True" x:Name="VirtualConsole"/>
 				</ScrollViewer>
 			</Grid>
 		</ScrollViewer>
