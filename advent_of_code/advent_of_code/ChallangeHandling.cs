@@ -13,7 +13,7 @@ namespace advent_of_code
     public class ChallangeHandling
     {
         private readonly static string baseString = "advent_of_code.Year{0:D4}.Day{1:D2}.Challange{2:D}, advent_of_code.Year{0:D4}.Day{1:D2}";
-        public static async Task<(Stopwatch stopwatch, string result)> RunTaskAsync(int year, int day, int part, Action<Stopwatch, string>? FinishedCallback = null)
+        public static async Task<(Stopwatch stopwatch, string result)> RunTaskAsync(int year, int day, int part, Action<Stopwatch, bool, string>? FinishedCallback = null)
         {
             Stopwatch watch;
             var result = "";
@@ -24,7 +24,7 @@ namespace advent_of_code
             {
                 watch = Stopwatch.StartNew();
                 watch.Stop();
-                FinishedCallback?.Invoke(watch, "ERROR: Not possible to get Input File");
+                FinishedCallback?.Invoke(watch, false, "ERROR: Not possible to get Input File");
                 return (watch, "ERROR: Not possible to get Input File");
             }
 
@@ -32,21 +32,25 @@ namespace advent_of_code
             {
                 watch = Stopwatch.StartNew();
                 watch.Stop();
-                FinishedCallback?.Invoke(watch, "ERROR: Not possible to Challange function");
+                FinishedCallback?.Invoke(watch, false, "ERROR: Not possible to Challange function");
                 return (watch, "ERROR: Not possible to Challange function");
             }
-
+            
             //PreWarm
             AOConsole.Enabled = false;
             try
             {
                 challengeMethod.Invoke(null, [inputData]);
             }
-            catch
+            catch (Exception ex)
             {
                 watch = Stopwatch.StartNew();
                 watch.Stop();
-                return (watch, "ERROR: Not possible to Pre-warm Challange function");
+                var error = new System.Text.StringBuilder();
+                error.AppendLine("ERROR: Not possible to Pre-warm Challange function");
+                FormatException(error, ex);
+                FinishedCallback?.Invoke(watch, false, error.ToString());
+                return (watch, error.ToString());
             }
             AOConsole.Enabled = true;
 
@@ -59,13 +63,27 @@ namespace advent_of_code
             catch (Exception ex)
             {
                 watch.Stop();
-                FinishedCallback?.Invoke(watch, $"ERROR: {ex.Message}");
-                return (watch, $"ERROR: {ex.Message}");
+                var error = new System.Text.StringBuilder();
+                error.AppendLine("ERROR: Not possible to run Challange");
+                FormatException(error, ex);
+                FinishedCallback?.Invoke(watch, false, error.ToString());
+                return (watch, error.ToString());
             }
 
-            FinishedCallback?.Invoke(watch, result);
+            FinishedCallback?.Invoke(watch, true, result);
 
             return (watch, result);
+        }
+
+        private static void FormatException(System.Text.StringBuilder builder, Exception exception)
+        {
+            builder.AppendLine(exception.Message);
+            if (exception.StackTrace is not null) builder.AppendLine(exception.StackTrace);
+            if (exception.InnerException is not null)
+            {
+                builder.AppendLine();
+                FormatException(builder, exception.InnerException);
+            }
         }
 
         public static async Task<string?> GetInputAsync(int year, int day)

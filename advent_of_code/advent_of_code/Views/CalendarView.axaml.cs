@@ -84,23 +84,39 @@ namespace advent_of_code.Views
             _ = ChallangeHandling.RunTaskAsync(year, day, 2, ChallangeHandler2);
         }
 
-        private void ChallangeHandler1(Stopwatch watch, string result)
+        private void ChallangeHandler1(Stopwatch watch, bool okay, string result)
         {
             Dispatcher.UIThread.Post(() =>
             {
-                var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
-                Challange1Result.Text = result;
-                Challange1Time.Text = time;
+                if (okay)
+                {
+                    var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+                    Challange1Result.Text = result;
+                    Challange1Time.Text = time;
+                }
+                else
+                {
+                    Challange1Time.Text = "ERROR";
+                    VirtualConsole.Text = result;
+                }
             });
         }
 
-        private void ChallangeHandler2(Stopwatch watch, string result)
+        private void ChallangeHandler2(Stopwatch watch, bool okay, string result)
         {
             Dispatcher.UIThread.Post(() =>
             {
-                var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
-                Challange2Result.Text = result;
-                Challange2Time.Text = time;
+            if (okay)
+            {
+                    var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+                    Challange2Result.Text = result;
+                    Challange2Time.Text = time;
+                }
+                else
+                {
+                    Challange2Time.Text = "ERROR";
+                    VirtualConsole.Text = result;
+                }
                 RunButton.IsEnabled = true;
                 DeleteButton.IsEnabled = true;
                 CookieButton.IsEnabled = true;

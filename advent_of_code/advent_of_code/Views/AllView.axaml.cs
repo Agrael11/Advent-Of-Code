@@ -222,22 +222,38 @@ namespace advent_of_code.Views
             End();
             return;
         }
-        private void ChallangeHandler1(Stopwatch watch, string result)
+        private void ChallangeHandler1(Stopwatch watch, bool okay, string result)
         {
             Dispatcher.UIThread.Invoke(() =>
             {
-                var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
-                AddDayPart(result, time, 0);
+                if (okay)
+                {
+                    var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+                    AddDayPart(result, time, 0);
+                }
+                else
+                {
+                    var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+                    AddDayPart(result, "ERROR", 0);
+                }
             });
         }
 
-        private void ChallangeHandler2(Stopwatch watch, string result)
+        private void ChallangeHandler2(Stopwatch watch, bool okay, string result)
         {
 
             Dispatcher.UIThread.Invoke(() =>
             {
-                var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
-                AddDayPart(result, time, 1);
+                if (okay)
+                {
+                    var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+                    AddDayPart(result, time, 1);
+                }
+                else
+                {
+                    var time = ChallangeHandling.FormatTime((ulong)watch.ElapsedMilliseconds);
+                    AddDayPart(result, "ERROR", 1);
+                }
             });
         }
 
