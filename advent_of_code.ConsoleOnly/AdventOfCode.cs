@@ -9,8 +9,14 @@ namespace advent_of_code.ConsoleOnly
             AOConsole.RegClear(Console.Clear);
             AOConsole.RegWrite(Console.Write);
             AOConsole.RegWriteLine(Console.WriteLine);
-            AOConsole.RegSetForeground((ConsoleColor color) => Console.ForegroundColor = color);
-            AOConsole.RegSetBackground((ConsoleColor color) => Console.BackgroundColor = color);
+            AOConsole.RegForeground((ConsoleColor color) => Console.ForegroundColor = color);
+            AOConsole.RegForeground(() => Console.ForegroundColor);
+            AOConsole.RegBackground((color) => Console.BackgroundColor = color);
+            AOConsole.RegBackground(() => Console.BackgroundColor);
+            AOConsole.RegCursorLeft((x) => Console.CursorLeft = x);
+            AOConsole.RegCursorLeft(() => Console.CursorLeft);
+            AOConsole.RegCursorTop((y) => Console.CursorTop = y);
+            AOConsole.RegCursorTop(() => Console.CursorTop);
 
             DrawATree();
             Console.ForegroundColor = ConsoleColor.White;

@@ -34,4 +34,10 @@
     <ProjectReference Include="..\..\advent_of_code.Year2018\advent_of_code.Year2018.csproj" />
     <ProjectReference Include="..\..\Visualizers\Visualizers.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="VirtualConsole.axaml.cs">
+      <DependentUpon>VirtualConsole.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

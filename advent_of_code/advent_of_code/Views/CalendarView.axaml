@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:v="clr-namespace:advent_of_code.Views"
 			 xmlns:vm="using:advent_of_code.ViewModels"
+			 xmlns:p="using:advent_of_code"
              mc:Ignorable="d"
              x:Class="advent_of_code.Views.CalendarView"
 			 x:DataType="vm:CalendarViewModel">
@@ -27,7 +28,7 @@
 					<RowDefinition Height="10"/>
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="10"/>
-					<RowDefinition Height="110"/>
+					<RowDefinition Height="150"/>
 					<RowDefinition Height="10"/>
 					<RowDefinition Height="*"/>
 					<RowDefinition Height="10"/>
@@ -47,13 +48,18 @@
 						<RowDefinition Height="30"/>
 						<RowDefinition Height="10"/>
 						<RowDefinition Height="30"/>
+						<RowDefinition Height="10"/>
+						<RowDefinition Height="30"/>
 					</Grid.RowDefinitions>
 					<Button Grid.Row="0" HorizontalAlignment="Stretch"  x:Name="DeleteButton" x:CompileBindings="False" Click="DeleteButtonAction">Delete Input Cache</Button>
 					<Button Grid.Row="2" HorizontalAlignment="Stretch"  x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
 					<Button Grid.Row="4" HorizontalAlignment="Stretch"  x:Name="MultiButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetAll}">Multiday Run</Button>
+					<Button Grid.Row="6" HorizontalAlignment="Stretch"  x:Name="CopyButton" x:CompileBindings="False" Click="CopyButtonAction">Copy console to clipboard</Button>
 				</Grid>
 				<ScrollViewer Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-					<TextBox FontFamily="/Assets/Fonts/FiraCode.ttf#Fira Code"  IsReadOnly="True" x:Name="VirtualConsole"/>
+					<Border BorderThickness="1">
+						<p:VirtualConsole FontFamily="/Assets/Fonts/FiraCode.ttf#Fira Code"  x:Name="VConsole"/>
+					</Border>
 				</ScrollViewer>
 			</Grid>
 		</ScrollViewer>

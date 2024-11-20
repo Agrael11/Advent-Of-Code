@@ -2,8 +2,10 @@ using advent_of_code.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Visualizers;
 
 namespace advent_of_code.Views
 {
@@ -28,6 +30,14 @@ namespace advent_of_code.Views
             Visualizers.AOConsole.RegWrite(Write);
             Visualizers.AOConsole.RegWriteLine(WriteLine);
             Visualizers.AOConsole.RegClear(Clear);
+            Visualizers.AOConsole.RegBackground(SetBGColor);
+            Visualizers.AOConsole.RegBackground(GetBGColor);
+            Visualizers.AOConsole.RegForeground(SetFGColor);
+            Visualizers.AOConsole.RegForeground(GetFGColor);
+            Visualizers.AOConsole.RegCursorLeft(SetCursorLeft);
+            Visualizers.AOConsole.RegCursorLeft(GetCursorLeft);
+            Visualizers.AOConsole.RegCursorTop(SetCursorTop);
+            Visualizers.AOConsole.RegCursorTop(GetCursorTop);
         }
 
         public int? GetYear()
@@ -97,7 +107,7 @@ namespace advent_of_code.Views
                 else
                 {
                     Challange1Time.Text = "ERROR";
-                    VirtualConsole.Text = result;
+                    VConsole.Write(result);
                 }
             });
         }
@@ -115,7 +125,7 @@ namespace advent_of_code.Views
                 else
                 {
                     Challange2Time.Text = "ERROR";
-                    VirtualConsole.Text = result;
+                    VConsole.Write(result);
                 }
                 RunButton.IsEnabled = true;
                 DeleteButton.IsEnabled = true;
@@ -127,32 +137,67 @@ namespace advent_of_code.Views
         {
             FileHandling.DeleteDírectory("Inputs");
         }
-
-        
-
-        public void Write(string str)
+        private void CopyButtonAction(object sender, RoutedEventArgs args)
         {
-            AddTextT(str);
+            var text = VConsole.GetText();
+            var toplevel = TopLevel.GetTopLevel(this);
+            var clipboard = toplevel?.Clipboard;
+            clipboard?.SetTextAsync(text);
         }
 
-        public void WriteLine(string str)
+        public void Write(string text)
         {
-            AddTextT( str + "\n");
+            Dispatcher.UIThread.Invoke(() => VConsole.Write(text));
+        }
+
+        public void WriteLine(string text)
+        {
+            Dispatcher.UIThread.Invoke(() => VConsole.WriteLine(text));
         }
 
         public void Clear()
         {
-            SetTextT("");
+            Dispatcher.UIThread.Invoke(VConsole.Clear);
         }
 
-        public void SetTextT(string text)
+        public void SetBGColor(ConsoleColor color)
         {
-            Dispatcher.UIThread.Invoke(() => VirtualConsole.Text = text);
+            Dispatcher.UIThread.Invoke(() => VConsole.BackgroundColor = color);
         }
 
-        public void AddTextT(string text)
+        public ConsoleColor GetBGColor()
         {
-            Dispatcher.UIThread.Invoke(() => VirtualConsole.Text += text);
+            return VConsole.BackgroundColor;
+        }
+
+        public void SetFGColor(ConsoleColor color)
+        {
+            Dispatcher.UIThread.Invoke(() => VConsole.ForegroundColor = color);
+        }
+
+        public ConsoleColor GetFGColor()
+        {
+            return VConsole.ForegroundColor;
+        }
+
+        public void SetCursorLeft(int x)
+        {
+            Dispatcher.UIThread.Invoke(() => VConsole.CursorLeft = x);
+        }
+
+        public void SetCursorTop(int y)
+        {
+            Dispatcher.UIThread.Invoke(() => VConsole.CursorTop = y);
+        }
+
+        public int GetCursorLeft()
+        {
+            return VConsole.CursorLeft;
+        }
+
+        public int GetCursorTop()
+        {
+            return VConsole.CursorTop;
         }
     }
 }

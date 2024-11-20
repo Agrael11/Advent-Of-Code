@@ -1,26 +1,52 @@
-﻿namespace Visualizers
+﻿using System.Drawing;
+using System.IO.Pipes;
+
+namespace Visualizers
 {
     public static class AOConsole
     {
         public delegate void WriteDelegate(string str);
         public delegate void ClearDelegate();
-        public delegate void ColorDelegate(ConsoleColor color);
+        public delegate void SetColorDelegate(ConsoleColor color);
+        public delegate ConsoleColor GetColorDelegate();
+        public delegate void SetNumberDelegate(int number);
+        public delegate int GetNumberDelegate();
 
         public static ConsoleColor BackgroundColor
         {
             set => SetBackgroundColor(value);
+            get => GetBackgroundColor();
         }
         public static ConsoleColor ForegroundColor
         {
             set => SetForegroundColor(value);
+            get => GetForegroundColor();
+        }
+
+        public static int CursorLeft
+        {
+            set => SetCursorLeft(value);
+            get => GetCursorLeft();
+        }
+        public static int CursorTop
+        {
+            set => SetCursorTop(value);
+            get => GetCursorTop();
         }
 
         public static bool Enabled { get; set; } = false;
-        private static ColorDelegate? setForegroundColor;
-        private static ColorDelegate? setBackgroundColor;
+        private static SetColorDelegate? setForegroundColor;
+        private static SetColorDelegate? setBackgroundColor;
+        private static GetColorDelegate? getForegroundColor;
+        private static GetColorDelegate? getBackgroundColor;
         private static WriteDelegate? write;
         private static WriteDelegate? writeLine;
         private static ClearDelegate? clear;
+
+        private static SetNumberDelegate? setCursorLeft;
+        private static SetNumberDelegate? setCursorTop;
+        private static GetNumberDelegate? getCursorLeft;
+        private static GetNumberDelegate? getCursorTop;
 
         public static void Clear()
         {
@@ -60,6 +86,43 @@
                 setBackgroundColor?.Invoke(color);
             }
         }
+
+        public static ConsoleColor GetBackgroundColor()
+        {
+            return getBackgroundColor?.Invoke() ?? ConsoleColor.Black;
+        }
+
+        public static ConsoleColor GetForegroundColor()
+        {
+            return getForegroundColor?.Invoke() ?? ConsoleColor.White;
+        }
+
+        public static void SetCursorLeft(int x)
+        {
+            if (Enabled)
+            {
+                setCursorLeft?.Invoke(x);
+            }
+        }
+
+        public static void SetCursorTop(int x)
+        {
+            if (Enabled)
+            {
+                setCursorTop?.Invoke(x);
+            }
+        }
+
+        public static int GetCursorLeft()
+        {
+            return getCursorLeft?.Invoke()??0;
+        }
+
+        public static int GetCursorTop()
+        {
+            return getCursorTop?.Invoke()??0;
+        }
+
         public static void RegWrite(WriteDelegate action)
         {
             write += action;
@@ -75,14 +138,41 @@
             clear += action;
         }
 
-        public static void RegSetForeground(ColorDelegate action)
+        public static void RegForeground(SetColorDelegate action)
         {
             setForegroundColor += action;
         }
 
-        public static void RegSetBackground(ColorDelegate action)
+        public static void RegBackground(SetColorDelegate action)
         {
             setBackgroundColor += action;
+        }
+
+        public static void RegBackground(GetColorDelegate action)
+        {
+            getBackgroundColor += action;
+        }
+
+        public static void RegForeground(GetColorDelegate action)
+        {
+            getForegroundColor += action;
+        }
+
+        public static void RegCursorLeft(SetNumberDelegate action)
+        {
+            setCursorLeft += action;
+        }
+        public static void RegCursorTop(SetNumberDelegate action)
+        {
+            setCursorTop += action;
+        }
+        public static void RegCursorLeft(GetNumberDelegate action)
+        {
+            getCursorLeft += action;
+        }
+        public static void RegCursorTop(GetNumberDelegate action)
+        {
+            getCursorTop += action;
         }
     }
 }
