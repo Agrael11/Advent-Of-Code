@@ -33,9 +33,7 @@ namespace advent_of_code.Views
             Visualizers.AOConsole.RegWriteDebugLine(WriteDebugLine);
             Visualizers.AOConsole.RegClear(Clear);
             Visualizers.AOConsole.RegBackground(SetBGColor);
-            Visualizers.AOConsole.RegBackground(GetBGColor);
             Visualizers.AOConsole.RegForeground(SetFGColor);
-            Visualizers.AOConsole.RegForeground(GetFGColor);
             Visualizers.AOConsole.RegCursorLeft(SetCursorLeft);
             Visualizers.AOConsole.RegCursorLeft(GetCursorLeft);
             Visualizers.AOConsole.RegCursorTop(SetCursorTop);
@@ -137,29 +135,32 @@ namespace advent_of_code.Views
 
         private void DeleteButtonAction(object sender, RoutedEventArgs args)
         {
-            //FileHandling.DeleteDírectory("Inputs");
+            FileHandling.DeleteDírectory("Inputs");
+
+            /* //Debug Rick
+            AOConsole.Debugging = true;
             AOConsole.Enabled = true;
             AOConsole.Clear();
-            AOConsole.ForegroundColor = ConsoleColor.White;
+            AOConsole.ForegroundColor = AOConsoleColor.White;
             AOConsole.Write("We're no strangers to love\nYou know the rules and so do I ");
             AOConsole.WriteDebugLine("(Do I)");
             AOConsole.WriteLine("A full commitment's what I'm thinking of\nYou wouldn't get this from any other guy\n");
-            AOConsole.ForegroundColor = ConsoleColor.Green;
+            AOConsole.ForegroundColor = AOConsoleColor.Green;
             AOConsole.WriteLine("I just wanna tell you how I'm feeling\r\nGotta make you understand");
-            AOConsole.ForegroundColor = ConsoleColor.Red;
+            AOConsole.ForegroundColor = AOConsoleColor.Red;
             AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");
-            AOConsole.ForegroundColor = ConsoleColor.White;
+            AOConsole.ForegroundColor = AOConsoleColor.White;
             AOConsole.Write("We've known each other for so long\r\nYour heart's been aching, but you're too shy to say it");
             AOConsole.WriteDebugLine("(To say it)");
             AOConsole.Write("Inside, we both know what's been going on");
             AOConsole.WriteDebugLine("(Going on)");
             AOConsole.WriteLine("We know the game, and we're gonna play it\n");
-            AOConsole.ForegroundColor = ConsoleColor.Green;
+            AOConsole.ForegroundColor = AOConsoleColor.Green;
             AOConsole.WriteLine("I just wanna tell you how I'm feeling\r\nGotta make you understand");
-            AOConsole.ForegroundColor = ConsoleColor.Red;
+            AOConsole.ForegroundColor = AOConsoleColor.Red;
             AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");
             AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");
-            AOConsole.ForegroundColor = ConsoleColor.Yellow;
+            AOConsole.ForegroundColor = AOConsoleColor.Yellow;
             AOConsole.Write("Ooh");
             AOConsole.WriteDebug("(Give you up)");
             AOConsole.Write("\r\nOoh-ooh");
@@ -168,18 +169,18 @@ namespace advent_of_code.Views
             AOConsole.WriteDebug("(Give you up)");
             AOConsole.Write("\r\nOoh-ooh\r\nNever gonna give, never gonna give");
             AOConsole.WriteDebugLine("(Give you up)\n");
-            AOConsole.ForegroundColor = ConsoleColor.White;
+            AOConsole.ForegroundColor = AOConsoleColor.White;
             AOConsole.Write("We've known each other for so long\r\nYour heart's been aching, but you're too shy to say it");
             AOConsole.WriteDebugLine("(To say it)");
             AOConsole.Write("Inside, we both know what's been going on");
             AOConsole.WriteDebugLine("(Going on)");
             AOConsole.WriteLine("We know the game, and we're gonna play it\n");
-            AOConsole.ForegroundColor = ConsoleColor.Green;
+            AOConsole.ForegroundColor = AOConsoleColor.Green;
             AOConsole.WriteLine("I just wanna tell you how I'm feeling\r\nGotta make you understand");
-            AOConsole.ForegroundColor = ConsoleColor.Red;
+            AOConsole.ForegroundColor = AOConsoleColor.Red;
             AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");
             AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");
-            AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");
+            AOConsole.WriteLine("Never gonna give you up\r\nNever gonna let you down\r\nNever gonna run around and desert you\r\nNever gonna make you cry\r\nNever gonna say goodbye\r\nNever gonna tell a lie and hurt you\r\n");*/
         }
 
         private void DebugSwitchAction(object sender, RoutedEventArgs args)
@@ -228,24 +229,14 @@ namespace advent_of_code.Views
             Dispatcher.UIThread.Invoke(VConsole.Clear);
         }
 
-        public void SetBGColor(ConsoleColor color)
+        public void SetBGColor(AOConsoleColor color)
         {
             Dispatcher.UIThread.Invoke(() => VConsole.BackgroundColor = color);
         }
 
-        public ConsoleColor GetBGColor()
-        {
-            return VConsole.BackgroundColor;
-        }
-
-        public void SetFGColor(ConsoleColor color)
+        public void SetFGColor(AOConsoleColor color)
         {
             Dispatcher.UIThread.Invoke(() => VConsole.ForegroundColor = color);
-        }
-
-        public ConsoleColor GetFGColor()
-        {
-            return VConsole.ForegroundColor;
         }
 
         public void SetCursorLeft(int x)

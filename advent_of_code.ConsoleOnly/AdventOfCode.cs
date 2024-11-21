@@ -6,15 +6,13 @@ namespace advent_of_code.ConsoleOnly
     {
         public static void Register()
         {
-            AOConsole.RegClear(Console.Clear);
+            AOConsole.RegClear(() => { Console.WriteLine("\x1b[3J"); Console.Clear(); });
             AOConsole.RegWrite(Console.Write);
             AOConsole.RegWriteLine(Console.WriteLine);
-            AOConsole.RegWriteDebug((str) => { Console.Write($"\x1b[3m{str}\x1b[0m"); });
-            AOConsole.RegWriteDebugLine((str) => { Console.WriteLine($"\x1b[3m{str}\x1b[0m"); });
-            AOConsole.RegForeground((ConsoleColor color) => Console.ForegroundColor = color);
-            AOConsole.RegForeground(() => Console.ForegroundColor);
-            AOConsole.RegBackground((color) => Console.BackgroundColor = color);
-            AOConsole.RegBackground(() => Console.BackgroundColor);
+            AOConsole.RegWriteDebug((str) => { Console.Write($"\x1b[3m{str}\x1b[23m"); });
+            AOConsole.RegWriteDebugLine((str) => { Console.WriteLine($"\x1b[3m{str}\x1b[23m"); });
+            AOConsole.RegForeground((color) => Console.Write($"\x1b[38;2;{color.R};{color.G};{color.B}m"));
+            AOConsole.RegBackground((color) => Console.Write($"\x1b[48;2;{color.R};{color.G};{color.B}m"));
             AOConsole.RegCursorLeft((x) => Console.CursorLeft = x);
             AOConsole.RegCursorLeft(() => Console.CursorLeft);
             AOConsole.RegCursorTop((y) => Console.CursorTop = y);

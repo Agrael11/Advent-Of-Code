@@ -7,17 +7,21 @@ namespace Visualizers
     {
         public delegate void WriteDelegate(string str);
         public delegate void ClearDelegate();
-        public delegate void SetColorDelegate(ConsoleColor color);
-        public delegate ConsoleColor GetColorDelegate();
+        public delegate void SetColorDelegate(AOConsoleColor color);
+        public delegate AOConsoleColor GetColorDelegate();
         public delegate void SetNumberDelegate(int number);
         public delegate int GetNumberDelegate();
 
-        public static ConsoleColor BackgroundColor
+
+        private static AOConsoleColor fgColor = AOConsoleColor.White;
+        private static AOConsoleColor bgColor = AOConsoleColor.Black;
+
+        public static AOConsoleColor BackgroundColor
         {
             set => SetBackgroundColor(value);
             get => GetBackgroundColor();
         }
-        public static ConsoleColor ForegroundColor
+        public static AOConsoleColor ForegroundColor
         {
             set => SetForegroundColor(value);
             get => GetForegroundColor();
@@ -38,8 +42,6 @@ namespace Visualizers
         public static bool Debugging { get; set; } = false;
         private static SetColorDelegate? setForegroundColor;
         private static SetColorDelegate? setBackgroundColor;
-        private static GetColorDelegate? getForegroundColor;
-        private static GetColorDelegate? getBackgroundColor;
         private static WriteDelegate? write;
         private static WriteDelegate? writeLine;
         private static WriteDelegate? writeDebug;
@@ -91,30 +93,32 @@ namespace Visualizers
             }
         }
 
-        public static void SetForegroundColor(ConsoleColor color)
+        public static void SetForegroundColor(AOConsoleColor color)
         {
             if (Enabled)
             {
+                fgColor = color; 
                 setForegroundColor?.Invoke(color);
             }
         }
 
-        public static void SetBackgroundColor(ConsoleColor color)
+        public static void SetBackgroundColor(AOConsoleColor color)
         {
             if (Enabled)
             {
+                fgColor = color;
                 setBackgroundColor?.Invoke(color);
             }
         }
 
-        public static ConsoleColor GetBackgroundColor()
+        public static AOConsoleColor GetBackgroundColor()
         {
-            return getBackgroundColor?.Invoke() ?? ConsoleColor.Black;
+            return bgColor;
         }
 
-        public static ConsoleColor GetForegroundColor()
+        public static AOConsoleColor GetForegroundColor()
         {
-            return getForegroundColor?.Invoke() ?? ConsoleColor.White;
+            return bgColor;
         }
 
         public static void SetCursorLeft(int x)
@@ -176,16 +180,6 @@ namespace Visualizers
         public static void RegBackground(SetColorDelegate action)
         {
             setBackgroundColor += action;
-        }
-
-        public static void RegBackground(GetColorDelegate action)
-        {
-            getBackgroundColor += action;
-        }
-
-        public static void RegForeground(GetColorDelegate action)
-        {
-            getForegroundColor += action;
         }
 
         public static void RegCursorLeft(SetNumberDelegate action)

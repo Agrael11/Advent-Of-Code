@@ -1,11 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using DocumentFormat.OpenXml.Office.CustomUI;
-using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text;
+using Visualizers;
 
 namespace advent_of_code
 {
@@ -14,21 +12,20 @@ namespace advent_of_code
         private readonly List<List<ConsoleChar>> lines = new List<List<ConsoleChar>>();
         public int CursorLeft = 0;
         public int CursorTop = 0;
-        public ConsoleColor BackgroundColor = ConsoleColor.Black;
-        public ConsoleColor ForegroundColor = ConsoleColor.Gray;
-        private ConsoleColor _backgroundDefault = ConsoleColor.Black;
-        public ConsoleColor BackgroundDefault { 
+        public AOConsoleColor BackgroundColor = AOConsoleColor.Black;
+        public AOConsoleColor ForegroundColor = AOConsoleColor.Gray;
+        private AOConsoleColor _backgroundDefault = AOConsoleColor.Black;
+        public AOConsoleColor BackgroundDefault { 
             get => _backgroundDefault; 
             set => _backgroundDefault = value;
         }
-        private ConsoleColor _foregroundDefault = ConsoleColor.Gray;
-        public ConsoleColor ForegroundDefault
+        private AOConsoleColor _foregroundDefault = AOConsoleColor.Gray;
+        public AOConsoleColor ForegroundDefault
         {
             get => _foregroundDefault;
             set => _foregroundDefault = value;
         }
-        private double CharacterWidth = 0;
-        private double CharacterHeight = 0;
+        private readonly double CharacterHeight = 0;
 
         public void Clear()
         {
@@ -102,7 +99,7 @@ namespace advent_of_code
         protected override Size MeasureOverride(Size availableSize)
         {
             var guess = MeasureGuess(GetText());
-            return guess;
+            return new Size(guess.Width+10, guess.Height+10);
         }
 
         protected Size MeasureGuess(string text)
@@ -111,7 +108,7 @@ namespace advent_of_code
             var typeface = new Typeface(FontFamily);
             var formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 16.0, new SolidColorBrush(GetColorReal(ForegroundColor)));
             
-            return new Size(formattedText.Width+10, formattedText.Height+10);
+            return new Size(formattedText.Width, formattedText.Height);
         }
 
         public override void Render(DrawingContext context)
@@ -138,10 +135,12 @@ namespace advent_of_code
                     {
                         if (text != "")
                         {
-                            var formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
-                            context.FillRectangle(new SolidColorBrush(GetColorReal(bgColor)), new Avalonia.Rect(x, y, CharacterWidth, CharacterHeight));
+                            var formattedText = new FormattedText("".PadLeft(text.Length, '#'), System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
+                            var width = formattedText.Width;
+                            context.FillRectangle(new SolidColorBrush(GetColorReal(bgColor)), new Avalonia.Rect(x, y, width, CharacterHeight));
+                            formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
                             context.DrawText(formattedText, new Avalonia.Point(x, y));
-                            x += CharacterWidth*text.Length;
+                            x += width;
                             text = "";
                         }
                         fgColor = c.Foreground;
@@ -152,8 +151,10 @@ namespace advent_of_code
                 }
                 if (text != "")
                 {
-                    var formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
-                    context.FillRectangle(new SolidColorBrush(GetColorReal(bgColor)), new Avalonia.Rect(x, y, CharacterWidth, CharacterHeight));
+                    var formattedText = new FormattedText("".PadLeft(text.Length, '#'), System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
+                    var width = formattedText.Width;
+                    context.FillRectangle(new SolidColorBrush(GetColorReal(bgColor)), new Avalonia.Rect(x, y, width, CharacterHeight));
+                    formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
                     context.DrawText(formattedText, new Avalonia.Point(x, y));
                 }
                 x = 5.0;
@@ -163,35 +164,15 @@ namespace advent_of_code
             base.Render(context);
         }
 
-        private static Color GetColorReal(ConsoleColor consoleColor)
+        private static Color GetColorReal(AOConsoleColor consoleColor)
         {
-            return consoleColor switch
-            {
-                ConsoleColor.Black => Color.FromArgb(255, 0, 0, 0),
-                ConsoleColor.DarkBlue => Color.FromArgb(255, 0, 0, 139),
-                ConsoleColor.DarkGreen => Color.FromArgb(255, 0, 100, 0),
-                ConsoleColor.DarkCyan => Color.FromArgb(255, 0, 139, 139),
-                ConsoleColor.DarkRed => Color.FromArgb(255, 139, 0, 0),
-                ConsoleColor.DarkMagenta => Color.FromArgb(255, 139, 0, 139),
-                ConsoleColor.DarkYellow => Color.FromArgb(255, 184, 134, 11),
-                ConsoleColor.Gray => Color.FromArgb(255, 192, 192, 192),
-                ConsoleColor.DarkGray => Color.FromArgb(255, 128, 128, 128),
-                ConsoleColor.Blue => Color.FromArgb(255, 0, 0, 255),
-                ConsoleColor.Green => Color.FromArgb(255, 0, 255, 0),
-                ConsoleColor.Cyan => Color.FromArgb(255, 0, 255, 255),
-                ConsoleColor.Red => Color.FromArgb(255, 255, 0, 0),
-                ConsoleColor.Magenta => Color.FromArgb(255, 255, 0, 255),
-                ConsoleColor.Yellow => Color.FromArgb(255, 255, 255, 0),
-                ConsoleColor.White => Color.FromArgb(255, 255, 255, 255),
-                _ => Color.FromArgb(255, 0, 0, 0) // Default to black
-            };
+            return Color.FromArgb(consoleColor.A, consoleColor.R, consoleColor.G, consoleColor.B);
         }
 
         public VirtualConsole()
         {
             InitializeComponent();
-            CharacterWidth = MeasureGuess("0").Width - 10;
-            CharacterHeight = MeasureGuess("0").Height - 10;
+            CharacterHeight = MeasureGuess("0").Height;
         }
     }
 }
