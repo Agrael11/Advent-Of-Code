@@ -8,34 +8,46 @@ namespace advent_of_code.Desktop
 {
     internal sealed partial class Program
     {
-        [LibraryImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true)]
+        // Import GetConsoleWindow from kernel32.dll
+        [LibraryImport("kernel32.dll", EntryPoint = "GetConsoleWindow")]
+        private static partial nint GetConsoleWindow();
+
+        [LibraryImport("kernel32.dll", EntryPoint = "FreeConsole")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool AllocConsole();
+        private static partial bool FreeConsole();
 
         public static void Main(string[] args)
         {
+            Console.Clear();
+
             if (args.Contains("--console") || args.Contains("-c") || args.Contains("/c"))
+            {
+                ConsoleOnly.AdventOfCode.Register();
+                ConsoleOnly.AdventOfCode.Main();
+            }
+            else
             {
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
-                    AllocConsole();
+                    var handle = GetConsoleWindow();
+                    if (handle != 0)
+                    {
+                        FreeConsole();
+                    }
                 }
-                ConsoleOnly.AdventOfCode.Main();
-                Console.Clear();
-                return;
+
+                //Linux XOrg check
+                var waylandDisplayVariable = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
+                var displayVariable = Environment.GetEnvironmentVariable("DISPLAY");
+
+                if (string.IsNullOrEmpty(displayVariable) && string.IsNullOrEmpty(waylandDisplayVariable) && Environment.OSVersion.Platform != PlatformID.Win32NT)
+                {
+                    ConsoleOnly.AdventOfCode.Main();
+                    return;
+                }
+
+                AvaloniaMain(args);
             }
-
-            //Linux XOrg check
-            var waylandDisplayVariable = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
-            var displayVariable = Environment.GetEnvironmentVariable("DISPLAY");
-
-            if (string.IsNullOrEmpty(displayVariable) && string.IsNullOrEmpty(waylandDisplayVariable) && Environment.OSVersion.Platform != PlatformID.Win32NT)
-            {
-                ConsoleOnly.AdventOfCode.Main();
-                return;
-            }
-
-            AvaloniaMain(args);
         }
 
         // Initialization code. Don't use any Avalonia, third-party APIs or any

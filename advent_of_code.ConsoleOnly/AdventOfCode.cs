@@ -4,11 +4,13 @@ namespace advent_of_code.ConsoleOnly
 {
     public static class AdventOfCode
     {
-        public static void Main()
+        public static void Register()
         {
             AOConsole.RegClear(Console.Clear);
             AOConsole.RegWrite(Console.Write);
             AOConsole.RegWriteLine(Console.WriteLine);
+            AOConsole.RegWriteDebug((str) => { Console.Write($"\x1b[3m{str}\x1b[0m"); });
+            AOConsole.RegWriteDebugLine((str) => { Console.WriteLine($"\x1b[3m{str}\x1b[0m"); });
             AOConsole.RegForeground((ConsoleColor color) => Console.ForegroundColor = color);
             AOConsole.RegForeground(() => Console.ForegroundColor);
             AOConsole.RegBackground((color) => Console.BackgroundColor = color);
@@ -17,7 +19,10 @@ namespace advent_of_code.ConsoleOnly
             AOConsole.RegCursorLeft(() => Console.CursorLeft);
             AOConsole.RegCursorTop((y) => Console.CursorTop = y);
             AOConsole.RegCursorTop(() => Console.CursorTop);
+        }
 
+        public static void Main()
+        {
             DrawATree();
             Console.ForegroundColor = ConsoleColor.White;
             var result = "";

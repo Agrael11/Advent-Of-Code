@@ -35,12 +35,15 @@ namespace Visualizers
         }
 
         public static bool Enabled { get; set; } = false;
+        public static bool Debugging { get; set; } = false;
         private static SetColorDelegate? setForegroundColor;
         private static SetColorDelegate? setBackgroundColor;
         private static GetColorDelegate? getForegroundColor;
         private static GetColorDelegate? getBackgroundColor;
         private static WriteDelegate? write;
         private static WriteDelegate? writeLine;
+        private static WriteDelegate? writeDebug;
+        private static WriteDelegate? writeDebugLine;
         private static ClearDelegate? clear;
 
         private static SetNumberDelegate? setCursorLeft;
@@ -71,6 +74,23 @@ namespace Visualizers
                 writeLine?.Invoke(text);
             }
         }
+
+        public static void WriteDebug(string text)
+        {
+            if (Debugging)
+            {
+                writeDebug?.Invoke(text);
+            }
+        }
+
+        public static void WriteDebugLine(string text)
+        {
+            if (Debugging)
+            {
+                writeDebugLine?.Invoke(text);
+            }
+        }
+
         public static void SetForegroundColor(ConsoleColor color)
         {
             if (Enabled)
@@ -131,6 +151,16 @@ namespace Visualizers
         public static void RegWriteLine(WriteDelegate action)
         {
             writeLine += action;
+        }
+
+        public static void RegWriteDebug(WriteDelegate action)
+        {
+            writeDebug += action;
+        }
+
+        public static void RegWriteDebugLine(WriteDelegate action)
+        {
+            writeDebugLine += action;
         }
 
         public static void RegClear(ClearDelegate action)

@@ -41,12 +41,12 @@ namespace advent_of_code
             InvalidateMeasure();
         }
 
-        public void WriteLine(string text)
+        public void WriteLine(string text, bool debug = false)
         {
-            Write(text + "\n");
+            Write(text + "\n", debug);
         }
 
-        public void Write(string text)
+        public void Write(string text, bool debug = false)
         {
             var splitText = text.Replace("\r","").Split('\n');
             var first = true;
@@ -67,12 +67,12 @@ namespace advent_of_code
 
                 while(lines[CursorTop].Count < CursorLeft + line.Length)
                 {
-                    lines[CursorTop].Add(new ConsoleChar(' ', BackgroundDefault, ForegroundDefault));
+                    lines[CursorTop].Add(new ConsoleChar(' ', BackgroundDefault, ForegroundDefault, debug));
                 }
 
                 for (var j = 0; j < line.Length; j++)
                 {
-                    lines[CursorTop][CursorLeft + j] = new ConsoleChar(line[j], BackgroundColor, ForegroundColor);
+                    lines[CursorTop][CursorLeft + j] = new ConsoleChar(line[j], BackgroundColor, ForegroundColor, debug);
                 }
                 CursorLeft += line.Length;
             }
@@ -119,17 +119,42 @@ namespace advent_of_code
             context.FillRectangle(new SolidColorBrush(GetColorReal(BackgroundDefault)), new Avalonia.Rect(0, 0, Bounds.Width, Bounds.Height));
 
             var typeface = new Typeface(FontFamily);
+            var typefaceOblique = new Typeface(FontFamily, FontStyle.Oblique);
             var x = 5.0;
             var y = 5.0;
             foreach (var line in lines)
             {
-                var formattedText = new FormattedText("ASD", System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 16.0, new SolidColorBrush(GetColorReal(ForegroundColor)));
+                var bgColor = BackgroundColor;
+                var fgColor = ForegroundColor;
+                var oblique = false;
+                var text = "";
                 foreach (var c in line)
                 {
-                    formattedText = new FormattedText(c.Character.ToString(), System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, 16.0, new SolidColorBrush(GetColorReal(c.Foreground)));
-                    context.FillRectangle(new SolidColorBrush(GetColorReal(c.Background)), new Avalonia.Rect(x, y, CharacterWidth, CharacterHeight));
+                    if (bgColor == c.Background && fgColor == c.Foreground && oblique == c.Oblique)
+                    {
+                        text += c.Character;
+                    }
+                    else
+                    {
+                        if (text != "")
+                        {
+                            var formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
+                            context.FillRectangle(new SolidColorBrush(GetColorReal(bgColor)), new Avalonia.Rect(x, y, CharacterWidth, CharacterHeight));
+                            context.DrawText(formattedText, new Avalonia.Point(x, y));
+                            x += CharacterWidth*text.Length;
+                            text = "";
+                        }
+                        fgColor = c.Foreground;
+                        bgColor = c.Background;
+                        oblique = c.Oblique;
+                        text += c.Character;
+                    }
+                }
+                if (text != "")
+                {
+                    var formattedText = new FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, (oblique ? typefaceOblique : typeface), 16.0, new SolidColorBrush(GetColorReal(fgColor)));
+                    context.FillRectangle(new SolidColorBrush(GetColorReal(bgColor)), new Avalonia.Rect(x, y, CharacterWidth, CharacterHeight));
                     context.DrawText(formattedText, new Avalonia.Point(x, y));
-                    x += CharacterWidth;
                 }
                 x = 5.0;
                 y += CharacterHeight;

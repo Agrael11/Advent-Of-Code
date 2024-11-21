@@ -29,6 +29,8 @@ namespace advent_of_code.Views
 
             Visualizers.AOConsole.RegWrite(Write);
             Visualizers.AOConsole.RegWriteLine(WriteLine);
+            Visualizers.AOConsole.RegWriteDebug(WriteDebug);
+            Visualizers.AOConsole.RegWriteDebugLine(WriteDebugLine);
             Visualizers.AOConsole.RegClear(Clear);
             Visualizers.AOConsole.RegBackground(SetBGColor);
             Visualizers.AOConsole.RegBackground(GetBGColor);
@@ -137,6 +139,20 @@ namespace advent_of_code.Views
         {
             FileHandling.DeleteDírectory("Inputs");
         }
+
+        private void DebugSwitchAction(object sender, RoutedEventArgs args)
+        {
+            AOConsole.Debugging = !AOConsole.Debugging;
+            if (AOConsole.Debugging)
+            {
+                DebugButton.Content = "Disable Debug";
+            }
+            else
+            {
+                DebugButton.Content = "Enable Debug";
+            }
+        }
+
         private void CopyButtonAction(object sender, RoutedEventArgs args)
         {
             var text = VConsole.GetText();
@@ -153,6 +169,16 @@ namespace advent_of_code.Views
         public void WriteLine(string text)
         {
             Dispatcher.UIThread.Invoke(() => VConsole.WriteLine(text));
+        }
+
+        public void WriteDebug(string text)
+        {
+            Dispatcher.UIThread.Invoke(() => VConsole.Write(text, true));
+        }
+
+        public void WriteDebugLine(string text)
+        {
+            Dispatcher.UIThread.Invoke(() => VConsole.WriteLine(text, true));
         }
 
         public void Clear()
