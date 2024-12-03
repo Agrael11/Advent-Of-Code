@@ -10,7 +10,7 @@ namespace advent_of_code.Year2024.Day03
 
             var result = 0L;
 
-            //Does regex matches for mul\(\d*,\d*\)
+            //Does regex matches for mul\(\d{1,3},\d{1,3}\)
             //Regex is explained in it's file
             //If it won't find anything, we'll simply return 0
             var matches = Regexes.RegexMuls().Matches(input);
