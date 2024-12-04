@@ -26,7 +26,5 @@
 
             return letters[y][x];
         }
-
-        
     }
 }
