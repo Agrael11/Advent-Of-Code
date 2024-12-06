@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace advent_of_code.Helpers
+﻿namespace advent_of_code.Helpers
 {
     public static class ExtensionsIndexOf
     {
