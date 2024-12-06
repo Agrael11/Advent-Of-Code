@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace advent_of_code.Helpers
+﻿namespace advent_of_code.Helpers
 {
     public static class ExtensionsPermutations
     {

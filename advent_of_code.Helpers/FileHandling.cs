@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace advent_of_code.Helpers
+﻿namespace advent_of_code.Helpers
 {
     internal class FileHandling
     {
