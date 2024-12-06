@@ -6,6 +6,16 @@
         public int Size => Jobs.Count;
         public List<SingleJob<SingleType>> Jobs { get; } = new List<SingleJob<SingleType>>();
 
+        public static void RunMultipleParallelized(List<BatchJob<SingleType, ResultType>> batches)
+        {
+            Parallel.ForEach(batches, batch => batch.Run());
+        }
+
+        public void RunParallelized()
+        {
+            Parallel.ForEach(Jobs, job => job.Run());
+        }
+
         public void Run()
         {
             foreach (var job in Jobs)
