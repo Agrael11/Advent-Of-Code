@@ -19,32 +19,12 @@ namespace advent_of_code.Year2024.Day06
             var visitedLocations = Common.GetVisitedLocations();
             visitedLocations.Remove((guardX, guardY));
 
+            //Convert location list to list of loop detection jobs
+            var jobs = visitedLocations.Select(location => new SingleJob<bool>(() => WouldBeLoop(guardX, guardY, guardDirection, location.X, location.Y))).ToList();
 
-            //To allow multicore processing, we create multiple jobs that run concurrently, but since the code is slower, we will run it in larger batches
-            var batches = new List<BatchJob<bool, int>>();
-
-            //That's how we cound nuumber of items in batch :)
-            var batch = new BatchJob<bool, int>((data) => data.Count(v => v == true));
-
-            foreach (var (locationX, locationY) in visitedLocations)
-            {
-                //Each job checks if path guard takes would be a loop
-                batch.Jobs.Add(new SingleJob<bool>(() => WouldBeLoop(guardX, guardY, guardDirection, locationX, locationY)));
-
-                //If batch is full, we add it to list and create next one
-                if (batch.Size == JOBCOUNT)
-                {
-                    batches.Add(batch);
-                    batch = new BatchJob<bool, int>((data) => data.Count(v => v == true));
-                }
-            }
-
-            //If there's incomplete batch, we also add it
-            if (batch.Size > 0) batches.Add(batch);
-
-            //We execute batches in parallel
-            Parallel.ForEach(batches, batch => batch.Run());
-
+            //Run all jobs is parallel, constrained multiple times. we count only jobs that resulted in loop.
+            var batches = SingleJob<bool>.RunParallelized<int>(jobs, JOBCOUNT, (result) => result.Count(v => v == true));
+            
             return batches.Sum(batch => batch.Results);
         }
 
