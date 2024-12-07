@@ -8,41 +8,47 @@ namespace advent_of_code.Year2024.Day07
         {
             var input = inputData.Replace("\r", "").TrimEnd('\n').Split("\n");
 
-            //Same as part 1
+            //Same as part 1, but we instead use Parallelized job system. Batch size of 50 worked well :)
             var jobs = input.Select(line =>
-                new SingleJob<long>(new Func<long>(() =>
-                {
-                    var equation = new Equation(line);
-                    var result = Common.IsOkay(equation, GetNext);
-                    return result ? equation.ExpectedResult : 0;
-                }))).ToList();
+            new SingleJob<long>(new Func<long>(() => Common.IsOkay(new Equation(line), GetNext)))).ToList();
 
-            //But batch size is not 5 to accomodate higher complexity
-            var batches = SingleJob<long>.RunParallelized<long>(jobs, 5, (results) => results.Sum());
+            var batches = SingleJob<long>.RunParallelized<long>(jobs, 50, (results) => results.Sum());
 
             return batches.Sum(batch => batch.Results);
         }
 
         public static IEnumerable<(Equation, int, long)> GetNext((Equation equation, int index, long intermediateResult) state)
         {
-            if (state.index < state.equation.Numbers.Length) //If there is next number
+            if (state.index >= 0) //If there is next number
             {
                 //We get next number and get two results - one for addition and one for multiplication
                 var nextNumber = state.equation.Numbers[state.index];
-                var i1 = state.intermediateResult * nextNumber;
-                var i2 = state.intermediateResult + nextNumber;
-                
-                if (i1 <= state.equation.ExpectedResult) //If we did not exceeded expected result by addition
+
+                //This is same as in part 1
+                var resultSub = state.intermediateResult - nextNumber;
+                if (resultSub >= 0)
                 {
-                    yield return (state.equation, state.index + 1, i1);
+                    yield return (state.equation, state.index - 1, resultSub);
                 }
-                if (i2 <= state.equation.ExpectedResult) //If we did not exceeded expected result by multiplication
+
+                var resultDiv = state.intermediateResult / nextNumber;
+                var remainderDiv = state.intermediateResult % nextNumber;
+
+                if (remainderDiv == 0 && resultDiv >= 0)
                 {
-                    yield return (state.equation, state.index + 1, i2);
+                    yield return (state.equation, state.index - 1, resultDiv);
                 }
-                if (long.TryParse(state.intermediateResult.ToString() + nextNumber, out var i3) && i3 <= state.equation.ExpectedResult) //If we did not exceeded expected result by concatenation
+
+                //We get temporary string version for later reuse
+                var intermidiateString = state.intermediateResult.ToString();
+                var nextString = nextNumber.ToString();
+
+                //If current result ends with the next number
+                if (intermidiateString.ToString().EndsWith(nextString))
                 {
-                    yield return (state.equation, state.index + 1, i3);
+                    //We remove this number from it and parse result as long. We add 0 to start so it is able to parse it. Dirty but simple solution
+                    var result = long.Parse("0" + intermidiateString[..^nextString.Length]);
+                    yield return (state.equation, state.index - 1, result);
                 }
             }
         }
