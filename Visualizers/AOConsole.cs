@@ -55,10 +55,7 @@ namespace Visualizers
 
         public static void Clear()
         {
-            if (Enabled)
-            {
-                clear?.Invoke();
-            }
+            clear?.Invoke();
         }
 
         public static void Write(string text)
