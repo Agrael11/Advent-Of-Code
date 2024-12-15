@@ -11,6 +11,8 @@ namespace advent_of_code.Views
 {
     public partial class CalendarView : UserControl
     {
+        bool Visualizing = false;
+
         public CalendarView()
         {
             InitializeComponent();
@@ -90,8 +92,8 @@ namespace advent_of_code.Views
         private async void RunTask(int year, int day)
         {
             _ = await advent_of_code.ChallangeHandling.GetInputAsync(year, day);
-            _ = await ChallangeHandling.RunTaskAsync(year, day, 1, ChallangeHandler1);
-            _ = ChallangeHandling.RunTaskAsync(year, day, 2, ChallangeHandler2);
+            _ = await ChallangeHandling.RunTaskAsync(year, day, 1, Visualizing, ChallangeHandler1);
+            _ = ChallangeHandling.RunTaskAsync(year, day, 2, Visualizing, ChallangeHandler2);
         }
 
         private void ChallangeHandler1(Stopwatch watch, bool okay, string result)
@@ -193,6 +195,20 @@ namespace advent_of_code.Views
             else
             {
                 DebugButton.Content = "Enable Debug";
+            }
+        }
+
+        private void VisualizingSwitchAction(object sender, RoutedEventArgs args)
+        {
+            Visualizing = !Visualizing;
+            AOConsole.Enabled = Visualizing;
+            if (Visualizing)
+            {
+                VisualizingButton.Content = "Disable Visualizing";
+            }
+            else
+            {
+                VisualizingButton.Content = "Enable Visualizing";
             }
         }
 

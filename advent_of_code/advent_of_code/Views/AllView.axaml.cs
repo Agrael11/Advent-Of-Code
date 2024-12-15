@@ -216,8 +216,8 @@ namespace advent_of_code.Views
                 }
                 days.RemoveAt(0);
                 _ = await ChallangeHandling.GetInputAsync(year, day);
-                _ = await ChallangeHandling.RunTaskAsync(year, day, 1, ChallangeHandler1);
-                _ = await ChallangeHandling.RunTaskAsync(year, day, 2, ChallangeHandler2);
+                _ = await ChallangeHandling.RunTaskAsync(year, day, 1, false, ChallangeHandler1);
+                _ = await ChallangeHandling.RunTaskAsync(year, day, 2, false, ChallangeHandler2);
             }
             End();
             return;

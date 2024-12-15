@@ -56,8 +56,9 @@
 						<RowDefinition Height="10"/>
 						<RowDefinition Height="30"/>
 					</Grid.RowDefinitions>
-					<Button Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  x:Name="DeleteButton" x:CompileBindings="False" Click="DeleteButtonAction">Delete Input Cache</Button>
-					<Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch"  x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
+					<Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"  x:Name="DeleteButton" x:CompileBindings="False" Click="DeleteButtonAction">Delete Input Cache</Button>
+					<Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch"  x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
+					<Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch"  x:Name="VisualizingButton" x:CompileBindings="False" Click="VisualizingSwitchAction">Enable Visualizing</Button>
 					<Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch"  x:Name="DebugButton" x:CompileBindings="False" Click="DebugSwitchAction">Enable Debug</Button>
 					<Button Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  x:Name="MultiButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetAll}">Multiday Run</Button>
 					<Button Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  x:Name="CopyButton" x:CompileBindings="False" Click="CopyButtonAction">Copy console to clipboard</Button>

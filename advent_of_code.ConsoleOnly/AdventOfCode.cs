@@ -4,6 +4,8 @@ namespace advent_of_code.ConsoleOnly
 {
     public static class AdventOfCode
     {
+        private static bool Visualizing = false;
+
         public static void Register()
         {
             AOConsole.RegClear(() => { Console.WriteLine("\x1b[3J"); Console.Clear(); });
@@ -36,6 +38,7 @@ namespace advent_of_code.ConsoleOnly
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"You can select the challenge using year and days number [2013-{DateTime.Now.Year}] [1-25]");
                     Console.WriteLine("You can also select to run all available challenges by using letter \"A\"");
+                    Console.WriteLine($"If you want to enable or disable Visualizations, press \"V\" (Currently {(Visualizing?"Enabled":"Disabled")})");
                     Console.WriteLine("You can delete your cached inputs by writing \"D\"");
                     Console.WriteLine("To quit write letter \"Q\"");
                     Console.WriteLine("To show this info, write letter \"I\"");
@@ -77,6 +80,12 @@ namespace advent_of_code.ConsoleOnly
                 {
                     DrawATree();
                     DoAllChallenges();
+                }
+                else if (result.Equals("V", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    DrawATree();
+                    Visualizing = !Visualizing;
+                    Console.WriteLine($"Visulazations were {(Visualizing?"Enabled":"Disabled")}");
                 }
                 else if (result.Equals("I", StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -129,7 +138,7 @@ namespace advent_of_code.ConsoleOnly
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"Results of Day {day} of {year} are: ");
             _ = advent_of_code.ChallangeHandling.GetInputAsync(year, day);
-            var task1 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 1);
+            var task1 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 1, Visualizing);
             task1.Wait();
             (var watch1, var result1) = task1.Result;
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -143,7 +152,7 @@ namespace advent_of_code.ConsoleOnly
                 Console.Write(result1);
             }
             Console.ForegroundColor = ConsoleColor.White;
-            var task2 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 2);
+            var task2 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 2, Visualizing);
             task2.Wait();
             (var watch2, var result2) = task2.Result;
             Console.Write(" and ");

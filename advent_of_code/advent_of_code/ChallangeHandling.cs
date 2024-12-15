@@ -13,7 +13,7 @@ namespace advent_of_code
     public class ChallangeHandling
     {
         private readonly static string baseString = "advent_of_code.Year{0:D4}.Day{1:D2}.Challange{2:D}, advent_of_code.Year{0:D4}.Day{1:D2}";
-        public static async Task<(Stopwatch stopwatch, string result)> RunTaskAsync(int year, int day, int part, Action<Stopwatch, bool, string>? FinishedCallback = null)
+        public static async Task<(Stopwatch stopwatch, string result)> RunTaskAsync(int year, int day, int part, bool visualisation, Action<Stopwatch, bool, string>? FinishedCallback = null)
         {
             Stopwatch watch;
             var result = "";
@@ -52,7 +52,7 @@ namespace advent_of_code
                 FinishedCallback?.Invoke(watch, false, error.ToString());
                 return (watch, error.ToString());
             }
-            AOConsole.Enabled = true;
+            AOConsole.Enabled = visualisation;
 
             watch = Stopwatch.StartNew();
             try
