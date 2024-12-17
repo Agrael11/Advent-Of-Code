@@ -1,4 +1,7 @@
-﻿namespace advent_of_code.Year2024.Day16
+﻿using System.Text;
+using Visualizers;
+
+namespace advent_of_code.Year2024.Day16
 {
     public static class Challange2
     {
@@ -79,14 +82,15 @@
                 }
             }
 
-            return CountPointsInPaths(parents, ends);
+            return CountPointsInPaths(parents, ends, startX, startY, endX , endY);
         }
 
         //Crawls backwards through all paths and counts number of points we hit. I used simple DFS for that
         private static int CountPointsInPaths(Dictionary<(
             int x, int y, int direction), 
             List<(int x, int y, int direction)>> paths,
-            HashSet<(int x, int y, int direction)> ends)
+            HashSet<(int x, int y, int direction)> ends,
+            int startX, int startY, int endX, int endY)
         {
             var points = new HashSet<(int, int)>(); //This will hold lits of unique points we visit
 
@@ -110,6 +114,47 @@
                     {
                         stack.Push(parent);
                     }
+                }
+            }
+                        
+            if (AOConsole.Enabled)
+            {
+                var builder = new StringBuilder();
+                for (var y = 0; y < Common.Heigth; y++)
+                {
+                    for (var x = 0; x < Common.Width; x++)
+                    {
+                        if (Common.Map[x, y])
+                        {
+                            builder.Append("██");
+                            continue;
+                        }
+                        else
+                        {
+                            builder.Append("  ");
+                        }
+                    }
+                    builder.AppendLine();
+                }
+                AOConsole.Clear();
+                AOConsole.ForegroundColor = AOConsoleColor.DarkGray;
+                AOConsole.Write(builder.ToString());
+
+                AOConsole.CursorLeft = endX * 2;
+                AOConsole.CursorTop = endY;
+                AOConsole.ForegroundColor = AOConsoleColor.Red;
+                AOConsole.Write("EE");
+                AOConsole.CursorLeft = startX * 2;
+                AOConsole.CursorTop = startY;
+                AOConsole.ForegroundColor = AOConsoleColor.Green;
+                AOConsole.Write("SS");
+
+                foreach (var point in points)
+                {
+                    AOConsole.CursorLeft = point.Item1 * 2;
+                    AOConsole.CursorTop = point.Item2;
+                    AOConsole.ForegroundColor = AOConsoleColor.Blue;
+                    AOConsole.Write("██");
                 }
             }
 

@@ -2,9 +2,9 @@
 {
     internal static class Common
     {
-        private static bool[,] Map = new bool[0, 0];
-        private static int Width = 0;
-        private static int Heigth = 0;
+        public static bool[,] Map { get; private set; } = new bool[0, 0];
+        public static int Width { get; private set; } = 0;
+        public static int Heigth { get; private set; } = 0;
 
         private static readonly (int OffsetX, int OffsetY)[] OFFSETS = [(+1, 0), (0, +1), (-1, 0), (0, -1)];
 
