@@ -172,7 +172,7 @@ namespace advent_of_code
         public VirtualConsole()
         {
             InitializeComponent();
-            CharacterHeight = MeasureGuess("0").Height;
+            CharacterHeight = MeasureGuess("0").Height * 0.98;
         }
     }
 }
