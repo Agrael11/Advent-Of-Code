@@ -21,10 +21,12 @@
             //I made binary search for this... and now seeing the result of naive approach... whyyy
             //We are finding first point that is blocked by checking only half points between two points
             //Lowest passing and Highest blocked
+
+            //Actually we can start at 1025 because 1024 is known good!
             var currentIndex = Bytes.Count - 1;
             var last = currentIndex;
             var highest = Bytes.Count - 1;
-            var lowest = 0;
+            var lowest = 1025;
 
             for (; ; )
             {
@@ -64,7 +66,7 @@
              * Is it suppposed to be this easy?
             
             var byteset = new HashSet<(int x, int y)>();
-            for (var i = 0; i < Bytes.Count; i++)
+            for (var i = 1025; i < Bytes.Count; i++)
             {
                 byteset.Add(Bytes[i]);
                 if (!BFS(byteset))
