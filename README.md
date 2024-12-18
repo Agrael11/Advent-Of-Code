@@ -66,7 +66,7 @@
 
    ## Author
 
-   **Agrael11** / **Agrael11**
+   **Agrael11** / **Tachi**
 
    ## License
 
