@@ -61,11 +61,12 @@
 
    ## Contributing
 
-   Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
+   Contributions to Launcher are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
+   If you noticed a bug in one of solutions, ot it doesn't work for your input, please let me know :)
 
    ## Author
 
-   **Agrael11**
+   **Agrael11** / **Agrael11**
 
    ## License
 
