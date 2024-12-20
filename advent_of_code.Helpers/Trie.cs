@@ -37,9 +37,12 @@
             return Branches.ContainsKey(value);
         }
 
-        public List<T> GetBranchKeys()
+        public IEnumerable<T> EnumerateBranchKeys()
         {
-            return Branches.Keys.ToList();
+            foreach (var branch in Branches.Keys)
+            {
+                yield return branch;
+            }
         }
 
         public Trie<T> GetOrAddBranch(T value, bool end = false)
