@@ -1,4 +1,6 @@
-﻿namespace advent_of_code.Year2024.Day20
+﻿using advent_of_code.Helpers;
+
+namespace advent_of_code.Year2024.Day20
 {
     internal class Common
     {
@@ -54,30 +56,43 @@
 
         public static long CountSavesAboveTreshold(int treshold, int maxDistance)
         {
-            var cheatedPaths = 0;
+            var jobs = new List<SingleJob<long>>();
 
+            //Paralelized each of the start points
             for (var i = 0; i < Path.Length - 2; i++)
             {
-                var (thisX, thisY) = Path[i];
-                var thisDistance = DistancedPath[thisX, thisY];
+                var copyIndex = i;
+                jobs.Add(new SingleJob<long>(() => CountSavesAboveTreshold(treshold, maxDistance, copyIndex)));
+            }
 
-                for (var j = i + 2; j < Path.Length; j++)
-                {
-                    var (otherX, otherY) = Path[j];
-                    var manhattan = Math.Abs(thisX - otherX) + Math.Abs(thisY - otherY);
-                
-                    //Here I'm basically checking if this point is possible to reach by ignoring walls for "maxDistance"
-                    if (manhattan <= 1 || manhattan > maxDistance) continue;
+            var result = SingleJob<long>.RunParallelized<long>(jobs, jobs.Count/20, (list)=>list.Sum());
 
-                    //And we calcule how much steps we saved.
-                    var difference = thisDistance - DistancedPath[otherX, otherY] - manhattan;
+            return result.Sum(r => r.Results);
+        }
 
-                    if (difference < treshold)
-                        continue;
+        public static long CountSavesAboveTreshold(int treshold, int maxDistance, int currentIndex)
+        {
+            var cheatedPaths = 0L;
 
-                    //If it's more than treshold we needed we count it as successfuly cheated path
-                    cheatedPaths++;
-                }
+            var (thisX, thisY) = Path[currentIndex];
+            var currentDistance = DistancedPath[thisX, thisY];
+
+            for (var nextIndex = currentIndex + 2; nextIndex < Path.Length; nextIndex++)
+            {
+                var (otherX, otherY) = Path[nextIndex];
+                var manhattan = Math.Abs(thisX - otherX) + Math.Abs(thisY - otherY);
+
+                //Here I'm basically checking if this point is possible to reach by ignoring walls for "maxDistance"
+                if (manhattan <= 1 || manhattan > maxDistance) continue;
+
+                //And we calcule how much steps we saved.
+                var difference = currentDistance - DistancedPath[otherX, otherY] - manhattan;
+
+                if (difference < treshold)
+                    continue;
+
+                //If it's more than treshold we needed we count it as successfuly cheated path
+                cheatedPaths++;
             }
 
             return cheatedPaths;
