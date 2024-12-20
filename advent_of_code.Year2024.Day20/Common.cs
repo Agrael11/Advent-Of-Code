@@ -56,16 +56,16 @@ namespace advent_of_code.Year2024.Day20
 
         public static long CountSavesAboveTreshold(int treshold, int maxDistance)
         {
+            //Paralelized each of the start points
             var jobs = new List<SingleJob<long>>();
 
-            //Paralelized each of the start points
             for (var i = 0; i < Path.Length - 2; i++)
             {
                 var copyIndex = i;
                 jobs.Add(new SingleJob<long>(() => CountSavesAboveTreshold(treshold, maxDistance, copyIndex)));
             }
 
-            var result = SingleJob<long>.RunParallelized<long>(jobs, jobs.Count/20, (list)=>list.Sum());
+            var result = SingleJob<long>.RunParallelized<long>(jobs, jobs.Count/100, (list)=>list.Sum());
 
             return result.Sum(r => r.Results);
         }
