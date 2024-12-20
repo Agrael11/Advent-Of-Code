@@ -28,7 +28,7 @@ namespace advent_of_code.Year2024.Day19
             {
                 workingTrie = workingTrie.GetOrAddBranch(str[i]);
             }
-            workingTrie.GetOrAddBranch('$');
+            workingTrie.IsEndOfTrie = true;
         }
 
         public static long CountPossiblePatterns(string targetDesign)
@@ -58,7 +58,7 @@ namespace advent_of_code.Year2024.Day19
 
                     if (end > targetDesign.Length) break; // If we are out of bounds of dp, we end
 
-                    if (current.ContainsBranch('$')) //And we count pattern as possible if it ends here ($ - terminator)
+                    if (current.IsEndOfTrie) //And we count pattern as possible if it ends here ($ - terminator)
                     {
                         dp[end] += dpCount; //dpCount - how many times we got to beginning of pattern
                     }
