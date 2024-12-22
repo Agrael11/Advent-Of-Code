@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\advent_of_code.Helpers\advent_of_code.Helpers.csproj" />
     <ProjectReference Include="..\Visualizers\Visualizers.csproj" />
   </ItemGroup>
 
