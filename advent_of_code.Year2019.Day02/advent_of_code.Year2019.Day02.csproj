@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>advent_of_code.Year2019.Day02</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\advent_of_code.Year2019.Day01\advent_of_code.Year2019.Day01.csproj" />
-    <ProjectReference Include="..\advent_of_code.Year2019.Day02\advent_of_code.Year2019.Day02.csproj" />
+    <ProjectReference Include="..\IntMachine\IntMachine.csproj" />
   </ItemGroup>
 
 </Project>
