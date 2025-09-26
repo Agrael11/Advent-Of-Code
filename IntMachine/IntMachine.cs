@@ -1,7 +1,4 @@
-﻿using System.Reflection.Emit;
-using System.Reflection.Metadata.Ecma335;
-
-namespace IntMachine
+﻿namespace IntMachine
 {
     public class Machine
     {

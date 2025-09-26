@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace advent_of_code.Year2019.Day02
+﻿namespace advent_of_code.Year2019.Day02
 {
     public static class Challange2
     {
