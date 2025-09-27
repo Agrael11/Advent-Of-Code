@@ -4,6 +4,8 @@ namespace IntMachine
 {
     public class Machine
     {
+        public enum RunResult { Okay, Exit, IndexOutOfRange, WrongOpcode, UnsupportedOpcode, WaitingForInput }
+
         private readonly Queue<int> InputQueue = new Queue<int>();
         private readonly Queue<int> OutputQueue = new Queue<int>();
 
@@ -50,8 +52,6 @@ namespace IntMachine
             input = InputQueue.Dequeue();
             return true;
         }
-
-        public enum RunResult { Okay, Exit, IndexOutOfRange, WrongOpcode, UnsupportedOpcode }
 
         private readonly Dictionary<int, OpcodeFunction> OpcodeMap = new Dictionary<int, OpcodeFunction>();
 
@@ -139,8 +139,11 @@ namespace IntMachine
                 PC += 2;
                 if (!RAM.TryWriteIndirect(memAddr + 1, input.Value)) 
                     return RunResult.IndexOutOfRange;
+
+                return RunResult.Okay;
             }
-            return RunResult.Okay;
+
+            return RunResult.WaitingForInput;
         }
 
         private RunResult OpcodeOutput(int arg1mode, int arg2mode, int arg3mode)
