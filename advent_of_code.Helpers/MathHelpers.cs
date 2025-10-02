@@ -59,6 +59,12 @@
             return 1;
         }
 
+        //LCM - Least Common Multiple
+        public static long LCM(long a, long b)
+        {
+            return (a / GCD(a, b)) * b;
+        }
+
         //GCD - Greatest Common Divisor
         public static long GCD(long a, long b)
         {
