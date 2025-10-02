@@ -8,7 +8,7 @@ namespace advent_of_code.Year2019.Day11
         {
             var input = inputData.Replace("\r", "").Replace("\n","").Split(",").Select(long.Parse).ToArray();
             
-            var robot = Common.RunNewRobot(input, Robot.Color.Black);
+            var robot = Common.RunNewRobot(input);
 
             return robot.GetVisitedPanelCount();
         }

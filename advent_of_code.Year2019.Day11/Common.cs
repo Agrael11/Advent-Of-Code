@@ -4,7 +4,7 @@ namespace advent_of_code.Year2019.Day11
 {
     internal class Common
     {
-        public static Robot RunNewRobot(long[] program, Robot.Color startingColor)
+        public static Robot RunNewRobot(long[] program, Robot.Color startingColor = Robot.Color.Black)
         {
             var machine = new Machine()
             {
