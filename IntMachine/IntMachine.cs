@@ -1,17 +1,17 @@
-﻿using System.IO.Pipelines;
-
-namespace IntMachine
+﻿namespace IntMachine
 {
     public class Machine
     {
         public enum RunResult { Okay, Exit, IndexOutOfRange, WrongOpcode, UnsupportedOpcode, WaitingForInput }
 
-        private readonly Queue<int> InputQueue = new Queue<int>();
-        private readonly Queue<int> OutputQueue = new Queue<int>();
+        private readonly Queue<long> InputQueue = new Queue<long>();
+        private readonly Queue<long> OutputQueue = new Queue<long>();
 
-        private delegate RunResult OpcodeFunction(int arg1mode, int arg2mode, int arg3mode);
+        private long RelativeBase = 0;
 
-        public static (int arg1mode, int arg2mode, int arg3mode, int opcode) ParseOpcode(int data)
+        private delegate RunResult OpcodeFunction(long arg1mode, long arg2mode, long arg3mode);
+
+        public static (long arg1mode, long arg2mode, long arg3mode, long opcode) ParseOpcode(long data)
         {
             var opcode = data % 100;
             data /= 100;
@@ -23,11 +23,11 @@ namespace IntMachine
             return (arg1, arg2, arg3, opcode);
         }
 
-        public void PushInput(int value)
+        public void PushInput(long value)
         {
             InputQueue.Enqueue(value);
         }
-        private void PushOutput(int value)
+        private void PushOutput(long value)
         {
             OutputQueue.Enqueue(value);
         }
@@ -37,7 +37,7 @@ namespace IntMachine
             return OutputQueue.Count > 0;
         }
 
-        public bool TryPopOutput(out int? output)
+        public bool TryPopOutput(out long? output)
         {
             output = null;
             if (OutputQueue.Count == 0) return false;
@@ -45,7 +45,7 @@ namespace IntMachine
             return true;
         }
 
-        private bool TryPopInput(out int? input)
+        private bool TryPopInput(out long? input)
         {
             input = null;
             if (InputQueue.Count == 0) return false;
@@ -53,14 +53,14 @@ namespace IntMachine
             return true;
         }
 
-        private readonly Dictionary<int, OpcodeFunction> OpcodeMap = new Dictionary<int, OpcodeFunction>();
+        private readonly Dictionary<long, OpcodeFunction> OpcodeMap = new Dictionary<long, OpcodeFunction>();
 
         public Memory RAM;
-        public int PC { get; set; }
+        public long PC { get; set; }
 
         public Machine()
         {
-            RAM = new Memory(0);
+            RAM = new Memory();
             PC = 0;
             OpcodeMap.Add(1, OpcodeAdd);
             OpcodeMap.Add(2, OpcodeMul);
@@ -70,10 +70,11 @@ namespace IntMachine
             OpcodeMap.Add(6, OpcodeJZ);
             OpcodeMap.Add(7, OpcodeCMPL);
             OpcodeMap.Add(8, OpcodeCMPE);
+            OpcodeMap.Add(9, OpcodeRBRINC);
             OpcodeMap.Add(99, OpcodeExit);
         }
 
-        private bool ReadOpcodeArg(int memAddr, int mode, out int? result)
+        private bool ReadOpcodeArg(long memAddr, long mode, out long? result)
         {
             result = null;
             if (!RAM.TryRead(memAddr, out var immediateValue) || immediateValue is null) return false;
@@ -82,10 +83,29 @@ namespace IntMachine
                 result = immediateValue;
                 return true;
             }
+            else if (mode == 2)
+            {
+                return RAM.TryRead(immediateValue.Value + RelativeBase, out result);
+            }
+            
             return RAM.TryRead(immediateValue.Value, out result);
         }
 
-        public RunResult Run(params List<int> supportedOpcodes)
+        private bool WriteOpcodeArg(long memAddr, long mode, long value)
+        {
+            if (!RAM.TryRead(memAddr, out var immediateValue) || immediateValue is null) return false;
+            if (mode == 1)
+            {
+                throw new Exception("Wait what? Immidiate mode in write?");
+            }
+            else if (mode == 2)
+            {
+                return RAM.TryWrite(immediateValue.Value + RelativeBase, value);
+            }
+            return RAM.TryWrite(immediateValue.Value, value);
+        }
+
+        public RunResult Run(params List<long> supportedOpcodes)
         {
             while (true)
             {
@@ -94,7 +114,7 @@ namespace IntMachine
             }
         }
 
-        public RunResult Step(params List<int> supportedOpcodes)
+        public RunResult Step(params List<long> supportedOpcodes)
         {
             if (!RAM.TryRead(PC, out var value) || value is null) return RunResult.IndexOutOfRange;
             var (arg1mode, arg2mode, arg3mode, opcode) = ParseOpcode(value.Value);
@@ -103,41 +123,41 @@ namespace IntMachine
             return fuction.Invoke(arg1mode, arg2mode, arg3mode);
         }
 
-        private RunResult OpcodeAdd(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeAdd(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 4;
             if (!ReadOpcodeArg(memAddr+1, arg1mode, out var value1) ||
                 !ReadOpcodeArg(memAddr+2, arg2mode, out var value2) ||
                 value1 is null || value2 is null ||
-                !RAM.TryWriteIndirect(memAddr+3, value1.Value + value2.Value))
+                !WriteOpcodeArg(memAddr+3, arg3mode, value1.Value + value2.Value))
             {
                 return RunResult.IndexOutOfRange;
             }
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeMul(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeMul(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 4;
             if (!ReadOpcodeArg(memAddr + 1, arg1mode, out var value1) ||
                 !ReadOpcodeArg(memAddr + 2, arg2mode, out var value2) ||
                 value1 is null || value2 is null ||
-                !RAM.TryWriteIndirect(memAddr + 3, value1.Value * value2.Value))
+                !WriteOpcodeArg(memAddr + 3, arg3mode, value1.Value * value2.Value))
             {
                 return RunResult.IndexOutOfRange;
             }
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeInput(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeInput(long arg1mode, long arg2mode, long arg3mode)
         {
             if (TryPopInput(out var input) && input is not null)
             {
                 var memAddr = PC;
                 PC += 2;
-                if (!RAM.TryWriteIndirect(memAddr + 1, input.Value)) 
+                if (!WriteOpcodeArg(memAddr + 1, arg1mode, input.Value)) 
                     return RunResult.IndexOutOfRange;
 
                 return RunResult.Okay;
@@ -146,7 +166,7 @@ namespace IntMachine
             return RunResult.WaitingForInput;
         }
 
-        private RunResult OpcodeOutput(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeOutput(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 2;
@@ -158,7 +178,7 @@ namespace IntMachine
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeJNZ(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeJNZ(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 3;
@@ -175,7 +195,7 @@ namespace IntMachine
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeJZ(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeJZ(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 3;
@@ -192,7 +212,7 @@ namespace IntMachine
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeCMPL(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeCMPL(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 4;
@@ -200,7 +220,7 @@ namespace IntMachine
             if (!ReadOpcodeArg(memAddr + 1, arg1mode, out var arg1) ||
                 !ReadOpcodeArg(memAddr + 2, arg2mode, out var arg2) ||
                 arg1 is null || arg2 is null ||
-                !RAM.TryWriteIndirect(memAddr + 3, ((arg1.Value < arg2.Value) ? 1 : 0)))
+                !WriteOpcodeArg(memAddr + 3, arg3mode, ((arg1.Value < arg2.Value) ? 1 : 0)))
             {
                 return RunResult.IndexOutOfRange;
             }
@@ -208,7 +228,7 @@ namespace IntMachine
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeCMPE(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeCMPE(long arg1mode, long arg2mode, long arg3mode)
         {
             var memAddr = PC;
             PC += 4;
@@ -216,7 +236,7 @@ namespace IntMachine
             if (!ReadOpcodeArg(memAddr + 1, arg1mode, out var arg1) ||
                 !ReadOpcodeArg(memAddr + 2, arg2mode, out var arg2) ||
                 arg1 is null || arg2 is null ||
-                !RAM.TryWriteIndirect(memAddr + 3, ((arg1.Value == arg2.Value) ? 1 : 0)))
+                !WriteOpcodeArg(memAddr + 3, arg3mode, (arg1.Value == arg2.Value) ? 1 : 0))
             {
                 return RunResult.IndexOutOfRange;
             }
@@ -224,7 +244,19 @@ namespace IntMachine
             return RunResult.Okay;
         }
 
-        private RunResult OpcodeExit(int arg1mode, int arg2mode, int arg3mode)
+        private RunResult OpcodeRBRINC(long arg1mode, long arg2mode, long arg3mode)
+        {
+            var memAddr = PC;
+            PC += 2;
+            if (!ReadOpcodeArg(memAddr + 1, arg1mode, out var arg1) || arg1 is null)
+            {
+                return RunResult.IndexOutOfRange;
+            }
+            RelativeBase += arg1.Value;
+            return RunResult.Okay;
+        }
+
+        private RunResult OpcodeExit(long arg1mode, long arg2mode, long arg3mode)
         {
             return RunResult.Exit;
         }

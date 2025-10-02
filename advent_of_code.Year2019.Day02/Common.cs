@@ -2,7 +2,7 @@
 {
     internal class Common
     {
-        public static bool TryRunMachine(int noun, int verb, int[] input, out int result)
+        public static bool TryRunMachine(int noun, int verb, long[] input, out long result)
         {
             var machine = new IntMachine.Machine
             {

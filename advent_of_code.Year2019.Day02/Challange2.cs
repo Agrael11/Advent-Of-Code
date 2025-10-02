@@ -6,7 +6,7 @@
 
         public static long DoChallange(string inputData)
         {
-            var input = inputData.Replace("\r", "").TrimEnd('\n').Split(",").Select(int.Parse).ToArray();
+            var input = inputData.Replace("\r", "").Replace("\n","").Split(",").Select(long.Parse).ToArray();
 
             for (var argument = 0; argument <= 9999; argument++)
             {

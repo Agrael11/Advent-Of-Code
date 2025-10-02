@@ -1,24 +1,29 @@
 ﻿namespace IntMachine
 {
-    public class Memory(int size)
+    public class Memory()
     {
-        private int[] Data = new int[size];
+        private Dictionary<long, long> Data = [];
 
-        public bool TryRead(int pointer, out int? result)
+        public bool TryRead(long pointer, out long? result)
         {
-            if (pointer < 0 || pointer >= Data.Length)
+            if (pointer < 0)
             {
                 result = null;
                 return false;
             }
+            if (!Data.TryGetValue(pointer, out var tryresult))
+            {
+                result = 0;
+                return true;
+            }
 
-            result = Data[pointer];
+            result = tryresult;
             return true;
         }
 
-        public bool TryWrite(int pointer, int value)
+        public bool TryWrite(long pointer, long value)
         {
-            if (pointer < 0 || pointer >= Data.Length)
+            if (pointer < 0)
             {
                 return false;
             }
@@ -27,7 +32,7 @@
             return true;
         }
 
-        public bool TryReadIndirect(int pointer, out int? result)
+        public bool TryReadIndirect(long pointer, out long? result)
         {
             if (!TryRead(pointer, out var indirect) || indirect is null)
             {
@@ -38,7 +43,7 @@
             return TryRead(indirect.Value, out result);
         }
 
-        public bool TryWriteIndirect(int pointer, int value)
+        public bool TryWriteIndirect(long pointer, long value)
         {
             if (!TryRead(pointer, out var indirect) || indirect is null)
             {
@@ -51,18 +56,13 @@
 
 
 
-        public static explicit operator Memory(int[] data)
+        public static explicit operator Memory(long[] data)
         {
-            var mem = new Memory(data.Length)
+            var mem = new Memory()
             {
-                Data = (int[])data.Clone()
+                Data = data.Select((v, i) => (v, i)).ToDictionary(t => (long)t.i, t => t.v)
             };
             return mem;
-        }
-
-        public static explicit operator int[](Memory mem)
-        {
-            return mem.Data;
         }
     }
 }

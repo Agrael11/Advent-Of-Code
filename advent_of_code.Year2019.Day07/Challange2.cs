@@ -7,11 +7,11 @@ namespace advent_of_code.Year2019.Day07
     {
         public static long DoChallange(string inputData)
         {
-            var input = inputData.Replace("\r", "").Replace("\n","").Split(",").Select(int.Parse).ToArray();
+            var input = inputData.Replace("\r", "").Replace("\n","").Split(",").Select(long.Parse).ToArray();
             
             List<int> options = [5, 6, 7, 8, 9];
 
-            var maximum = int.MinValue;
+            var maximum = long.MinValue;
 
             foreach (var permutation in options.YieldPermutate())
             {
@@ -25,16 +25,16 @@ namespace advent_of_code.Year2019.Day07
             return maximum;
         }
 
-        private static int RunMachines(int[] memory, List<int> signal)
+        private static long RunMachines(long[] memory, List<int> signal)
         {
-            var machines = new List<Func<int, (Machine.RunResult result, int? output)>>();
+            var machines = new List<Func<long, (Machine.RunResult result, long? output)>>();
             
             for (var i = 0; i < 5; i++)
             {
                 machines.Add(PrepareMachineRunMethod(memory, signal[i]));
             }
 
-            var input = 0;
+            var input = 0L;
 
             for (var i = 0; ; i = (i + 1) % 5)
             {
@@ -51,7 +51,7 @@ namespace advent_of_code.Year2019.Day07
             }
         }
 
-        private static Func<int, (Machine.RunResult, int?)> PrepareMachineRunMethod(int[] memory, int signal)
+        private static Func<long, (Machine.RunResult, long?)> PrepareMachineRunMethod(long[] memory, int signal)
         {
             var machine = new Machine()
             {

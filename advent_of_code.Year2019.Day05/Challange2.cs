@@ -6,7 +6,7 @@ namespace advent_of_code.Year2019.Day05
     {
         public static long DoChallange(string inputData)
         {
-            var input = inputData.Replace("\r", "").TrimEnd('\n').Split(",").Select(int.Parse).ToArray();
+            var input = inputData.Replace("\r", "").Replace("\n","").Split(",").Select(long.Parse).ToArray();
             
             var machine = new Machine
             {
@@ -20,7 +20,7 @@ namespace advent_of_code.Year2019.Day05
                 throw new Exception($"IntMachine error: {Enum.GetName(result)}");
             }
 
-            int? output = null;
+            long? output = null;
             while (machine.OutputAvailable())
             {
                 if (!machine.TryPopOutput(out output) || output is null)
