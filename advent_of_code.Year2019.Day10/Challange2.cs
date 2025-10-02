@@ -66,10 +66,6 @@ namespace advent_of_code.Year2019.Day10
             {
                 index %= asteroids.Count;
             }
-            else
-            {
-                index = 0;
-            }
 
             return asteroid;
         }
