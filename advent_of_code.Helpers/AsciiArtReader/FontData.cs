@@ -13,11 +13,14 @@ namespace advent_of_code.Helpers.AsciiArtReader
         public int Height { get; private set; }
         public readonly List<CharacterDefinition> definitions;
 
-        public static string TypeA = "4,6\r\n\r\nC\r\n*##*\r\n#**#\r\n#***\r\n#***\r\n#**#\r\n*##*\r\n\r\nF\r\n####\r\n#***\r\n###*\r\n#***\r\n#***\r\n#***\r\n\r\nG\r\n*##*\r\n#**#\r\n#***\r\n#*##\r\n#**#\r\n*###\r\n\r\nH\r\n#**#\r\n#**#\r\n####\r\n#**#\r\n#**#\r\n#**#\r\n\r\nJ\r\n**##\r\n***#\r\n***#\r\n***#\r\n#**#\r\n*##*\r\n\r\nL\r\n#***\r\n#***\r\n#***\r\n#***\r\n#***\r\n####\r\n\r\nO\r\n*##*\r\n#**#\r\n#**#\r\n#**#\r\n#**#\r\n*##*\r\n\r\nP\r\n###*\r\n#**#\r\n#**#\r\n###*\r\n#***\r\n#***\r\n\r\nS\r\n*###\r\n#***\r\n#***\r\n*##*\r\n***#\r\n###*\r\n\r\nZ\r\n####\r\n***#\r\n**#*\r\n*#**\r\n#***\r\n####";
+        public static string TypeA = "4,6\r\n\r\nC\r\n*##*\r\n#**#\r\n#***\r\n#***\r\n#**#\r\n*##*\r\n\r\nF\r\n####\r\n#***\r\n###*\r\n#***\r\n#***\r\n#***\r\n\r\nG\r\n*##*\r\n#**#\r\n#***\r\n#*##\r\n#**#\r\n*###\r\n\r\nH\r\n#**#\r\n#**#\r\n####\r\n#**#\r\n#**#\r\n#**#\r\n\r\nJ\r\n**##\r\n***#\r\n***#\r\n***#\r\n#**#\r\n*##*\r\n\r\nK\r\n#**#\r\n#*#*\r\n##**\r\n#*#*\r\n#*#*\r\n#**#\r\n\r\nL\r\n#***\r\n#***\r\n#***\r\n#***\r\n#***\r\n####\r\n\r\nO\r\n*##*\r\n#**#\r\n#**#\r\n#**#\r\n#**#\r\n*##*\r\n\r\nP\r\n###*\r\n#**#\r\n#**#\r\n###*\r\n#***\r\n#***\r\n\r\nR\r\n###*\r\n#**#\r\n#**#\r\n###*\r\n#*#*\r\n#**#\r\n\r\nS\r\n*###\r\n#***\r\n#***\r\n*##*\r\n***#\r\n###*\r\n\r\nZ\r\n####\r\n***#\r\n**#*\r\n*#**\r\n#***\r\n####";
         public static string TypeB = "6,10\r\n\r\nC\r\n*####*\r\n#****#\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#****#\r\n*####*\r\n\r\nE\r\n######\r\n#*****\r\n#*****\r\n#*****\r\n#####*\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n######\r\n\r\nG\r\n*####*\r\n#****#\r\n#*****\r\n#*****\r\n#*****\r\n#**###\r\n#****#\r\n#****#\r\n#***##\r\n*###*#\r\n\r\nH\r\n#****#\r\n#****#\r\n#****#\r\n#****#\r\n######\r\n#****#\r\n#****#\r\n#****#\r\n#****#\r\n#****#\r\n\r\nL\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n#*****\r\n######\r\n\r\nZ\r\n######\r\n*****#\r\n*****#\r\n****#*\r\n***#**\r\n**#***\r\n*#****\r\n#*****\r\n#*****\r\n######";
 
         public FontData(string fontFile, bool file)
         {
+            //File.WriteAllText("font.txt", TypeA);
+            //TypeA = File.ReadAllText("font.txt");
+
             definitions = new List<CharacterDefinition>();
             string[] fontData;
             if (file)
