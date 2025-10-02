@@ -41,7 +41,7 @@ namespace advent_of_code.Helpers.AsciiArtReader
             var foundAll = true;
 
             var pos = 0;
-            while (pos < input.Width)
+            while ((pos < input.Width) && ((input.Width - pos) > font.Width))
             {
                 var found = false;
                 foreach (var charDef in font.definitions)
