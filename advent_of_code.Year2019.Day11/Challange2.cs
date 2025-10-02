@@ -15,9 +15,9 @@ namespace advent_of_code.Year2019.Day11
             var str = RenderRegistrationIdentifier(paintedPanelsDict);
             Visualizers.AOConsole.Write(str);
 
-            var result = Helpers.AsciiArtReader.Reader.ReadText(str, 1, Helpers.AsciiArtReader.Reader.FontTypes.Type_A);
+            var (FoundAll, Text) = Helpers.AsciiArtReader.Reader.ReadText(str, 1, Helpers.AsciiArtReader.Reader.FontTypes.Type_A);
 
-            return result.Text;
+            return Text;
         }
 
         private static string RenderRegistrationIdentifier(HashSet<(int X, int Y)> paintedPanelsDict)
