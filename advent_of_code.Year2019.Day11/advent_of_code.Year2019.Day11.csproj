@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>advent_of_code.Year2019.Day11</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\advent_of_code.Helpers\advent_of_code.Helpers.csproj" />
+    <ProjectReference Include="..\IntMachine\IntMachine.csproj" />
+    <ProjectReference Include="..\Visualizers\Visualizers.csproj" />
+  </ItemGroup>
+
+</Project>
