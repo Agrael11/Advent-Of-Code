@@ -58,5 +58,17 @@
             }
             return 1;
         }
+
+        //GCD - Greatest Common Divisor
+        public static long GCD(long a, long b)
+        {
+            while (b != 0)
+            {
+                var temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
     }
 }
