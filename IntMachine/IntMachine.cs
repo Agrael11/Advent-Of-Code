@@ -11,6 +11,19 @@
 
         private delegate RunResult OpcodeFunction(long arg1mode, long arg2mode, long arg3mode);
 
+        public Machine Clone()
+        {
+            var machine = new Machine()
+            {
+                RAM = RAM.Clone(),
+                PC = PC,
+                RelativeBase = RelativeBase,
+            };
+            foreach (var input in InputQueue) machine.InputQueue.Enqueue(input);
+            foreach (var output in OutputQueue) machine.OutputQueue.Enqueue(output);
+            return machine;
+        }
+
         public static (long arg1mode, long arg2mode, long arg3mode, long opcode) ParseOpcode(long data)
         {
             var opcode = data % 100;

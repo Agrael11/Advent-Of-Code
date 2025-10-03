@@ -4,6 +4,14 @@
     {
         private Dictionary<long, long> Data = [];
 
+        public Memory Clone()
+        {
+            return new Memory()
+            {
+                Data = Data.ToDictionary(t => t.Key, t => t.Value)
+            };
+        }
+
         public bool TryRead(long pointer, out long? result)
         {
             if (pointer < 0)
