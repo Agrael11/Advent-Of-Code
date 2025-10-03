@@ -5,7 +5,7 @@ namespace advent_of_code.Year2019.Day15
     internal class Common
     {
 
-        public static (int x, int y) WalkCoordigate((int x, int y) coord, int direction)
+        public static (int x, int y) WalkCoordinate((int x, int y) coord, int direction)
         {
             var x = coord.x;
             var y = coord.y;

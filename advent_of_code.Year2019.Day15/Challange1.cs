@@ -31,7 +31,7 @@ namespace advent_of_code.Year2019.Day15
                 
                 for (var i = 1; i <= 4; i++)
                 {
-                    var nextLocation = Common.WalkCoordigate(currentLocation, i);
+                    var nextLocation = Common.WalkCoordinate(currentLocation, i);
                     if (!visited.Add(nextLocation))
                     {
                         continue;
