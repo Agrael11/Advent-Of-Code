@@ -18,11 +18,10 @@ namespace advent_of_code.Desktop
 
         public static void Main(string[] args)
         {
-            Console.Clear();
-
             if (args.Contains("--console") || args.Contains("-c") || args.Contains("/c"))
             {
                 ConsoleOnly.AdventOfCode.Register();
+                Visualizers.AOConsole.Clear();
                 ConsoleOnly.AdventOfCode.Main();
             }
             else
@@ -46,6 +45,7 @@ namespace advent_of_code.Desktop
                     return;
                 }
 
+                Visualizers.AOConsole.Clear();
                 AvaloniaMain(args);
             }
         }
