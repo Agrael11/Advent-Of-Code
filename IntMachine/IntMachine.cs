@@ -49,6 +49,12 @@
         {
             return OutputQueue.Count > 0;
         }
+        
+        public long? PeekOutput()
+        {
+            if (OutputQueue.Count == 0) return null;
+            return OutputQueue.Peek();
+        }
 
         public bool TryPopOutput(out long? output)
         {
@@ -71,6 +77,8 @@
         public Memory RAM;
         public long PC { get; set; }
 
+        public List<long>? SupportedOpcodes { get; set; } = null;
+
         public Machine()
         {
             RAM = new Memory();
@@ -85,6 +93,11 @@
             OpcodeMap.Add(8, OpcodeCMPE);
             OpcodeMap.Add(9, OpcodeRBRINC);
             OpcodeMap.Add(99, OpcodeExit);
+        }
+
+        public Machine(params List<long> supportedOpcodes) : this()
+        {
+            SupportedOpcodes = supportedOpcodes;
         }
 
         private bool ReadOpcodeArg(long memAddr, long mode, out long? result)
@@ -118,6 +131,15 @@
             return RAM.TryWrite(immediateValue.Value, value);
         }
 
+        public RunResult Run()
+        {
+            while (true)
+            {
+                var result = Step(SupportedOpcodes);
+                if (result != RunResult.Okay) return result;
+            }
+        }
+
         public RunResult Run(params List<long> supportedOpcodes)
         {
             while (true)
@@ -127,11 +149,11 @@
             }
         }
 
-        public RunResult Step(params List<long> supportedOpcodes)
+        public RunResult Step(params List<long>? supportedOpcodes)
         {
             if (!RAM.TryRead(PC, out var value) || value is null) return RunResult.IndexOutOfRange;
             var (arg1mode, arg2mode, arg3mode, opcode) = ParseOpcode(value.Value);
-            if (!supportedOpcodes.Contains(opcode)) return RunResult.UnsupportedOpcode;
+            if (supportedOpcodes is not null && !supportedOpcodes.Contains(opcode)) return RunResult.UnsupportedOpcode;
             if (!OpcodeMap.TryGetValue(opcode, out var fuction) || fuction is null) return RunResult.WrongOpcode;
             return fuction.Invoke(arg1mode, arg2mode, arg3mode);
         }
