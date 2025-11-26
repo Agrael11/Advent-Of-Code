@@ -8,33 +8,25 @@ namespace advent_of_code.Desktop
 {
     internal sealed partial class Program
     {
-        // Import GetConsoleWindow from kernel32.dll
-        [LibraryImport("kernel32.dll", EntryPoint = "GetConsoleWindow")]
-        private static partial nint GetConsoleWindow();
-
-        [LibraryImport("kernel32.dll", EntryPoint = "FreeConsole")]
+        [LibraryImport("kernel32.dll", EntryPoint = "AllocConsole")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool FreeConsole();
+        private static partial bool AllocConsole();
 
         public static void Main(string[] args)
         {
             if (args.Contains("--console") || args.Contains("-c") || args.Contains("/c"))
             {
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    AllocConsole();
+                }
+
                 ConsoleOnly.AdventOfCode.Register();
                 Visualizers.AOConsole.Clear();
                 ConsoleOnly.AdventOfCode.Main();
             }
             else
             {
-                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                {
-                    var handle = GetConsoleWindow();
-                    if (handle != 0)
-                    {
-                        FreeConsole();
-                    }
-                }
-
                 //Linux XOrg check
                 var waylandDisplayVariable = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
                 var displayVariable = Environment.GetEnvironmentVariable("DISPLAY");
