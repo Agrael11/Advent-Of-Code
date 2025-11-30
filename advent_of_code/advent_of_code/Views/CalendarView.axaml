@@ -67,7 +67,7 @@
 					<TextBox Grid.Row="8" MinWidth="0" Grid.Column="0" x:Name="Input" KeyUp="InputKey" IsReadOnly="False"/>
 					<Button Grid.Row="8" Grid.Column="2" HorizontalAlignment="Stretch"  x:Name="Send" x:CompileBindings="False" Click="SendButtonAction">Send Text</Button>
 				</Grid>
-				<ScrollViewer Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+				<ScrollViewer Grid.Row="9" Grid.Column="1" MaxHeight="400" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 					<Border BorderThickness="1">
 						<p:VirtualConsole FontFamily="/Assets/Fonts/FiraCode.ttf#Fira Code"  x:Name="VConsole"/>
 					</Border>
