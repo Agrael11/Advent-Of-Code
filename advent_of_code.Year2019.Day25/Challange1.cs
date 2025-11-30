@@ -12,7 +12,7 @@ namespace advent_of_code.Year2019.Day25
                 Run(inputData);
                 return "Answer is in Console";
             }
-            return "Use Cryostasis_Runner.exe";
+            return "Requires Visualizer";
         }
 
         private static void Run(string inputData)
