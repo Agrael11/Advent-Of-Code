@@ -6,6 +6,7 @@ namespace Visualizers
     public static class AOConsole
     {
         public delegate void WriteDelegate(string str);
+        public delegate string? ReadDelegate();
         public delegate void ClearDelegate();
         public delegate void SetColorDelegate(AOConsoleColor color);
         public delegate AOConsoleColor GetColorDelegate();
@@ -47,6 +48,7 @@ namespace Visualizers
         private static WriteDelegate? writeDebug;
         private static WriteDelegate? writeDebugLine;
         private static ClearDelegate? clear;
+        private static ReadDelegate? readLine;
 
         private static SetNumberDelegate? setCursorLeft;
         private static SetNumberDelegate? setCursorTop;
@@ -111,6 +113,16 @@ namespace Visualizers
             }
         }
 
+        public static string? ReadLine()
+        {
+            string? result = null;
+            if (Enabled)
+            {
+                result = readLine?.Invoke();
+            }
+            return result;
+        }
+
         public static AOConsoleColor GetBackgroundColor()
         {
             return bgColor;
@@ -165,6 +177,11 @@ namespace Visualizers
         public static void RegWriteDebugLine(WriteDelegate action)
         {
             writeDebugLine += action;
+        }
+
+        public static void RegReadLine(ReadDelegate action)
+        {
+            readLine += action;
         }
 
         public static void RegClear(ClearDelegate action)

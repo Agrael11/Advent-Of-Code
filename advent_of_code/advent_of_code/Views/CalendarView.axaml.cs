@@ -1,8 +1,11 @@
 using advent_of_code.ViewModels;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Visualizers;
@@ -33,6 +36,7 @@ namespace advent_of_code.Views
             Visualizers.AOConsole.RegWriteLine(WriteLine);
             Visualizers.AOConsole.RegWriteDebug(WriteDebug);
             Visualizers.AOConsole.RegWriteDebugLine(WriteDebugLine);
+            Visualizers.AOConsole.RegReadLine(ReadLine);
             Visualizers.AOConsole.RegClear(Clear);
             Visualizers.AOConsole.RegBackground(SetBGColor);
             Visualizers.AOConsole.RegForeground(SetFGColor);
@@ -40,6 +44,13 @@ namespace advent_of_code.Views
             Visualizers.AOConsole.RegCursorLeft(GetCursorLeft);
             Visualizers.AOConsole.RegCursorTop(SetCursorTop);
             Visualizers.AOConsole.RegCursorTop(GetCursorTop);
+        }
+
+        private readonly Queue<string> inputs = new Queue<string>();
+        private string? ReadLine()
+        {
+            if (inputs.Count == 0) return null;
+            return inputs.Dequeue();
         }
 
         public int? GetYear()
@@ -218,6 +229,21 @@ namespace advent_of_code.Views
             var toplevel = TopLevel.GetTopLevel(this);
             var clipboard = toplevel?.Clipboard;
             clipboard?.SetTextAsync(text);
+        }
+
+        private void InputKey(object sender, KeyEventArgs args)
+        {
+            if (args.Key == Key.Enter)
+            {
+                inputs.Enqueue(Input.Text ?? "");
+                Input.Text = "";
+            }
+        }
+
+        private void SendButtonAction(object sender, RoutedEventArgs args)
+        {
+            inputs.Enqueue(Input.Text??"");
+            Input.Text = "";
         }
 
         public void Write(string text)

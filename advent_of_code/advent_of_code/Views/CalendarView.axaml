@@ -28,7 +28,7 @@
 					<RowDefinition Height="10"/>
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="10"/>
-					<RowDefinition Height="150"/>
+					<RowDefinition Height="190"/>
 					<RowDefinition Height="10"/>
 					<RowDefinition Height="*"/>
 					<RowDefinition Height="10"/>
@@ -55,6 +55,8 @@
 						<RowDefinition Height="30"/>
 						<RowDefinition Height="10"/>
 						<RowDefinition Height="30"/>
+						<RowDefinition Height="10"/>
+						<RowDefinition Height="30"/>
 					</Grid.RowDefinitions>
 					<Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"  x:Name="DeleteButton" x:CompileBindings="False" Click="DeleteButtonAction">Delete Input Cache</Button>
 					<Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch"  x:Name="CookieButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetSettings}">Cookie Settings</Button>
@@ -62,6 +64,8 @@
 					<Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch"  x:Name="DebugButton" x:CompileBindings="False" Click="DebugSwitchAction">Enable Debug</Button>
 					<Button Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  x:Name="MultiButton" x:CompileBindings="False" Command="{Binding $parent[v:MainView].DataContext.SetAll}">Multiday Run</Button>
 					<Button Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"  x:Name="CopyButton" x:CompileBindings="False" Click="CopyButtonAction">Copy console to clipboard</Button>
+					<TextBox Grid.Row="8" MinWidth="0" Grid.Column="0" x:Name="Input" KeyUp="InputKey" IsReadOnly="False"/>
+					<Button Grid.Row="8" Grid.Column="2" HorizontalAlignment="Stretch"  x:Name="Send" x:CompileBindings="False" Click="SendButtonAction">Send Text</Button>
 				</Grid>
 				<ScrollViewer Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 					<Border BorderThickness="1">

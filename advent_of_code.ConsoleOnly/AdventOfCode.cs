@@ -1,4 +1,5 @@
-﻿using Visualizers;
+﻿using System.Reflection.Metadata.Ecma335;
+using Visualizers;
 
 namespace advent_of_code.ConsoleOnly
 {
@@ -19,6 +20,7 @@ namespace advent_of_code.ConsoleOnly
             AOConsole.RegCursorLeft(() => Console.CursorLeft);
             AOConsole.RegCursorTop((y) => Console.CursorTop = y);
             AOConsole.RegCursorTop(() => Console.CursorTop);
+            AOConsole.RegReadLine(() => Console.ReadLine() ?? "");
         }
 
         public static void Main()
