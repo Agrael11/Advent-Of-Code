@@ -1,4 +1,5 @@
 ﻿using IntMachine;
+using System.Reflection.Metadata.Ecma335;
 
 namespace advent_of_code.Year2019.Day23
 {
@@ -22,40 +23,23 @@ namespace advent_of_code.Year2019.Day23
 
             while (true)
             {
-                var sending = false;
-                foreach (var machine in machines)
+                ReadOutputs(machines);
+
+                var inputEmpty = !machines.Any(t => t.InputAvailable());
+
+                if (inputEmpty && NAT.Retry())
                 {
-                    while (Common.TryGetMachineOutputs(machine, out var target, out var x, out var y))
+                    if (NAT.Y == NAT.LastSent)
                     {
-                        sending = true;
-                        if (target == 255)
-                        {
-                            (NAT.X, NAT.Y) = (x,y);
-                        }
-                        else
-                        {
-                            machines[target].PushInput(x);
-                            machines[target].PushInput(y);
-                        }
+                        return NAT.Y;
                     }
+                    machines[0].PushInput(NAT.X);
+                    machines[0].PushInput(NAT.Y);
+                    NAT.LastSent = NAT.Y;
+                    NAT.ResetRetries();
                 }
-                var empty = !machines.Any(t=>t.InputAvailable());
-                if (!sending && empty)
-                {
-                    NAT.Retry();
-                    if (NAT.IsRetryLimit())
-                    {
-                        if (NAT.Y == NAT.LastSent)
-                        {
-                            return NAT.Y;
-                        }
-                        machines[0].PushInput(NAT.X);
-                        machines[0].PushInput(NAT.Y);
-                        NAT.LastSent = NAT.Y;
-                        NAT.ResetRetries();
-                    }
-                }
-                else
+
+                if (!inputEmpty)
                 {
                     NAT.ResetRetries();
                 }
@@ -64,6 +48,25 @@ namespace advent_of_code.Year2019.Day23
                 {
                     if (!machine.InputAvailable()) machine.PushInput(-1);
                     machine.Run();
+                }
+            }
+        }
+
+        private static void ReadOutputs(List<Machine> machines)
+        {
+            foreach (var machine in machines)
+            {
+                while (Common.TryGetMachineOutputs(machine, out var target, out var x, out var y))
+                {
+                    if (target == 255)
+                    {
+                        (NAT.X, NAT.Y) = (x, y);
+                    }
+                    else
+                    {
+                        machines[target].PushInput(x);
+                        machines[target].PushInput(y);
+                    }
                 }
             }
         }

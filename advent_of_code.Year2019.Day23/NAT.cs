@@ -18,9 +18,10 @@
             {
                 Retries = 0;
             }
-            public static void Retry()
+            public static bool Retry()
             {
                 Retries++;
+                return IsRetryLimit();
             }
         }
     }
