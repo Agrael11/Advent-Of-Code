@@ -49,7 +49,12 @@
         {
             return OutputQueue.Count > 0;
         }
-        
+
+        public bool InputAvailable()
+        {
+            return InputQueue.Count > 0;
+        }
+
         public long? PeekOutput()
         {
             if (OutputQueue.Count == 0) return null;
