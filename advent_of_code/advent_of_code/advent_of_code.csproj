@@ -34,6 +34,7 @@
     <ProjectReference Include="..\..\advent_of_code.Year2018\advent_of_code.Year2018.csproj" />
     <ProjectReference Include="..\..\advent_of_code.Year2019\advent_of_code.Year2019.csproj" />
     <ProjectReference Include="..\..\advent_of_code.Year2024\advent_of_code.Year2024.csproj" />
+    <ProjectReference Include="..\..\advent_of_code.Year2025\advent_of_code.Year2025.csproj" />
     <ProjectReference Include="..\..\Visualizers\Visualizers.csproj" />
   </ItemGroup>
 
