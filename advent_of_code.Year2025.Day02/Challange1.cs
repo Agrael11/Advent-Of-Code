@@ -25,7 +25,7 @@ namespace advent_of_code.Year2025.Day02
                 {
                     if (IsRepeatingTwice(id))
                     {
-                        sum = id;
+                        sum += id;
                         if (AOConsole.Enabled) stringBuilder.AppendLine($"Adding {id}. Total is {sum}.");
                     }
                 }
