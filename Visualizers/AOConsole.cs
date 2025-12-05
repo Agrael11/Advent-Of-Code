@@ -108,7 +108,7 @@ namespace Visualizers
         {
             if (Enabled)
             {
-                fgColor = color;
+                bgColor = color;
                 setBackgroundColor?.Invoke(color);
             }
         }
