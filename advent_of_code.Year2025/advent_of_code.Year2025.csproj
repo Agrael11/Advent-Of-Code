@@ -13,6 +13,7 @@
     <ProjectReference Include="..\advent_of_code.Year2025.Day04\advent_of_code.Year2025.Day04.csproj" />
     <ProjectReference Include="..\advent_of_code.Year2025.Day05\advent_of_code.Year2025.Day05.csproj" />
     <ProjectReference Include="..\advent_of_code.Year2025.Day06\advent_of_code.Year2025.Day06.csproj" />
+    <ProjectReference Include="..\advent_of_code.Year2025.Day07\advent_of_code.Year2025.Day07.csproj" />
   </ItemGroup>
 
 </Project>
