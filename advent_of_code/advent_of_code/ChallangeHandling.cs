@@ -1,10 +1,14 @@
-﻿using System;
+﻿using advent_of_code.Views;
+using Avalonia.Controls;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Visualizers;
 
@@ -121,23 +125,30 @@ namespace advent_of_code
 
             byte[] data;
 
-            try
+            if (OperatingSystem.IsBrowser())
             {
-                using var client = new HttpClient();
-                client.DefaultRequestHeaders.Add("Cookie", cookie);
-                var response = client.GetAsync($"https://adventofcode.com/{year}/day/{day}/input");
-                response.Wait();
-
-                if (response.Result.StatusCode != HttpStatusCode.OK)
+                data = Encoding.Unicode.GetBytes(cookie);
+            }
+            else
+            {
+                try
                 {
+                    using var client = new HttpClient();
+                    client.DefaultRequestHeaders.Add("Cookie", cookie);
+                    var response = await client.GetAsync($"https://adventofcode.com/{year}/day/{day}/input");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return DownloadState.FailedDownload;
+                    }
+
+                    data = await response.Content.ReadAsByteArrayAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                     return DownloadState.FailedDownload;
                 }
-
-                data = await response.Result.Content.ReadAsByteArrayAsync();
-            }
-            catch
-            {
-                return DownloadState.FailedDownload;
             }
 
             try
