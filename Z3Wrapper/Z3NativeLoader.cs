@@ -16,7 +16,10 @@ namespace Z3Wrapper
             if (OperatingSystem.IsAndroid())
             {
                 name = "libz3.so";
-                arch = "arm64_v8a";
+                if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+                {
+                    arch = "arm64_v8a";
+                }
             }
             else if (OperatingSystem.IsWindows())
             {
