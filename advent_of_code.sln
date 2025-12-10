@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.8.34330.188
+VisualStudioVersion = 17.14.36804.6 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent_of_code", "advent_of_code\advent_of_code\advent_of_code.csproj", "{16813DB3-62E3-4783-B726-E151E89C003D}"
 EndProject
