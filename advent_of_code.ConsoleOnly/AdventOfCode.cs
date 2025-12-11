@@ -139,7 +139,7 @@ namespace advent_of_code.ConsoleOnly
             }
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write($"Results of Day {day} of {year} are: ");
-            _ = advent_of_code.ChallangeHandling.GetInputAsync(year, day);
+            advent_of_code.ChallangeHandling.GetInputAsync(year, day).Wait();
             var task1 = advent_of_code.ChallangeHandling.RunTaskAsync(year, day, 1, Visualizing);
             task1.Wait();
             (var watch1, var result1) = task1.Result;
